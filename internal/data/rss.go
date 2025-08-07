@@ -1,6 +1,8 @@
 package rss
 
-import "github.com/mmcdole/gofeed"
+import (
+	"github.com/mmcdole/gofeed"
+)
 
 func GetFeeds(feedUrls []string) ([]gofeed.Feed, error) {
 	var feeds []gofeed.Feed
