@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"testing/fstest"
 )
 
 func TestFeed(t *testing.T) {
@@ -64,6 +65,18 @@ func TestFeed(t *testing.T) {
 			t.Error("Error parsing feed")
 		}
 	})
+
+	t.Run("Create feeds from FS", func(t *testing.T) {
+		fs := fstest.MapFS{
+			"feeds.yml": {Data: yamlData},
+		}
+
+		feeds := CreateFeedsFromFS(fs)
+
+		if len(feeds) != len(fs) {
+			t.Errorf("Wrong number of feeds created, wanted %d, get %d", len(fs), len(feeds))
+		}
+	})
 }
 
 func Server(t *testing.T) *httptest.Server {
@@ -86,6 +99,19 @@ func assertError(t testing.TB, got error, want error) {
 		t.Errorf("got %q want %q", got, want)
 	}
 }
+
+var yamlData = []byte(`
+golang:
+	- https://www.reddit.com/r/golang.rss
+	- https://cprss.s3.amazonaws.com/golangweekly.com.xml
+	- https://go.dev/blog/feed.atom
+	- https://commandcenter.blogspot.com/feeds/posts/default?alt=rss
+	- https://research.swtch.com/feed.atom
+	- https://www.americanexpress.io/feed.xml
+
+jobs:
+	- https://golang.cafe/rss
+`)
 
 var rssData = []byte(`
 <?xml version="1.0"?>

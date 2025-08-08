@@ -2,6 +2,7 @@ package rss
 
 import (
 	"errors"
+	"testing/fstest"
 
 	"github.com/mmcdole/gofeed"
 )
@@ -49,5 +50,9 @@ func (l *FeedList) UpdateAll() error {
 		}
 	}
 
+	return nil
+}
+
+func CreateFeedsFromFS(fileSystem fstest.MapFS) []Feed {
 	return nil
 }
