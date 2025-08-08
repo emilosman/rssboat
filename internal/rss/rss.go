@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 	"io/fs"
+	"sync"
 
 	yaml "github.com/goccy/go-yaml"
 	"github.com/mmcdole/gofeed"
@@ -50,9 +51,17 @@ func (l *FeedList) UpdateAll() error {
 		return ErrNoFeedsInList
 	}
 
+	var wg sync.WaitGroup
+	wg.Add(len(l.All))
+
 	for i := range l.All {
-		l.All[i].GetFeed()
+		go func(i int) {
+			defer wg.Done()
+			l.All[i].GetFeed()
+		}(i)
 	}
+
+	wg.Wait()
 
 	return nil
 }
