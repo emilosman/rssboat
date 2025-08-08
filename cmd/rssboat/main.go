@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/emilosman/rssboat/internal/rss"
+	"github.com/emilosman/rssboat/internal/tui"
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 	var feedList rss.FeedList
 	feedList.Add(feeds)
 
-	feedList.UpdateAll()
+	//feedList.UpdateAll()
 
 	for _, feed := range feedList.All {
 		if feed.Data != nil {
@@ -27,4 +28,6 @@ func main() {
 			fmt.Println(feed.Error)
 		}
 	}
+
+	tui.BuildApp()
 }
