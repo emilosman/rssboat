@@ -68,7 +68,7 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Create feeds from FS", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"feeds.yml": {Data: yamlData},
+			"feeds.yml": {Data: textData},
 		}
 
 		feeds := CreateFeedsFromFS(fs)
@@ -99,6 +99,16 @@ func assertError(t testing.TB, got error, want error) {
 		t.Errorf("got %q want %q", got, want)
 	}
 }
+
+var textData = []byte(`
+https://www.reddit.com/r/golang.rss
+https://cprss.s3.amazonaws.com/golangweekly.com.xml
+https://go.dev/blog/feed.atom
+https://commandcenter.blogspot.com/feeds/posts/default?alt=rss
+https://research.swtch.com/feed.atom
+https://www.americanexpress.io/feed.xml
+https://golang.cafe/rss
+`)
 
 var yamlData = []byte(`
 golang:
