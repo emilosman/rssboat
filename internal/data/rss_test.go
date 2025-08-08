@@ -8,10 +8,7 @@ import (
 
 func TestFeed(t *testing.T) {
 	t.Run("Get and parse feed", func(t *testing.T) {
-		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(http.StatusOK)
-			w.Write(rssData)
-		}))
+		server := Server(t)
 		defer server.Close()
 
 		feed := Feed{url: server.URL}
@@ -25,6 +22,16 @@ func TestFeed(t *testing.T) {
 			t.Error("Error parsing feed")
 		}
 	})
+}
+
+func Server(t *testing.T) *httptest.Server {
+	t.Helper()
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write(rssData)
+	}))
+	return server
 }
 
 var rssData = []byte(`
