@@ -30,6 +30,10 @@ type FeedList struct {
 	All []Feed
 }
 
+func (i *RssItem) ToggleRead() {
+	i.Read = !i.Read
+}
+
 func (f *Feed) GetFeed() error {
 	if f.Url == "" {
 		return ErrFeedHasNoUrl

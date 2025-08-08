@@ -8,6 +8,22 @@ import (
 )
 
 func TestFeed(t *testing.T) {
+	t.Run("Toggle feed item read flag", func(t *testing.T) {
+		var feedItem RssItem
+
+		feedItem.ToggleRead()
+
+		if feedItem.Read != true {
+			t.Error("Error toggling feed item read flag")
+		}
+
+		feedItem.ToggleRead()
+
+		if feedItem.Read != false {
+			t.Error("Error toggling feed item read flag")
+		}
+	})
+
 	t.Run("Add feeds to feedList", func(t *testing.T) {
 		feeds := make([]Feed, 3)
 
