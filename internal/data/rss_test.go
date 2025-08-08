@@ -19,6 +19,29 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Update all feeds in list", func(t *testing.T) {
+		server := Server(t)
+		defer server.Close()
+
+		feeds := make([]Feed, 3)
+		for i := range feeds {
+			feeds[i].url = server.URL
+		}
+		feedList := FeedList{All: feeds}
+
+		err := feedList.UpdateAll()
+		if err != nil {
+			t.Errorf("Error updating feeds: %q", err)
+		}
+	})
+
+	t.Run("Get feed if url present", func(t *testing.T) {
+		var feed Feed
+
+		err := feed.GetFeed()
+		assertError(t, err, ErrFeedHasNoUrl)
+	})
+
 	t.Run("Get and parse feed", func(t *testing.T) {
 		server := Server(t)
 		defer server.Close()
@@ -44,6 +67,17 @@ func Server(t *testing.T) *httptest.Server {
 		w.Write(rssData)
 	}))
 	return server
+}
+
+func assertError(t testing.TB, got error, want error) {
+	t.Helper()
+	if got == nil {
+		t.Fatal("wanted error but did not get one")
+	}
+
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
 }
 
 var rssData = []byte(`
