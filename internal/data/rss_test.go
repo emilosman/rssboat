@@ -26,7 +26,7 @@ func TestFeed(t *testing.T) {
 
 		feeds := make([]Feed, 3)
 		for i := range feeds {
-			feeds[i].url = server.URL
+			feeds[i].Url = server.URL
 		}
 		feedList := FeedList{All: feeds}
 
@@ -54,7 +54,7 @@ func TestFeed(t *testing.T) {
 		server := Server(t)
 		defer server.Close()
 
-		feed := Feed{url: server.URL}
+		feed := Feed{Url: server.URL}
 
 		err := feed.GetFeed()
 		if err != nil {
@@ -68,13 +68,16 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Create feeds from FS", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"feeds.yml": {Data: textData},
+			"feeds.yml": {Data: yamlData},
 		}
 
-		feeds := CreateFeedsFromFS(fs)
+		feeds, err := CreateFeedsFromFS(fs)
+		if err != nil {
+			t.Errorf("Error reading file: %q", err)
+		}
 
-		if len(feeds) != len(fs) {
-			t.Errorf("Wrong number of feeds created, wanted %d, get %d", len(fs), len(feeds))
+		if len(feeds) != 7 {
+			t.Errorf("Wrong number of feeds created, wanted %d, get %d", 7, len(feeds))
 		}
 	})
 }
@@ -100,27 +103,17 @@ func assertError(t testing.TB, got error, want error) {
 	}
 }
 
-var textData = []byte(`
-https://www.reddit.com/r/golang.rss
-https://cprss.s3.amazonaws.com/golangweekly.com.xml
-https://go.dev/blog/feed.atom
-https://commandcenter.blogspot.com/feeds/posts/default?alt=rss
-https://research.swtch.com/feed.atom
-https://www.americanexpress.io/feed.xml
-https://golang.cafe/rss
-`)
-
 var yamlData = []byte(`
 golang:
-	- https://www.reddit.com/r/golang.rss
-	- https://cprss.s3.amazonaws.com/golangweekly.com.xml
-	- https://go.dev/blog/feed.atom
-	- https://commandcenter.blogspot.com/feeds/posts/default?alt=rss
-	- https://research.swtch.com/feed.atom
-	- https://www.americanexpress.io/feed.xml
+  - https://www.reddit.com/r/golang.rss
+  - https://cprss.s3.amazonaws.com/golangweekly.com.xml
+  - https://go.dev/blog/feed.atom
+  - https://commandcenter.blogspot.com/feeds/posts/default?alt=rss
+  - https://research.swtch.com/feed.atom
+  - https://www.americanexpress.io/feed.xml
 
 jobs:
-	- https://golang.cafe/rss
+  - https://golang.cafe/rss
 `)
 
 var rssData = []byte(`

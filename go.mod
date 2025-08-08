@@ -2,7 +2,10 @@ module github.com/emilosman/rssboat
 
 go 1.24.5
 
-require github.com/mmcdole/gofeed v1.3.0
+require (
+	github.com/goccy/go-yaml v1.18.0
+	github.com/mmcdole/gofeed v1.3.0
+)
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
