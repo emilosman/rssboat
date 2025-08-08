@@ -36,7 +36,7 @@ func TestFeed(t *testing.T) {
 		}
 
 		for _, feed := range feedList.All {
-			if feed.Data == nil {
+			if feed.Feed == nil {
 				t.Errorf("Feed data empty after UpdateAll")
 			}
 		}
@@ -49,7 +49,7 @@ func TestFeed(t *testing.T) {
 		assertError(t, err, ErrNoFeedsInList)
 
 		for _, feed := range feedList.All {
-			if feed.Data == nil {
+			if feed.Feed == nil {
 				t.Errorf("Feed data empty for feed %s", feed.Url)
 			}
 		}
@@ -77,7 +77,7 @@ func TestFeed(t *testing.T) {
 			t.Error("Should unset error on feed")
 		}
 
-		if feed.Data.Title != "NASA Space Station News" {
+		if feed.Title != "NASA Space Station News" {
 			t.Error("Error parsing feed")
 		}
 	})

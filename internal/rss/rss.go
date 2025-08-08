@@ -14,10 +14,16 @@ var ErrFeedHasNoUrl = errors.New("Feed has no URL")
 var ErrNoFeedsInList = errors.New("No feeds in list")
 
 type Feed struct {
+	*gofeed.Feed
 	Url      string
 	Category string
 	Error    string
-	Data     *gofeed.Feed
+	Items    []RssItem
+}
+
+type RssItem struct {
+	*gofeed.Item
+	Read bool
 }
 
 type FeedList struct {
@@ -30,13 +36,14 @@ func (f *Feed) GetFeed() error {
 	}
 
 	fp := gofeed.NewParser()
-	data, err := fp.ParseURL(f.Url)
+	parsedFeed, err := fp.ParseURL(f.Url)
 	if err != nil {
 		f.Error = err.Error()
 		return err
 	}
 
-	f.Data = data
+	f.Feed = parsedFeed
+
 	f.Error = ""
 
 	return nil
@@ -89,7 +96,6 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
 			feeds = append(feeds, Feed{
 				Url:      u,
 				Category: category,
-				Data:     nil,
 			})
 		}
 	}
