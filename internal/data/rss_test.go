@@ -35,6 +35,13 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Update all only when feeds in list", func(t *testing.T) {
+		var feedList FeedList
+
+		err := feedList.UpdateAll()
+		assertError(t, err, ErrNoFeedsInList)
+	})
+
 	t.Run("Get feed if url present", func(t *testing.T) {
 		var feed Feed
 

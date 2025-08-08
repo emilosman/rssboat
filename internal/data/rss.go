@@ -7,6 +7,7 @@ import (
 )
 
 var ErrFeedHasNoUrl = errors.New("Feed has no URL")
+var ErrNoFeedsInList = errors.New("No feeds in list")
 
 type Feed struct {
 	url  string
@@ -38,7 +39,7 @@ func (l *FeedList) Add(feeds []Feed) {
 
 func (l *FeedList) UpdateAll() error {
 	if len(l.All) == 0 {
-		return errors.New("No feeds in list")
+		return ErrNoFeedsInList
 	}
 
 	for _, feed := range l.All {
