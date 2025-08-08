@@ -14,12 +14,14 @@ func TestFeed(t *testing.T) {
 		}))
 		defer server.Close()
 
-		feed, err := GetFeed(server.URL)
+		feed := Feed{url: server.URL}
+
+		err := feed.GetFeed()
 		if err != nil {
 			t.Errorf("Error getting feed %q", err)
 		}
 
-		if feed.Title != "NASA Space Station News" {
+		if feed.data.Title != "NASA Space Station News" {
 			t.Error("Error parsing feed")
 		}
 	})

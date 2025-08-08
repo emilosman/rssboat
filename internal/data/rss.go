@@ -4,12 +4,22 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-func GetFeed(feedUrl string) (*gofeed.Feed, error) {
+type Feed struct {
+	url  string
+	data *gofeed.Feed
+}
+
+type FeedList struct {
+	All []Feed
+}
+
+func (f *Feed) GetFeed() error {
 	fp := gofeed.NewParser()
-	feed, err := fp.ParseURL(feedUrl)
+	data, err := fp.ParseURL(f.url)
+	f.data = data
 	if err != nil {
-		return feed, err
+		return err
 	}
 
-	return feed, nil
+	return nil
 }
