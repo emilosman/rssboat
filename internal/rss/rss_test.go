@@ -34,6 +34,12 @@ func TestFeed(t *testing.T) {
 		if err != nil {
 			t.Errorf("Error updating feeds: %q", err)
 		}
+
+		for _, feed := range feedList.All {
+			if feed.Data == nil {
+				t.Errorf("Feed data empty after UpdateAll")
+			}
+		}
 	})
 
 	t.Run("Update all only when feeds in list", func(t *testing.T) {
@@ -41,6 +47,12 @@ func TestFeed(t *testing.T) {
 
 		err := feedList.UpdateAll()
 		assertError(t, err, ErrNoFeedsInList)
+
+		for _, feed := range feedList.All {
+			if feed.Data == nil {
+				t.Errorf("Feed data empty for feed %s", feed.Url)
+			}
+		}
 	})
 
 	t.Run("Get feed if url present", func(t *testing.T) {
@@ -61,7 +73,7 @@ func TestFeed(t *testing.T) {
 			t.Errorf("Error getting feed %q", err)
 		}
 
-		if feed.data.Title != "NASA Space Station News" {
+		if feed.Data.Title != "NASA Space Station News" {
 			t.Error("Error parsing feed")
 		}
 	})
@@ -78,6 +90,12 @@ func TestFeed(t *testing.T) {
 
 		if len(feeds) != 7 {
 			t.Errorf("Wrong number of feeds created, wanted %d, get %d", 7, len(feeds))
+		}
+
+		for _, feed := range feeds {
+			if feed.Url == "" {
+				t.Error("Feed URL not set when creating from file")
+			}
 		}
 	})
 }

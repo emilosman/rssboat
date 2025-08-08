@@ -15,7 +15,7 @@ var ErrNoFeedsInList = errors.New("No feeds in list")
 type Feed struct {
 	Url      string
 	Category string
-	data     *gofeed.Feed
+	Data     *gofeed.Feed
 }
 
 type FeedList struct {
@@ -32,7 +32,7 @@ func (f *Feed) GetFeed() error {
 	if err != nil {
 		return err
 	}
-	f.data = data
+	f.Data = data
 
 	return nil
 }
@@ -46,11 +46,8 @@ func (l *FeedList) UpdateAll() error {
 		return ErrNoFeedsInList
 	}
 
-	for _, feed := range l.All {
-		err := feed.GetFeed()
-		if err != nil {
-			return err
-		}
+	for i := range l.All {
+		l.All[i].GetFeed()
 	}
 
 	return nil
@@ -60,18 +57,18 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
 	var feeds []Feed
 	file, err := filesystem.Open("feeds.yml")
 	if err != nil {
-		return feeds, err
+		return nil, err
 	}
 	defer file.Close()
 
 	yamlData, err := io.ReadAll(file)
 	if err != nil {
-		return feeds, err
+		return nil, err
 	}
 
 	var raw map[string][]string
 	if err := yaml.Unmarshal(yamlData, &raw); err != nil {
-		return feeds, err
+		return nil, err
 	}
 
 	for category, urls := range raw {
@@ -79,7 +76,7 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
 			feeds = append(feeds, Feed{
 				Url:      u,
 				Category: category,
-				data:     nil,
+				Data:     nil,
 			})
 		}
 	}
