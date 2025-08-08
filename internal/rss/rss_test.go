@@ -118,6 +118,28 @@ func TestFeed(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("Handle missing feeds file", func(t *testing.T) {
+		fs := fstest.MapFS{
+			"other.yml": {Data: []byte(``)},
+		}
+
+		_, err := CreateFeedsFromFS(fs)
+		if err == nil {
+			t.Error("Should raise error when file not found")
+		}
+	})
+
+	t.Run("Handle invalid feeds file", func(t *testing.T) {
+		fs := fstest.MapFS{
+			"feeds.yml": {Data: []byte("invalid: [unbalanced")},
+		}
+
+		_, err := CreateFeedsFromFS(fs)
+		if err == nil {
+			t.Error("Should raise error when file invalid")
+		}
+	})
 }
 
 func Server(t *testing.T) *httptest.Server {
