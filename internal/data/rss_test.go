@@ -7,6 +7,18 @@ import (
 )
 
 func TestFeed(t *testing.T) {
+	t.Run("Add feeds to feedList", func(t *testing.T) {
+		feeds := make([]Feed, 3)
+
+		var feedList FeedList
+
+		feedList.Add(feeds)
+
+		if len(feedList.All) != len(feeds) {
+			t.Errorf("Wrong number of feeds added to list")
+		}
+	})
+
 	t.Run("Get and parse feed", func(t *testing.T) {
 		server := Server(t)
 		defer server.Close()

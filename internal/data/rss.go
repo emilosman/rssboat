@@ -23,3 +23,7 @@ func (f *Feed) GetFeed() error {
 
 	return nil
 }
+
+func (l *FeedList) Add(feeds []Feed) {
+	l.All = append(l.All, feeds...)
+}
