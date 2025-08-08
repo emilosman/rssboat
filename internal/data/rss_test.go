@@ -1,26 +1,26 @@
 package rss
 
-import "testing"
-
-var feedUrls = []string{
-	"https://www.reddit.com/r/golang.rss",
-	"https://cprss.s3.amazonaws.com/golangweekly.com.xml",
-	"https://go.dev/blog/feed.atom",
-	"https://commandcenter.blogspot.com/feeds/posts/default?alt=rss",
-	"https://research.swtch.com/feed.atom",
-	"https://www.americanexpress.io/feed.xml",
-	"https://golang.cafe/rss",
-}
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
 
 func TestFeed(t *testing.T) {
-	t.Run("Get feeds", func(t *testing.T) {
-		feeds, err := GetFeeds(feedUrls)
+	t.Run("Get and parse feed", func(t *testing.T) {
+		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			w.Write(rssData)
+		}))
+		defer server.Close()
+
+		feed, err := GetFeed(server.URL)
 		if err != nil {
-			t.Errorf("Error getting feeds %q", err)
+			t.Errorf("Error getting feed %q", err)
 		}
 
-		if len(feeds) != len(feedUrls) {
-			t.Errorf("Wrong number of feeds returned, wanted %d, got %d", len(feedUrls), len(feeds))
+		if feed.Title != "NASA Space Station News" {
+			t.Error("Error parsing feed")
 		}
 	})
 }
