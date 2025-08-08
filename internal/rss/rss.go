@@ -15,6 +15,7 @@ var ErrNoFeedsInList = errors.New("No feeds in list")
 type Feed struct {
 	Url      string
 	Category string
+	Error    string
 	Data     *gofeed.Feed
 }
 
@@ -30,6 +31,7 @@ func (f *Feed) GetFeed() error {
 	fp := gofeed.NewParser()
 	data, err := fp.ParseURL(f.Url)
 	if err != nil {
+		f.Error = err.Error()
 		return err
 	}
 	f.Data = data

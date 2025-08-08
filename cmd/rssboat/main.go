@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -18,4 +19,12 @@ func main() {
 	feedList.Add(feeds)
 
 	feedList.UpdateAll()
+
+	for _, feed := range feedList.All {
+		if feed.Data != nil {
+			fmt.Println(feed.Data.Title)
+		} else {
+			fmt.Println(feed.Error)
+		}
+	}
 }

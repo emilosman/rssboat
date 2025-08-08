@@ -78,6 +78,22 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Handle server error", func(t *testing.T) {
+		server := ServerNotFound(t)
+		defer server.Close()
+
+		feed := Feed{Url: server.URL}
+
+		err := feed.GetFeed()
+		if err == nil {
+			t.Errorf("Should return error on server error: %q", err)
+		}
+
+		if feed.Error == "" {
+			t.Errorf("Should store error on feed: %s", feed.Error)
+		}
+	})
+
 	t.Run("Create feeds from FS", func(t *testing.T) {
 		fs := fstest.MapFS{
 			"feeds.yml": {Data: yamlData},
@@ -106,6 +122,15 @@ func Server(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write(rssData)
+	}))
+	return server
+}
+
+func ServerNotFound(t *testing.T) *httptest.Server {
+	t.Helper()
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNotFound)
 	}))
 	return server
 }
