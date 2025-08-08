@@ -16,10 +16,10 @@ type FeedList struct {
 func (f *Feed) GetFeed() error {
 	fp := gofeed.NewParser()
 	data, err := fp.ParseURL(f.url)
-	f.data = data
 	if err != nil {
 		return err
 	}
+	f.data = data
 
 	return nil
 }
