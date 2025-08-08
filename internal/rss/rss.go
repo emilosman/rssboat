@@ -34,7 +34,9 @@ func (f *Feed) GetFeed() error {
 		f.Error = err.Error()
 		return err
 	}
+
 	f.Data = data
+	f.Error = ""
 
 	return nil
 }

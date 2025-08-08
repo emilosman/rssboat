@@ -73,6 +73,10 @@ func TestFeed(t *testing.T) {
 			t.Errorf("Error getting feed %q", err)
 		}
 
+		if feed.Error != "" {
+			t.Error("Should unset error on feed")
+		}
+
 		if feed.Data.Title != "NASA Space Station News" {
 			t.Error("Error parsing feed")
 		}
