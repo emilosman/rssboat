@@ -23,7 +23,7 @@ func main() {
 		if feed.Feed != nil {
 			fmt.Println(feed.Title)
 		} else {
-			fmt.Println(feed.Error)
+			fmt.Printf("%s - %s\n", feed.Url, feed.Error)
 		}
 	}
 }
