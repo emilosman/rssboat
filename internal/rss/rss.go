@@ -136,6 +136,11 @@ func (f *Feed) GetFields(fields []string) []string {
 			result = append(result, f.Url)
 		case "Category":
 			result = append(result, f.Category)
+		case "Title":
+			if f.Title == "" {
+				result = append(result, f.Url)
+			}
+			result = append(result, f.Title)
 		}
 	}
 	return result

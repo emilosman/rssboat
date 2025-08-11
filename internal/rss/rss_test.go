@@ -5,11 +5,16 @@ import (
 	"net/http/httptest"
 	"testing"
 	"testing/fstest"
+
+	"github.com/mmcdole/gofeed"
 )
 
 var feed = Feed{
 	Url:      "example.com",
 	Category: "Fun",
+	Feed: &gofeed.Feed{
+		Title: "Feed title",
+	},
 }
 
 var columnNames = []string{"Url", "Category"}
@@ -20,6 +25,23 @@ func TestFeed(t *testing.T) {
 
 		if len(fields) != len(columnNames) {
 			t.Errorf("Wrong number of fields returned, wanted %d, got %d", len(columnNames), len(fields))
+		}
+	})
+
+	t.Run("Get url instead of title when title not set", func(t *testing.T) {
+		columnNames = []string{"Title"}
+		feed.Title = ""
+		field := feed.GetFields(columnNames)
+
+		if field[0] != feed.Url {
+			t.Error("Feed title should be url when no title present")
+		}
+
+		feed.Title = "Feed title"
+		field = feed.GetFields(columnNames)
+
+		if field[0] != "Feed title" {
+			t.Error("Feed title not returned after being set")
 		}
 	})
 
