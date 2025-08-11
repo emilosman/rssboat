@@ -77,8 +77,7 @@ func (l *FeedList) UpdateAll() error {
 	return nil
 }
 
-func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
-	var feeds []Feed
+func CreateFeedsFromFS(filesystem fs.FS) ([]*Feed, error) {
 	file, err := filesystem.Open("feeds.yml")
 	if err != nil {
 		return nil, err
@@ -95,9 +94,10 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
 		return nil, err
 	}
 
+	var feeds []*Feed
 	for category, urls := range raw {
 		for _, u := range urls {
-			feeds = append(feeds, Feed{
+			feeds = append(feeds, &Feed{
 				Url:      u,
 				Category: category,
 			})
