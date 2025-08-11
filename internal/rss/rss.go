@@ -53,7 +53,7 @@ func (f *Feed) GetFeed() error {
 	return nil
 }
 
-func (l *FeedList) Add(feeds []Feed) {
+func (l *FeedList) Add(feeds ...Feed) {
 	l.All = append(l.All, feeds...)
 }
 
@@ -105,4 +105,25 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
 	}
 
 	return feeds, nil
+}
+
+func (f *Feed) HasUnread() bool {
+	for i := range f.Items {
+		if f.Items[i].Read == false {
+			return true
+		}
+	}
+	return false
+}
+
+func (f *Feed) MarkAllItemsRead() {
+	for i := range f.Items {
+		f.Items[i].Read = true
+	}
+}
+
+func (l *FeedList) MarkAllFeedsRead() {
+	for _, feed := range l.All {
+		feed.MarkAllItemsRead()
+	}
 }

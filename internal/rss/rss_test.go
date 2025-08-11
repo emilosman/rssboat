@@ -29,7 +29,7 @@ func TestFeed(t *testing.T) {
 
 		var feedList FeedList
 
-		feedList.Add(feeds)
+		feedList.Add(feeds...)
 
 		if len(feedList.All) != len(feeds) {
 			t.Errorf("Wrong number of feeds added to list")
@@ -67,6 +67,64 @@ func TestFeed(t *testing.T) {
 		for _, feed := range feedList.All {
 			if feed.Feed == nil {
 				t.Errorf("Feed data empty for feed %s", feed.Url)
+			}
+		}
+	})
+
+	t.Run("Feed has unread item", func(t *testing.T) {
+		var feed Feed
+
+		readItems := make([]RssItem, 3)
+		for i := range readItems {
+			readItems[i].Read = true
+		}
+
+		unreadItem := RssItem{Read: false}
+
+		items := append(readItems, unreadItem)
+
+		feed.Items = items
+
+		if feed.HasUnread() == false {
+			t.Error("Feed should know there are unread items")
+		}
+	})
+
+	t.Run("Mark all items read in feed", func(t *testing.T) {
+		var feed Feed
+
+		unreadItems := make([]RssItem, 3)
+		for i := range unreadItems {
+			unreadItems[i].Read = false
+		}
+
+		feed.Items = unreadItems
+
+		feed.MarkAllItemsRead()
+
+		if feed.HasUnread() == true {
+			t.Error("Error marking all items read in feed")
+		}
+	})
+
+	t.Run("Mark all feeds read in feedList", func(t *testing.T) {
+		var feed Feed
+		var feedList FeedList
+
+		unreadItems := make([]RssItem, 3)
+		for i := range unreadItems {
+			unreadItems[i].Read = false
+		}
+
+		feed.Items = unreadItems
+
+		feedList.Add(feed)
+
+		feedList.MarkAllFeedsRead()
+
+		for _, feed := range feedList.All {
+			if feed.HasUnread() == true {
+				t.Error("Error marking all feeds read in feedList")
 			}
 		}
 	})
