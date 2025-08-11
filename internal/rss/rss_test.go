@@ -7,7 +7,22 @@ import (
 	"testing/fstest"
 )
 
+var feed = Feed{
+	Url:      "example.com",
+	Category: "Fun",
+}
+
+var columnNames = []string{"Url", "Category"}
+
 func TestFeed(t *testing.T) {
+	t.Run("Get fields from feed", func(t *testing.T) {
+		fields := feed.GetFields(columnNames)
+
+		if len(fields) != len(columnNames) {
+			t.Errorf("Wrong number of fields returned, wanted %d, got %d", len(columnNames), len(fields))
+		}
+	})
+
 	t.Run("Toggle feed item read flag", func(t *testing.T) {
 		var feedItem RssItem
 

@@ -127,3 +127,16 @@ func (l *FeedList) MarkAllFeedsRead() {
 		feed.MarkAllItemsRead()
 	}
 }
+
+func (f *Feed) GetFields(fields []string) []string {
+	var result []string
+	for _, field := range fields {
+		switch field {
+		case "Url":
+			result = append(result, f.Url)
+		case "Category":
+			result = append(result, f.Category)
+		}
+	}
+	return result
+}
