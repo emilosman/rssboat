@@ -25,7 +25,10 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Add feeds to feedList", func(t *testing.T) {
-		feeds := make([]Feed, 3)
+		feeds := make([]*Feed, 3)
+		for i := range feeds {
+			feeds[i] = &Feed{}
+		}
 
 		var feedList FeedList
 
@@ -37,14 +40,17 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Update all feeds in list", func(t *testing.T) {
+		var feedList FeedList
 		server := Server(t)
 		defer server.Close()
 
-		feeds := make([]Feed, 3)
+		feeds := make([]*Feed, 3)
 		for i := range feeds {
+			feeds[i] = &Feed{}
 			feeds[i].Url = server.URL
 		}
-		feedList := FeedList{All: feeds}
+
+		feedList.Add(feeds...)
 
 		err := feedList.UpdateAll()
 		if err != nil {
@@ -118,7 +124,7 @@ func TestFeed(t *testing.T) {
 
 		feed.Items = unreadItems
 
-		feedList.Add(feed)
+		feedList.Add(&feed)
 
 		feedList.MarkAllFeedsRead()
 

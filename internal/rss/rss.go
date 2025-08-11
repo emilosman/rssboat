@@ -27,7 +27,7 @@ type RssItem struct {
 }
 
 type FeedList struct {
-	All []Feed
+	All []*Feed
 }
 
 func (i *RssItem) ToggleRead() {
@@ -53,7 +53,7 @@ func (f *Feed) GetFeed() error {
 	return nil
 }
 
-func (l *FeedList) Add(feeds ...Feed) {
+func (l *FeedList) Add(feeds ...*Feed) {
 	l.All = append(l.All, feeds...)
 }
 
@@ -108,8 +108,8 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]Feed, error) {
 }
 
 func (f *Feed) HasUnread() bool {
-	for i := range f.Items {
-		if f.Items[i].Read == false {
+	for _, item := range f.Items {
+		if !item.Read {
 			return true
 		}
 	}
