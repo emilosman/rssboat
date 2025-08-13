@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -15,13 +16,17 @@ type model struct {
 	feedList *rss.FeedList
 }
 
-func newModel(feedList *rss.FeedList) model {
-	columns := []table.Column{
-		{Title: "Category", Width: 20},
-		{Title: "URL", Width: 50},
-	}
+var columnNames = []string{"Category", "Title"}
 
-	rows := buildRows(feedList.All)
+func newModel(feedList *rss.FeedList) (model, error) {
+	var m model
+
+	columns, err := BuildColumns(columnNames)
+
+	rows, err := buildRows(feedList.All, columnNames)
+	if err != nil {
+		return m, fmt.Errorf("Error building rows %q", err)
+	}
 
 	t := table.New(
 		table.WithColumns(columns),
@@ -29,18 +34,41 @@ func newModel(feedList *rss.FeedList) model {
 		table.WithFocused(true),
 	)
 
-	return model{table: t, feedList: feedList}
+	m.table = t
+	m.feedList = feedList
+
+	return m, nil
 }
 
-func buildRows(feeds []*rss.Feed) []table.Row {
-	var rows []table.Row
-	for _, f := range feeds {
-		rows = append(rows, table.Row{
-			f.Category,
-			f.Url,
-		})
+func BuildColumns(columnNames []string) ([]table.Column, error) {
+	var columns []table.Column
+
+	if len(columnNames) == 0 {
+		return columns, errors.New("No column names given")
 	}
-	return rows
+
+	for _, name := range columnNames {
+		column := table.Column{Title: name, Width: 20}
+		columns = append(columns, column)
+	}
+
+	return columns, nil
+}
+
+func buildRows(feeds []*rss.Feed, columnNames []string) ([]table.Row, error) {
+	var rows []table.Row
+
+	if len(feeds) == 0 {
+		return rows, errors.New("No feeds given")
+	}
+
+	for _, f := range feeds {
+		fields := f.GetFields(columnNames)
+		row := table.Row(fields)
+		rows = append(rows, row)
+	}
+
+	return rows, nil
 }
 
 func (m model) Init() tea.Cmd {
@@ -60,7 +88,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}()
 			// after network fetch, update table rows
-			m.table.SetRows(buildRows(m.feedList.All))
+			rows, err := buildRows(m.feedList.All, columnNames)
+			if err != nil {
+				fmt.Println("Error building rows", err)
+			}
+
+			m.table.SetRows(rows)
 		}
 
 		// Quit with q or ctrl+c
@@ -88,7 +121,12 @@ func BuildApp() {
 	var feedList rss.FeedList
 	feedList.Add(feeds...)
 
-	p := tea.NewProgram(newModel(&feedList))
+	model, err := newModel(&feedList)
+	if err != nil {
+		fmt.Printf("Error creating model %v", err)
+	}
+
+	p := tea.NewProgram(model)
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Error: %v", err)
 		os.Exit(1)
