@@ -9,19 +9,34 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-var feed = Feed{
-	Url:      "example.com",
-	Category: "Fun",
-	Feed: &gofeed.Feed{
-		Title: "Feed title",
-	},
-}
+var (
+	columnNames = []string{"Url", "Category", "Title"}
 
-var columnNames = []string{"Url", "Category"}
+	feed = Feed{
+		Url:      "example.com",
+		Category: "Fun",
+		Feed: &gofeed.Feed{
+			Title: "Feed title",
+		},
+	}
+
+	feedWithoutItems = Feed{
+		Url:      "example.com",
+		Category: "Fun",
+	}
+)
 
 func TestFeed(t *testing.T) {
 	t.Run("Get fields from feed", func(t *testing.T) {
 		fields := feed.GetFields(columnNames)
+
+		if len(fields) != len(columnNames) {
+			t.Errorf("Wrong number of fields returned, wanted %d, got %d", len(columnNames), len(fields))
+		}
+	})
+
+	t.Run("Get fields when feed has no items", func(t *testing.T) {
+		fields := feedWithoutItems.GetFields(columnNames)
 
 		if len(fields) != len(columnNames) {
 			t.Errorf("Wrong number of fields returned, wanted %d, got %d", len(columnNames), len(fields))
