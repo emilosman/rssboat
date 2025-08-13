@@ -16,10 +16,12 @@ var (
 		},
 	}
 
-	feedList = rss.FeedList{}
+	feedList             = rss.FeedList{}
+	feedListWithoutFeeds = rss.FeedList{}
 )
 
 func TestTui(t *testing.T) {
+	columnNames = []string{"Url", "Category", "Title"}
 	feedList.Add(&feed)
 
 	t.Run("Build columns", func(t *testing.T) {
@@ -45,6 +47,13 @@ func TestTui(t *testing.T) {
 
 		if len(rows[0]) != len(columnNames) {
 			t.Errorf("Wrong number of data in rows, wanted %d, got %d", len(columnNames), len(rows[0]))
+		}
+	})
+
+	t.Run("Build rows for feedlist without fields", func(t *testing.T) {
+		_, err := buildRows(feedListWithoutFeeds.All, columnNames)
+		if err == nil {
+			t.Errorf("Should throw error when building rows with no feeds")
 		}
 	})
 }
