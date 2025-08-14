@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"github.com/emilosman/rssboat/internal/tui"
 )
 
 func main() {
-	fmt.Println("hello world")
+	tui.BuildApp()
 }
