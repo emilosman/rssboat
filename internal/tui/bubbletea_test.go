@@ -21,17 +21,26 @@ var (
 )
 
 func TestTui(t *testing.T) {
-	columnNames = []string{"Url", "Category", "Title"}
+	columnNames := []string{"Url", "Category", "Title"}
 	feedList.Add(&feed)
 
 	t.Run("Build columns", func(t *testing.T) {
-		columns, err := BuildColumns(columnNames)
+		columns, err := buildColumns(columnNames)
 		if err != nil {
 			t.Errorf("Error building columns: %q", err)
 		}
 
 		if len(columnNames) != len(columns) {
 			t.Error("Wrong number of columns returned")
+		}
+	})
+
+	t.Run("Build columns with no column names", func(t *testing.T) {
+		columnNames = []string{}
+		_, err := buildColumns(columnNames)
+
+		if err == nil {
+			t.Error("Expected error when building columns without column names")
 		}
 	})
 
