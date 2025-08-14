@@ -128,7 +128,7 @@ func (l *FeedList) MarkAllFeedsRead() {
 	}
 }
 
-func (f *Feed) GetFields(fields []string) []string {
+func (f *Feed) GetFields(fields ...string) []string {
 	var result []string
 	for _, field := range fields {
 		switch field {
@@ -141,6 +141,15 @@ func (f *Feed) GetFields(fields []string) []string {
 				result = append(result, f.Url)
 			} else {
 				result = append(result, f.Title)
+			}
+		case "Latest":
+			if f.Feed != nil && f.Items != nil {
+				result = append(result, f.Items[0].Title)
+			}
+			if f.Feed != nil {
+				result = append(result, f.Feed.Description)
+			} else {
+				result = append(result, "")
 			}
 		}
 	}

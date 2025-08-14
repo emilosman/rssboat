@@ -12,11 +12,18 @@ import (
 var (
 	columnNames = []string{"Url", "Category", "Title"}
 
+	feedItem = RssItem{
+		Item: &gofeed.Item{
+			Title: "Latest item title",
+		},
+	}
+
 	feed = Feed{
 		Url:      "example.com",
 		Category: "Fun",
 		Feed: &gofeed.Feed{
-			Title: "Feed title",
+			Title:       "Feed title",
+			Description: "Feed description",
 		},
 	}
 
@@ -28,7 +35,7 @@ var (
 
 func TestFeed(t *testing.T) {
 	t.Run("Get fields from feed", func(t *testing.T) {
-		fields := feed.GetFields(columnNames)
+		fields := feed.GetFields(columnNames...)
 
 		if len(fields) != len(columnNames) {
 			t.Errorf("Wrong number of fields returned, wanted %d, got %d", len(columnNames), len(fields))
@@ -36,7 +43,7 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Get fields when feed has no items", func(t *testing.T) {
-		fields := feedWithoutItems.GetFields(columnNames)
+		fields := feedWithoutItems.GetFields(columnNames...)
 
 		if len(fields) != len(columnNames) {
 			t.Errorf("Wrong number of fields returned, wanted %d, got %d", len(columnNames), len(fields))
@@ -44,19 +51,45 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Get url instead of title when title not set", func(t *testing.T) {
-		columnNames = []string{"Title"}
+		columnName := "Title"
 		feed.Title = ""
-		field := feed.GetFields(columnNames)
+		field := feed.GetFields(columnName)
 
 		if field[0] != feed.Url {
 			t.Error("Feed title should be url when no title present")
 		}
 
 		feed.Title = "Feed title"
-		field = feed.GetFields(columnNames)
+		field = feed.GetFields(columnName)
 
 		if field[0] != "Feed title" {
 			t.Error("Feed title not returned after being set")
+		}
+	})
+
+	t.Run("Get latest feed item title if present or description", func(t *testing.T) {
+		columnName := "Latest"
+		field := feedWithoutItems.GetFields(columnName)
+		want := ""
+		got := field[0]
+		if got != want {
+			t.Error("Should handle feed with no items")
+		}
+
+		columnName = "Latest"
+		field = feed.GetFields(columnName)
+		want = "Feed description"
+		got = field[0]
+		if got != want {
+			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
+		}
+
+		feed.Items = append(feed.Items, feedItem)
+		field = feed.GetFields(columnName)
+		want = "Latest item title"
+		got = field[0]
+		if got != want {
+			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
 		}
 	})
 
@@ -211,6 +244,14 @@ func TestFeed(t *testing.T) {
 
 		if feed.Title != "NASA Space Station News" {
 			t.Error("Error parsing feed")
+		}
+
+		if len(feed.Feed.Items) != 5 {
+			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(feed.Items))
+		}
+
+		if feed.Feed.Items[0].Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
+			t.Error("Wrong feed item title")
 		}
 	})
 
