@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -76,6 +77,17 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		case "h":
 			m.selectedFeed = nil
+		case "o":
+			i, ok := m.list.SelectedItem().(item)
+			if ok {
+				feed := &i.feed
+				if feed.Feed != nil && feed.Error == "" {
+					cmd := exec.Command("open", feed.Link)
+					if err := cmd.Run(); err != nil {
+						log.Fatal(err)
+					}
+				}
+			}
 		case "ctrl+c":
 			return m, tea.Quit
 		}
