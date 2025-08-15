@@ -143,6 +143,9 @@ func (f *Feed) GetFields(fields ...string) []string {
 				result = append(result, f.Title)
 			}
 		case "Latest":
+			if f.Error != "" {
+				result = append(result, f.Error)
+			}
 			if f.Feed != nil && f.Items != nil {
 				result = append(result, f.Items[0].Title)
 			}

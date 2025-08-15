@@ -91,6 +91,14 @@ func TestFeed(t *testing.T) {
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
 		}
+
+		want = "Error happened"
+		feed.Error = want
+		field = feed.GetFields(columnName)
+		got = field[0]
+		if got != want {
+			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
+		}
 	})
 
 	t.Run("Toggle feed item read flag", func(t *testing.T) {
