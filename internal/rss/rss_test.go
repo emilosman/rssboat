@@ -23,9 +23,19 @@ var (
 			Title:       "Feed title",
 			Description: "Feed description",
 		},
+		Items: []RssItem{feedItem},
 	}
 
 	feedWithoutItems = Feed{
+		Url:      "example.com",
+		Category: "Fun",
+		Feed: &gofeed.Feed{
+			Title:       "Feed title",
+			Description: "Feed description",
+		},
+	}
+
+	unloadedFeed = Feed{
 		Url:      "example.com",
 		Category: "Fun",
 	}
@@ -60,17 +70,8 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Test field", func(t *testing.T) {
 		field := "Latest"
-		want := ""
-		got := feedWithoutItems.GetField(field)
-		if got != want {
-			t.Error("Should handle feed with no items")
-		}
-	})
-
-	t.Run("Test field", func(t *testing.T) {
-		field := "Latest"
 		want := "Feed description"
-		got := feed.GetField(field)
+		got := feedWithoutItems.GetField(field)
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
 		}
@@ -79,7 +80,6 @@ func TestFeed(t *testing.T) {
 	t.Run("Test field", func(t *testing.T) {
 		field := "Latest"
 		want := "Latest item title"
-		feed.Items = append(feed.Items, feedItem)
 		got := feed.GetField(field)
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)

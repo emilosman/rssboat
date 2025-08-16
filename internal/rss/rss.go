@@ -142,17 +142,15 @@ func (f *Feed) GetField(field string) string {
 			result = f.Title
 		}
 	case "Latest":
-		if f.Error != "" {
+		switch {
+		case f.Error != "":
 			result = f.Error
-			break
-		}
-		if f.Feed != nil && f.Items != nil {
+		case f.Feed != nil && len(f.Items) > 0:
 			result = f.Items[0].Title
-			break
-		}
-		if f.Feed != nil {
+		case f.Feed != nil:
 			result = f.Feed.Description
-			break
+		default:
+			result = ""
 		}
 	}
 	return result
