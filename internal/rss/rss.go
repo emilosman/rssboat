@@ -128,32 +128,31 @@ func (l *FeedList) MarkAllFeedsRead() {
 	}
 }
 
-func (f *Feed) GetFields(fields ...string) []string {
-	var result []string
-	for _, field := range fields {
-		switch field {
-		case "Url":
-			result = append(result, f.Url)
-		case "Category":
-			result = append(result, f.Category)
-		case "Title":
-			if f.Feed == nil || f.Title == "" {
-				result = append(result, f.Url)
-			} else {
-				result = append(result, f.Title)
-			}
-		case "Latest":
-			if f.Error != "" {
-				result = append(result, f.Error)
-			}
-			if f.Feed != nil && f.Items != nil {
-				result = append(result, f.Items[0].Title)
-			}
-			if f.Feed != nil {
-				result = append(result, f.Feed.Description)
-			} else {
-				result = append(result, "")
-			}
+func (f *Feed) GetField(field string) string {
+	var result string
+	switch field {
+	case "Url":
+		result = f.Url
+	case "Category":
+		result = f.Category
+	case "Title":
+		if f.Feed == nil || f.Title == "" {
+			result = f.Url
+		} else {
+			result = f.Title
+		}
+	case "Latest":
+		if f.Error != "" {
+			result = f.Error
+			break
+		}
+		if f.Feed != nil && f.Items != nil {
+			result = f.Items[0].Title
+			break
+		}
+		if f.Feed != nil {
+			result = f.Feed.Description
+			break
 		}
 	}
 	return result

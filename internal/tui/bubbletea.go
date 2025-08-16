@@ -73,6 +73,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.feeds.UpdateAll()
 			list := BuildFeedList(m.feeds.All)
 			m.feedsList.SetItems(list)
+			m.feedsList.NewStatusMessage("Updated all.")
 		case "enter":
 			if m.selectedFeed == nil {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
@@ -145,8 +146,8 @@ func (m *model) View() string {
 func BuildFeedList(feeds []*rss.Feed) []list.Item {
 	var listItems []list.Item
 	for _, feed := range feeds {
-		title := feed.GetFields("Title")[0]
-		description := feed.GetFields("Latest")[0]
+		title := feed.GetField("Title")
+		description := feed.GetField("Latest")
 		listItems = append(listItems, feedItem{
 			title: title,
 			desc:  description,
