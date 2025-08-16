@@ -35,7 +35,7 @@ func (r rssListItem) FilterValue() string { return r.title }
 type model struct {
 	feeds        rss.FeedList
 	selectedFeed *rss.Feed
-	list         list.Model
+	feedsList    list.Model
 	itemsList    list.Model
 }
 
@@ -53,10 +53,10 @@ func initialModel() *model {
 
 	m := model{
 		feeds:     feedList,
-		list:      list.New(items, list.NewDefaultDelegate(), 0, 0),
+		feedsList: list.New(items, list.NewDefaultDelegate(), 0, 0),
 		itemsList: list.New(nil, list.NewDefaultDelegate(), 0, 0),
 	}
-	m.list.Title = "rssboat"
+	m.feedsList.Title = "rssboat"
 
 	return &m
 }
@@ -72,10 +72,10 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "R":
 			m.feeds.UpdateAll()
 			list := BuildFeedList(m.feeds.All)
-			m.list.SetItems(list)
-		case "enter", "l":
+			m.feedsList.SetItems(list)
+		case "enter":
 			if m.selectedFeed == nil {
-				if i, ok := m.list.SelectedItem().(feedItem); ok {
+				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
 					if i.feed.Feed != nil && i.feed.Error == "" {
 						m.selectedFeed = i.feed
 						items := BuildItemsList(m.selectedFeed)
@@ -84,16 +84,34 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					}
 				}
 			} else {
-				// open feed item
+				i, ok := m.itemsList.SelectedItem().(rssListItem)
+				if ok {
+					rssItem := i.item
+					cmd := exec.Command("open", rssItem.Link)
+					if err := cmd.Run(); err != nil {
+						log.Fatal(err)
+					}
+				}
 			}
-		case "h":
+		case "b":
 			m.selectedFeed = nil
 		case "o":
-			i, ok := m.list.SelectedItem().(feedItem)
-			if ok {
-				feed := i.feed
-				if feed.Feed != nil {
-					cmd := exec.Command("open", feed.Link)
+			if m.selectedFeed == nil {
+				i, ok := m.feedsList.SelectedItem().(feedItem)
+				if ok {
+					feed := i.feed
+					if feed.Feed != nil {
+						cmd := exec.Command("open", feed.Link)
+						if err := cmd.Run(); err != nil {
+							log.Fatal(err)
+						}
+					}
+				}
+			} else {
+				i, ok := m.itemsList.SelectedItem().(rssListItem)
+				if ok {
+					rssItem := i.item
+					cmd := exec.Command("open", rssItem.Link)
 					if err := cmd.Run(); err != nil {
 						log.Fatal(err)
 					}
@@ -104,7 +122,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	case tea.WindowSizeMsg:
 		h, v := docStyle.GetFrameSize()
-		m.list.SetSize(msg.Width-h, msg.Height-v)
+		m.feedsList.SetSize(msg.Width-h, msg.Height-v)
 		m.itemsList.SetSize(msg.Width-h, msg.Height-v)
 	}
 
@@ -112,7 +130,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if m.selectedFeed != nil {
 		m.itemsList, cmd = m.itemsList.Update(msg)
 	} else {
-		m.list, cmd = m.list.Update(msg)
+		m.feedsList, cmd = m.feedsList.Update(msg)
 	}
 	return m, cmd
 }
@@ -121,7 +139,7 @@ func (m *model) View() string {
 	if m.selectedFeed != nil {
 		return docStyle.Render(m.itemsList.View())
 	}
-	return docStyle.Render(m.list.View())
+	return docStyle.Render(m.feedsList.View())
 }
 
 func BuildFeedList(feeds []*rss.Feed) []list.Item {
@@ -146,6 +164,7 @@ func BuildItemsList(feed *rss.Feed) []list.Item {
 		listItems = append(listItems, rssListItem{
 			title: title,
 			desc:  description,
+			item:  &rss.RssItem{Item: rssItem},
 		})
 	}
 	return listItems
