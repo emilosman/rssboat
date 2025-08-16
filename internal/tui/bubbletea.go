@@ -16,11 +16,11 @@ var docStyle = lipgloss.NewStyle().Margin(1, 2)
 
 type item struct {
 	title, desc string
-	feed        rss.Feed
+	feed        *rss.Feed
 }
 
 func (i item) Title() string       { return i.title }
-func (i item) Feed() rss.Feed      { return i.feed }
+func (i item) Feed() rss.Feed      { return *i.feed }
 func (i item) Description() string { return i.desc }
 func (i item) FilterValue() string { return i.title }
 
@@ -69,7 +69,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.selectedFeed == nil {
 				i, ok := m.list.SelectedItem().(item)
 				if ok {
-					m.selectedFeed = &i.feed
+					m.selectedFeed = i.feed
 					list := BuildItemsList(m.selectedFeed)
 					m.itemsList.Title = i.title
 					m.itemsList.SetItems(list)
@@ -80,8 +80,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "o":
 			i, ok := m.list.SelectedItem().(item)
 			if ok {
-				feed := &i.feed
-				if feed.Feed != nil && feed.Error == "" {
+				feed := i.feed
+				if feed != nil {
 					cmd := exec.Command("open", feed.Link)
 					if err := cmd.Run(); err != nil {
 						log.Fatal(err)
@@ -113,7 +113,7 @@ func BuildFeedList(feeds []*rss.Feed) []list.Item {
 	for _, feed := range feeds {
 		title := feed.GetFields("Title")[0]
 		description := feed.GetFields("Latest")[0]
-		item := item{title: title, desc: description, feed: *feed}
+		item := item{title: title, desc: description, feed: feed}
 		listItems = append(listItems, item)
 	}
 	return listItems
