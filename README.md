@@ -25,6 +25,7 @@
 - [ ] Opening feed items should work on all operating systems with default browser
 
 ## Maybe
+- [ ] Tabs for feed categories
 - [ ] "q" should not quit when in items view, but should go back to feeds view
 - [ ] "h" and "l" should open and close feeds
 
