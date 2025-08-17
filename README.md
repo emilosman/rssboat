@@ -4,6 +4,9 @@
 ## Todo
 - [ ] "Latest" should be displayed in feed item description when present
 - [ ] "r" should refresh a single feed
+- [ ] Unread items should have different color
+- [ ] Toggle read state on item open
+- [ ] "a" should toggle read state manually
 - [ ] Feed items should have a view that displays content
 - [ ] feeds.yaml should not be relative path
 - [ ] State should be stored in JSON
@@ -11,6 +14,8 @@
 
 ## Refactor
 - [ ] Make field test names descriptive
+- [ ] Table test field names
+- [ ] Test unloadedFeed
 
 ## Future
 - [ ] Opening feed items should work on all operating systems with default browser
