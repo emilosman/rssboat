@@ -2,9 +2,9 @@
 - RSS reader inspired by newsboat
 
 ## Todo
-- [ ] "r" should refresh a single feed
 - [ ] Unread items should have different color
 - [ ] Feeds should load async on UpdateAll()
+- [ ] Should send update command after go func finishes
 - [ ] Toggle read state on item open
 - [ ] "a" should toggle read state manually
 - [ ] "A" should mark feed as read
@@ -24,6 +24,7 @@
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] "r" should refresh a single feed
 - [x] "Latest" should be displayed in feed item description when present
 - [x] Make field test names descriptive
 - [x] Table test field names

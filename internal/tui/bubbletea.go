@@ -69,6 +69,23 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
+		case "r":
+			if m.selectedFeed == nil {
+				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
+					f := i.rssFeed
+					statusMsg := fmt.Sprintf("Updating feed %s", f.Url)
+					m.feedsList.NewStatusMessage(statusMsg)
+					go func(m *model) {
+						err := f.GetFeed()
+						if err != nil {
+							m.feedsList.NewStatusMessage("Error updating feed")
+						}
+						list := BuildFeedList(m.feedList.All)
+						m.feedsList.SetItems(list)
+						m.feedsList.NewStatusMessage("Feed updated")
+					}(m)
+				}
+			}
 		case "R":
 			m.feedsList.NewStatusMessage("Updating feeds...")
 			go func(m *model) {
