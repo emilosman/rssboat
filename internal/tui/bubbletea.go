@@ -56,6 +56,8 @@ func initialModel() *model {
 		feedsList: list.New(all, list.NewDefaultDelegate(), 0, 0),
 		itemsList: list.New(nil, list.NewDefaultDelegate(), 0, 0),
 	}
+	m.feedsList.DisableQuitKeybindings()
+	m.itemsList.DisableQuitKeybindings()
 	m.feedsList.Title = "rssboat"
 
 	return &m
@@ -142,9 +144,11 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		case "b":
-			all := BuildFeedList(m.feedList.All)
-			m.feedsList.SetItems(all)
-			m.selectedFeed = nil
+			if m.selectedFeed != nil {
+				all := BuildFeedList(m.feedList.All)
+				m.feedsList.SetItems(all)
+				m.selectedFeed = nil
+			}
 		case "o":
 			if m.selectedFeed == nil {
 				i, ok := m.feedsList.SelectedItem().(feedItem)
@@ -170,6 +174,14 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						}
 					}
 				}
+			}
+		case "q", "esc":
+			if m.selectedFeed != nil {
+				all := BuildFeedList(m.feedList.All)
+				m.feedsList.SetItems(all)
+				m.selectedFeed = nil
+			} else {
+				return m, tea.Quit
 			}
 		case "ctrl+c":
 			return m, tea.Quit

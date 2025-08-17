@@ -18,6 +18,7 @@
 - [ ] "o" should not trigger feed open when filtering
 
 ## Refactor
+- [ ] Refactor list updates into helper func
 - [ ] Refactor view selection m.selectedFeed
 - [ ] Refactor feed/item open error messages and funcs
 
@@ -30,6 +31,7 @@
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] "q" quit disabled
 - [x] "A" should mark feed as read
 - [x] "r" should refresh a single feed
 - [x] "Latest" should be displayed in feed item description when present
