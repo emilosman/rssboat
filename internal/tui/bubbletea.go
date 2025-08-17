@@ -33,7 +33,7 @@ func (r rssListItem) Description() string { return r.desc }
 func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
-	feeds        rss.FeedList
+	feedList     rss.FeedList
 	selectedFeed *rss.Feed
 	feedsList    list.Model
 	itemsList    list.Model
@@ -52,7 +52,7 @@ func initialModel() *model {
 	items := BuildFeedList(feedList.All)
 
 	m := model{
-		feeds:     feedList,
+		feedList:  feedList,
 		feedsList: list.New(items, list.NewDefaultDelegate(), 0, 0),
 		itemsList: list.New(nil, list.NewDefaultDelegate(), 0, 0),
 	}
@@ -72,8 +72,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "R":
 			m.feedsList.NewStatusMessage("Updating feeds...")
 			go func(m *model) {
-				m.feeds.UpdateAll()
-				list := BuildFeedList(m.feeds.All)
+				m.feedList.UpdateAll()
+				list := BuildFeedList(m.feedList.All)
 				m.feedsList.SetItems(list)
 				m.feedsList.NewStatusMessage("Updated all.")
 			}(m)

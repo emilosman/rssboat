@@ -83,7 +83,7 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Test field", func(t *testing.T) {
+	t.Run("Test latest field", func(t *testing.T) {
 		field := "Latest"
 		want := "Feed description"
 		got := feedWithoutItems.GetField(field)
@@ -92,7 +92,7 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Test field", func(t *testing.T) {
+	t.Run("Test lastest field", func(t *testing.T) {
 		field := "Latest"
 		want := "Latest item title"
 		got := feed.GetField(field)
@@ -101,7 +101,7 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Test field", func(t *testing.T) {
+	t.Run("Test lastest field", func(t *testing.T) {
 		field := "Latest"
 		want := "Error happened"
 		feed.Error = want
