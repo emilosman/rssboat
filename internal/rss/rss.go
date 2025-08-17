@@ -139,6 +139,18 @@ func (l *FeedList) MarkAllFeedsRead() {
 	}
 }
 
+func (i *RssItem) GetField(field string) string {
+	switch field {
+	case "Title":
+		if i.Read == false {
+			return fmt.Sprintf("🟢 %s", i.Item.Title)
+		}
+		return i.Item.Title
+	default:
+		return ""
+	}
+}
+
 func (f *RssFeed) GetField(field string) string {
 	switch field {
 	case "Url":

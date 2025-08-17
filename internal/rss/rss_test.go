@@ -137,6 +137,32 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Should get read status of unread feed item", func(t *testing.T) {
+		field := "Title"
+		want := "🟢 Latest item title"
+		got := unreadFeedItem.GetField(field)
+		if got != want {
+			t.Errorf("Did not get correct field value, want %s, got %s", want, got)
+		}
+	})
+
+	t.Run("Should get title of read feed item", func(t *testing.T) {
+		field := "Title"
+		want := "Latest item title"
+		got := readFeedItem.GetField(field)
+		if got != want {
+			t.Errorf("Did not get correct field value, want %s, got %s", want, got)
+		}
+	})
+	t.Run("Should handle when no field name given", func(t *testing.T) {
+		field := "XYZ"
+		want := ""
+		got := readFeedItem.GetField(field)
+		if got != want {
+			t.Errorf("Did not get default field value")
+		}
+	})
+
 	t.Run("Toggle feed item read flag", func(t *testing.T) {
 		var feedItem RssItem
 
