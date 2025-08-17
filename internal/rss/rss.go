@@ -51,6 +51,14 @@ func (f *RssFeed) GetFeed() error {
 
 	f.Feed = parsedFeed
 
+	f.RssItems = make([]RssItem, len(parsedFeed.Items))
+	for i, item := range parsedFeed.Items {
+		f.RssItems[i] = RssItem{
+			Item: item,
+			Read: false,
+		}
+	}
+
 	f.Error = ""
 
 	return nil

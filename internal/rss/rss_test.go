@@ -290,11 +290,11 @@ func TestFeed(t *testing.T) {
 			t.Error("Error parsing feed")
 		}
 
-		if len(rssFeed.Feed.Items) != 5 {
+		if len(rssFeed.RssItems) != 5 {
 			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(rssFeed.RssItems))
 		}
 
-		if rssFeed.Feed.Items[0].Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
+		if rssFeed.RssItems[0].Item.Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
 			t.Error("Wrong feed item title")
 		}
 	})
