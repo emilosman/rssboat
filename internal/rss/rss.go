@@ -15,28 +15,29 @@ var ErrFeedHasNoUrl = errors.New("Feed has no URL")
 var ErrNoFeedsInList = errors.New("No feeds in list")
 var MsgFeedNotLoaded = "Feed not loaded yet. Press shift+r"
 
-type Feed struct {
-	*gofeed.Feed
+type RssFeed struct {
 	Url      string
 	Category string
 	Error    string
-	Items    []RssItem
+
+	Feed  *gofeed.Feed
+	Items []RssItem
 }
 
 type RssItem struct {
-	*gofeed.Item
+	Item *gofeed.Item
 	Read bool
 }
 
 type FeedList struct {
-	All []*Feed
+	All []*RssFeed
 }
 
 func (i *RssItem) ToggleRead() {
 	i.Read = !i.Read
 }
 
-func (f *Feed) GetFeed() error {
+func (f *RssFeed) GetFeed() error {
 	if f.Url == "" {
 		return ErrFeedHasNoUrl
 	}
@@ -55,7 +56,7 @@ func (f *Feed) GetFeed() error {
 	return nil
 }
 
-func (l *FeedList) Add(feeds ...*Feed) {
+func (l *FeedList) Add(feeds ...*RssFeed) {
 	l.All = append(l.All, feeds...)
 }
 
@@ -79,7 +80,7 @@ func (l *FeedList) UpdateAll() error {
 	return nil
 }
 
-func CreateFeedsFromFS(filesystem fs.FS) ([]*Feed, error) {
+func CreateFeedsFromFS(filesystem fs.FS) ([]*RssFeed, error) {
 	file, err := filesystem.Open("feeds.yml")
 	if err != nil {
 		return nil, err
@@ -96,10 +97,10 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]*Feed, error) {
 		return nil, err
 	}
 
-	var feeds []*Feed
+	var feeds []*RssFeed
 	for category, urls := range raw {
 		for _, u := range urls {
-			feeds = append(feeds, &Feed{
+			feeds = append(feeds, &RssFeed{
 				Url:      u,
 				Category: category,
 			})
@@ -109,7 +110,7 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]*Feed, error) {
 	return feeds, nil
 }
 
-func (f *Feed) HasUnread() bool {
+func (f *RssFeed) HasUnread() bool {
 	for _, item := range f.Items {
 		if !item.Read {
 			return true
@@ -118,7 +119,7 @@ func (f *Feed) HasUnread() bool {
 	return false
 }
 
-func (f *Feed) MarkAllItemsRead() {
+func (f *RssFeed) MarkAllItemsRead() {
 	for i := range f.Items {
 		f.Items[i].Read = true
 	}
@@ -130,33 +131,37 @@ func (l *FeedList) MarkAllFeedsRead() {
 	}
 }
 
-func (f *Feed) GetField(field string) string {
-	var result string
+func (f *RssFeed) GetField(field string) string {
 	switch field {
 	case "Url":
-		result = f.Url
+		return f.Url
+
 	case "Category":
-		result = f.Category
+		return f.Category
+
 	case "Title":
-		switch {
-		case f.Feed == nil || f.Title == "":
-			result = f.Url
-		case f.HasUnread():
-			result = fmt.Sprintf("🟢 %s", f.Title)
-		default:
-			result = f.Title
+		if f.Feed == nil || f.Feed.Title == "" {
+			return f.Url
 		}
+		if f.HasUnread() {
+			return fmt.Sprintf("🟢 %s", f.Feed.Title)
+		}
+		return f.Feed.Title
+
 	case "Latest":
 		switch {
 		case f.Error != "":
-			result = f.Error
-		case f.Feed != nil && len(f.Items) > 0:
-			result = f.Items[0].Title
+			return f.Error
+		case len(f.Items) > 0:
+			last := f.Items[0]
+			return last.Item.Title
 		case f.Feed != nil:
-			result = f.Feed.Description
+			return f.Feed.Description
 		default:
-			result = MsgFeedNotLoaded
+			return MsgFeedNotLoaded
 		}
+
+	default:
+		return ""
 	}
-	return result
 }

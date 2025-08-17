@@ -24,7 +24,7 @@ var (
 		},
 	}
 
-	feed = Feed{
+	rssFeed = RssFeed{
 		Url:      "example.com",
 		Category: "Fun",
 		Feed: &gofeed.Feed{
@@ -34,7 +34,7 @@ var (
 		Items: []RssItem{unreadFeedItem, readFeedItem},
 	}
 
-	feedWithoutItems = Feed{
+	rssFeedWithoutItems = RssFeed{
 		Url:      "example.com",
 		Category: "Fun",
 		Feed: &gofeed.Feed{
@@ -43,7 +43,7 @@ var (
 		},
 	}
 
-	unloadedFeed = Feed{
+	rssFeedUnloaded = RssFeed{
 		Url:      "example.com",
 		Category: "Fun",
 	}
@@ -52,23 +52,23 @@ var (
 func TestFeed(t *testing.T) {
 	t.Run("Get url instead of title when title not set", func(t *testing.T) {
 		columnName := "Title"
-		feed.Title = ""
-		field := feed.GetField(columnName)
+		rssFeed.Feed.Title = ""
+		field := rssFeed.GetField(columnName)
 
-		if field != feed.Url {
+		if field != rssFeed.Url {
 			t.Error("Feed title should be url when no title present")
 		}
 
-		feed.Title = "Feed title"
+		rssFeed.Feed.Title = "Feed title"
 
-		field = feed.GetField(columnName)
+		field = rssFeed.GetField(columnName)
 		if field != "🟢 Feed title" {
 			t.Error("Unread feed title not returned")
 		}
 
-		feed.MarkAllItemsRead()
+		rssFeed.MarkAllItemsRead()
 
-		field = feed.GetField(columnName)
+		field = rssFeed.GetField(columnName)
 		if field != "Feed title" {
 			t.Error("Read feed title not returned")
 		}
@@ -79,11 +79,11 @@ func TestFeed(t *testing.T) {
 			field string
 			want  string
 		}{
-			{"Url", feed.Url},
-			{"Category", feed.Category},
+			{"Url", rssFeed.Url},
+			{"Category", rssFeed.Category},
 		}
 		for _, tt := range fieldsTest {
-			got := feed.GetField(tt.field)
+			got := rssFeed.GetField(tt.field)
 			if got != tt.want {
 				t.Error("Should return correct field")
 			}
@@ -93,7 +93,7 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get feed description when feed does not have items", func(t *testing.T) {
 		field := "Latest"
 		want := "Feed description"
-		got := feedWithoutItems.GetField(field)
+		got := rssFeedWithoutItems.GetField(field)
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
@@ -102,7 +102,7 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get latest item title when items present", func(t *testing.T) {
 		field := "Latest"
 		want := "Latest item title"
-		got := feed.GetField(field)
+		got := rssFeed.GetField(field)
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
@@ -111,8 +111,8 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get error message if present", func(t *testing.T) {
 		field := "Latest"
 		want := "Error happened"
-		feed.Error = want
-		got := feed.GetField(field)
+		rssFeed.Error = want
+		got := rssFeed.GetField(field)
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
@@ -121,10 +121,19 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get message when feed not loaded yet", func(t *testing.T) {
 		field := "Latest"
 		want := MsgFeedNotLoaded
-		feed.Error = want
-		got := unloadedFeed.GetField(field)
+		rssFeed.Error = want
+		got := rssFeedUnloaded.GetField(field)
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
+		}
+	})
+
+	t.Run("Should handle when no field name given", func(t *testing.T) {
+		field := "XYZ"
+		want := ""
+		got := rssFeed.GetField(field)
+		if got != want {
+			t.Errorf("Did not get default field value")
 		}
 	})
 
@@ -145,9 +154,9 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Add feeds to feedList", func(t *testing.T) {
-		feeds := make([]*Feed, 3)
+		feeds := make([]*RssFeed, 3)
 		for i := range feeds {
-			feeds[i] = &Feed{}
+			feeds[i] = &RssFeed{}
 		}
 
 		var feedList FeedList
@@ -164,9 +173,9 @@ func TestFeed(t *testing.T) {
 		server := Server(t)
 		defer server.Close()
 
-		feeds := make([]*Feed, 3)
+		feeds := make([]*RssFeed, 3)
 		for i := range feeds {
-			feeds[i] = &Feed{}
+			feeds[i] = &RssFeed{}
 			feeds[i].Url = server.URL
 		}
 
@@ -198,7 +207,7 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Feed has unread item", func(t *testing.T) {
-		var feed Feed
+		var rssFeed RssFeed
 
 		readItems := make([]RssItem, 3)
 		for i := range readItems {
@@ -209,32 +218,32 @@ func TestFeed(t *testing.T) {
 
 		items := append(readItems, unreadItem)
 
-		feed.Items = items
+		rssFeed.Items = items
 
-		if feed.HasUnread() == false {
+		if rssFeed.HasUnread() == false {
 			t.Error("Feed should know there are unread items")
 		}
 	})
 
 	t.Run("Mark all items read in feed", func(t *testing.T) {
-		var feed Feed
+		var rssFeed RssFeed
 
 		unreadItems := make([]RssItem, 3)
 		for i := range unreadItems {
 			unreadItems[i].Read = false
 		}
 
-		feed.Items = unreadItems
+		rssFeed.Items = unreadItems
 
-		feed.MarkAllItemsRead()
+		rssFeed.MarkAllItemsRead()
 
-		if feed.HasUnread() == true {
+		if rssFeed.HasUnread() == true {
 			t.Error("Error marking all items read in feed")
 		}
 	})
 
 	t.Run("Mark all feeds read in feedList", func(t *testing.T) {
-		var feed Feed
+		var rssFeed RssFeed
 		var feedList FeedList
 
 		unreadItems := make([]RssItem, 3)
@@ -242,9 +251,9 @@ func TestFeed(t *testing.T) {
 			unreadItems[i].Read = false
 		}
 
-		feed.Items = unreadItems
+		rssFeed.Items = unreadItems
 
-		feedList.Add(&feed)
+		feedList.Add(&rssFeed)
 
 		feedList.MarkAllFeedsRead()
 
@@ -256,9 +265,9 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Get feed if url present", func(t *testing.T) {
-		var feed Feed
+		var rssFeed RssFeed
 
-		err := feed.GetFeed()
+		err := rssFeed.GetFeed()
 		assertError(t, err, ErrFeedHasNoUrl)
 	})
 
@@ -266,26 +275,26 @@ func TestFeed(t *testing.T) {
 		server := Server(t)
 		defer server.Close()
 
-		feed := Feed{Url: server.URL}
+		rssFeed := RssFeed{Url: server.URL}
 
-		err := feed.GetFeed()
+		err := rssFeed.GetFeed()
 		if err != nil {
 			t.Errorf("Error getting feed %q", err)
 		}
 
-		if feed.Error != "" {
+		if rssFeed.Error != "" {
 			t.Error("Should unset error on feed")
 		}
 
-		if feed.Title != "NASA Space Station News" {
+		if rssFeed.Feed.Title != "NASA Space Station News" {
 			t.Error("Error parsing feed")
 		}
 
-		if len(feed.Feed.Items) != 5 {
-			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(feed.Items))
+		if len(rssFeed.Feed.Items) != 5 {
+			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(rssFeed.Items))
 		}
 
-		if feed.Feed.Items[0].Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
+		if rssFeed.Feed.Items[0].Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
 			t.Error("Wrong feed item title")
 		}
 	})
@@ -294,15 +303,15 @@ func TestFeed(t *testing.T) {
 		server := ServerNotFound(t)
 		defer server.Close()
 
-		feed := Feed{Url: server.URL}
+		rssFeed := RssFeed{Url: server.URL}
 
-		err := feed.GetFeed()
+		err := rssFeed.GetFeed()
 		if err == nil {
 			t.Errorf("Should return error on server error: %q", err)
 		}
 
-		if feed.Error == "" {
-			t.Errorf("Should store error on feed: %s", feed.Error)
+		if rssFeed.Error == "" {
+			t.Errorf("Should store error on feed: %s", rssFeed.Error)
 		}
 	})
 

@@ -16,7 +16,7 @@ var docStyle = lipgloss.NewStyle().Margin(1, 2)
 
 type feedItem struct {
 	title, desc string
-	feed        *rss.Feed
+	rssFeed     *rss.RssFeed
 }
 
 func (f feedItem) Title() string       { return f.title }
@@ -34,7 +34,7 @@ func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
 	feedList     rss.FeedList
-	selectedFeed *rss.Feed
+	selectedFeed *rss.RssFeed
 	feedsList    list.Model
 	itemsList    list.Model
 }
@@ -80,8 +80,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "enter":
 			if m.selectedFeed == nil {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
-					if i.feed.Feed != nil && i.feed.Error == "" {
-						m.selectedFeed = i.feed
+					if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
+						m.selectedFeed = i.rssFeed
 						items := BuildItemsList(m.selectedFeed)
 						m.itemsList.Title = i.title
 						m.itemsList.SetItems(items)
@@ -91,7 +91,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				i, ok := m.itemsList.SelectedItem().(rssListItem)
 				if ok {
 					rssItem := i.item
-					cmd := exec.Command("open", rssItem.Link)
+					cmd := exec.Command("open", rssItem.Item.Link)
 					if err := cmd.Run(); err != nil {
 						log.Fatal(err)
 					}
@@ -103,9 +103,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.selectedFeed == nil {
 				i, ok := m.feedsList.SelectedItem().(feedItem)
 				if ok {
-					feed := i.feed
-					if feed.Feed != nil {
-						cmd := exec.Command("open", feed.Link)
+					rssFeed := i.rssFeed
+					if rssFeed.Feed != nil {
+						cmd := exec.Command("open", rssFeed.Feed.Link)
 						if err := cmd.Run(); err != nil {
 							log.Fatal(err)
 						}
@@ -115,7 +115,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				i, ok := m.itemsList.SelectedItem().(rssListItem)
 				if ok {
 					rssItem := i.item
-					cmd := exec.Command("open", rssItem.Link)
+					cmd := exec.Command("open", rssItem.Item.Link)
 					if err := cmd.Run(); err != nil {
 						log.Fatal(err)
 					}
@@ -146,21 +146,21 @@ func (m *model) View() string {
 	return docStyle.Render(m.feedsList.View())
 }
 
-func BuildFeedList(feeds []*rss.Feed) []list.Item {
+func BuildFeedList(feeds []*rss.RssFeed) []list.Item {
 	var listItems []list.Item
 	for _, feed := range feeds {
 		title := feed.GetField("Title")
 		description := feed.GetField("Latest")
 		listItems = append(listItems, feedItem{
-			title: title,
-			desc:  description,
-			feed:  feed,
+			title:   title,
+			desc:    description,
+			rssFeed: feed,
 		})
 	}
 	return listItems
 }
 
-func BuildItemsList(feed *rss.Feed) []list.Item {
+func BuildItemsList(feed *rss.RssFeed) []list.Item {
 	var listItems []list.Item
 	for _, rssItem := range feed.Feed.Items {
 		title := rssItem.Title
