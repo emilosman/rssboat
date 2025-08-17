@@ -72,7 +72,10 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "R":
 			m.feedsList.NewStatusMessage("Updating feeds...")
 			go func(m *model) {
-				m.feedList.UpdateAll()
+				err := m.feedList.UpdateAll()
+				if err != nil {
+					m.feedsList.NewStatusMessage("Error updating feeds")
+				}
 				list := BuildFeedList(m.feedList.All)
 				m.feedsList.SetItems(list)
 				m.feedsList.NewStatusMessage("Updated all.")
@@ -91,9 +94,12 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				i, ok := m.itemsList.SelectedItem().(rssListItem)
 				if ok {
 					rssItem := i.item
-					cmd := exec.Command("open", rssItem.Item.Link)
-					if err := cmd.Run(); err != nil {
-						log.Fatal(err)
+					if rssItem.Item != nil {
+						err := openInBrowser(rssItem.Item.Link)
+						if err != nil {
+							errorMessage := fmt.Sprintf("Error opening item, %q", err)
+							m.itemsList.NewStatusMessage(errorMessage)
+						}
 					}
 				}
 			}
@@ -105,9 +111,10 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if ok {
 					rssFeed := i.rssFeed
 					if rssFeed.Feed != nil {
-						cmd := exec.Command("open", rssFeed.Feed.Link)
-						if err := cmd.Run(); err != nil {
-							log.Fatal(err)
+						err := openInBrowser(rssFeed.Feed.Link)
+						if err != nil {
+							errorMessage := fmt.Sprintf("Error opening item, %q", err)
+							m.itemsList.NewStatusMessage(errorMessage)
 						}
 					}
 				}
@@ -115,9 +122,12 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				i, ok := m.itemsList.SelectedItem().(rssListItem)
 				if ok {
 					rssItem := i.item
-					cmd := exec.Command("open", rssItem.Item.Link)
-					if err := cmd.Run(); err != nil {
-						log.Fatal(err)
+					if rssItem.Item != nil {
+						err := openInBrowser(rssItem.Item.Link)
+						if err != nil {
+							errorMessage := fmt.Sprintf("Error opening item, %q", err)
+							m.itemsList.NewStatusMessage(errorMessage)
+						}
 					}
 				}
 			}
@@ -162,16 +172,24 @@ func BuildFeedList(feeds []*rss.RssFeed) []list.Item {
 
 func BuildItemsList(feed *rss.RssFeed) []list.Item {
 	var listItems []list.Item
-	for _, rssItem := range feed.Feed.Items {
-		title := rssItem.Title
-		description := rssItem.Description
+	for _, rssItem := range feed.RssItems {
+		title := rssItem.Item.Title
+		description := rssItem.Item.Description
 		listItems = append(listItems, rssListItem{
 			title: title,
 			desc:  description,
-			item:  &rss.RssItem{Item: rssItem},
+			item:  &rssItem,
 		})
 	}
 	return listItems
+}
+
+func openInBrowser(url string) error {
+	cmd := exec.Command("open", url)
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func BuildApp() {

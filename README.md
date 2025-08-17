@@ -2,7 +2,6 @@
 - RSS reader inspired by newsboat
 
 ## Todo
-- [ ] "Latest" should be displayed in feed item description when present
 - [ ] "r" should refresh a single feed
 - [ ] Unread items should have different color
 - [ ] Feeds should load async on UpdateAll()
@@ -14,6 +13,9 @@
 - [ ] State should be stored in JSON
 - [ ] "o" should not trigger feed open when filtering
 
+## Refactor
+- [ ] Refactor feed/item open error messages and funcs
+
 ## Future
 - [ ] Opening feed items should work on all operating systems with default browser
 
@@ -22,6 +24,7 @@
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] "Latest" should be displayed in feed item description when present
 - [x] Make field test names descriptive
 - [x] Table test field names
 - [x] Test unloadedFeed
