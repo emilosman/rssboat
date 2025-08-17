@@ -7,6 +7,7 @@
 - [ ] Unread items should have different color
 - [ ] Toggle read state on item open
 - [ ] "a" should toggle read state manually
+- [ ] "A" should mark feed as read
 - [ ] Feed items should have a view that displays content
 - [ ] feeds.yaml should not be relative path
 - [ ] State should be stored in JSON

@@ -10,7 +10,15 @@ import (
 )
 
 var (
-	feedItem = RssItem{
+	unreadFeedItem = RssItem{
+		Read: false,
+		Item: &gofeed.Item{
+			Title: "Latest item title",
+		},
+	}
+
+	readFeedItem = RssItem{
+		Read: true,
 		Item: &gofeed.Item{
 			Title: "Latest item title",
 		},
@@ -23,7 +31,7 @@ var (
 			Title:       "Feed title",
 			Description: "Feed description",
 		},
-		Items: []RssItem{feedItem},
+		Items: []RssItem{unreadFeedItem, readFeedItem},
 	}
 
 	feedWithoutItems = Feed{
@@ -52,10 +60,17 @@ func TestFeed(t *testing.T) {
 		}
 
 		feed.Title = "Feed title"
-		field = feed.GetField(columnName)
 
+		field = feed.GetField(columnName)
+		if field != "🟢 Feed title" {
+			t.Error("Unread feed title not returned")
+		}
+
+		feed.MarkAllItemsRead()
+
+		field = feed.GetField(columnName)
 		if field != "Feed title" {
-			t.Error("Feed title not returned after being set")
+			t.Error("Read feed title not returned")
 		}
 	})
 

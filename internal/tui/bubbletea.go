@@ -70,10 +70,13 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "R":
-			m.feeds.UpdateAll()
-			list := BuildFeedList(m.feeds.All)
-			m.feedsList.SetItems(list)
-			m.feedsList.NewStatusMessage("Updated all.")
+			m.feedsList.NewStatusMessage("Updating feeds...")
+			go func(m *model) {
+				m.feeds.UpdateAll()
+				list := BuildFeedList(m.feeds.All)
+				m.feedsList.SetItems(list)
+				m.feedsList.NewStatusMessage("Updated all.")
+			}(m)
 		case "enter":
 			if m.selectedFeed == nil {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {

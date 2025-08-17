@@ -2,6 +2,7 @@ package rss
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"io/fs"
 	"sync"
@@ -136,9 +137,12 @@ func (f *Feed) GetField(field string) string {
 	case "Category":
 		result = f.Category
 	case "Title":
-		if f.Feed == nil || f.Title == "" {
+		switch {
+		case f.Feed == nil || f.Title == "":
 			result = f.Url
-		} else {
+		case f.HasUnread():
+			result = fmt.Sprintf("🟢 %s", f.Title)
+		default:
 			result = f.Title
 		}
 	case "Latest":
