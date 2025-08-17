@@ -31,7 +31,7 @@ var (
 			Title:       "Feed title",
 			Description: "Feed description",
 		},
-		Items: []RssItem{unreadFeedItem, readFeedItem},
+		RssItems: []RssItem{unreadFeedItem, readFeedItem},
 	}
 
 	rssFeedWithoutItems = RssFeed{
@@ -218,7 +218,7 @@ func TestFeed(t *testing.T) {
 
 		items := append(readItems, unreadItem)
 
-		rssFeed.Items = items
+		rssFeed.RssItems = items
 
 		if rssFeed.HasUnread() == false {
 			t.Error("Feed should know there are unread items")
@@ -233,7 +233,7 @@ func TestFeed(t *testing.T) {
 			unreadItems[i].Read = false
 		}
 
-		rssFeed.Items = unreadItems
+		rssFeed.RssItems = unreadItems
 
 		rssFeed.MarkAllItemsRead()
 
@@ -251,7 +251,7 @@ func TestFeed(t *testing.T) {
 			unreadItems[i].Read = false
 		}
 
-		rssFeed.Items = unreadItems
+		rssFeed.RssItems = unreadItems
 
 		feedList.Add(&rssFeed)
 
@@ -291,7 +291,7 @@ func TestFeed(t *testing.T) {
 		}
 
 		if len(rssFeed.Feed.Items) != 5 {
-			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(rssFeed.Items))
+			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(rssFeed.RssItems))
 		}
 
 		if rssFeed.Feed.Items[0].Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {

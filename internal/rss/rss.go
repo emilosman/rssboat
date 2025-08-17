@@ -20,8 +20,8 @@ type RssFeed struct {
 	Category string
 	Error    string
 
-	Feed  *gofeed.Feed
-	Items []RssItem
+	Feed     *gofeed.Feed
+	RssItems []RssItem
 }
 
 type RssItem struct {
@@ -111,7 +111,7 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]*RssFeed, error) {
 }
 
 func (f *RssFeed) HasUnread() bool {
-	for _, item := range f.Items {
+	for _, item := range f.RssItems {
 		if !item.Read {
 			return true
 		}
@@ -120,8 +120,8 @@ func (f *RssFeed) HasUnread() bool {
 }
 
 func (f *RssFeed) MarkAllItemsRead() {
-	for i := range f.Items {
-		f.Items[i].Read = true
+	for i := range f.RssItems {
+		f.RssItems[i].Read = true
 	}
 }
 
@@ -152,8 +152,8 @@ func (f *RssFeed) GetField(field string) string {
 		switch {
 		case f.Error != "":
 			return f.Error
-		case len(f.Items) > 0:
-			last := f.Items[0]
+		case len(f.RssItems) > 0:
+			last := f.RssItems[0]
 			return last.Item.Title
 		case f.Feed != nil:
 			return f.Feed.Description
