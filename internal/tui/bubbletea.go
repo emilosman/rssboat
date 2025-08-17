@@ -49,11 +49,11 @@ func initialModel() *model {
 	var feedList rss.FeedList
 	feedList.Add(feeds...)
 
-	items := BuildFeedList(feedList.All)
+	all := BuildFeedList(feedList.All)
 
 	m := model{
 		feedList:  feedList,
-		feedsList: list.New(items, list.NewDefaultDelegate(), 0, 0),
+		feedsList: list.New(all, list.NewDefaultDelegate(), 0, 0),
 		itemsList: list.New(nil, list.NewDefaultDelegate(), 0, 0),
 	}
 	m.feedsList.Title = "rssboat"
@@ -66,9 +66,32 @@ func (m *model) Init() tea.Cmd {
 }
 
 func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	m.feedsList.NewStatusMessage("")
+	m.itemsList.NewStatusMessage("")
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
+		case "A":
+			if m.selectedFeed == nil {
+				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
+					f := i.rssFeed
+					f.MarkAllItemsRead()
+					all := BuildFeedList(m.feedList.All)
+					m.feedsList.SetItems(all)
+					m.feedsList.NewStatusMessage("Marked all feed items read")
+				}
+			}
+		case "a":
+			if m.selectedFeed != nil {
+				i, ok := m.itemsList.SelectedItem().(rssListItem)
+				if ok {
+					rssItem := i.item
+					rssItem.ToggleRead()
+					items := BuildItemsList(m.selectedFeed)
+					m.itemsList.SetItems(items)
+					m.itemsList.NewStatusMessage("Item read state toggled")
+				}
+			}
 		case "r":
 			if m.selectedFeed == nil {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
@@ -80,8 +103,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						if err != nil {
 							m.feedsList.NewStatusMessage("Error updating feed")
 						}
-						list := BuildFeedList(m.feedList.All)
-						m.feedsList.SetItems(list)
+						all := BuildFeedList(m.feedList.All)
+						m.feedsList.SetItems(all)
 						m.feedsList.NewStatusMessage("Feed updated")
 					}(m)
 				}
@@ -93,9 +116,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if err != nil {
 					m.feedsList.NewStatusMessage("Error updating feeds")
 				}
-				list := BuildFeedList(m.feedList.All)
-				m.feedsList.SetItems(list)
-				m.feedsList.NewStatusMessage("Updated all.")
+				all := BuildFeedList(m.feedList.All)
+				m.feedsList.SetItems(all)
+				m.feedsList.NewStatusMessage("Updated all feeds")
 			}(m)
 		case "enter":
 			if m.selectedFeed == nil {
@@ -121,6 +144,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		case "b":
+			all := BuildFeedList(m.feedList.All)
+			m.feedsList.SetItems(all)
 			m.selectedFeed = nil
 		case "o":
 			if m.selectedFeed == nil {
