@@ -5,6 +5,7 @@
 - [ ] "Latest" should be displayed in feed item description when present
 - [ ] "r" should refresh a single feed
 - [ ] Unread items should have different color
+- [ ] Feeds should load async on UpdateAll()
 - [ ] Toggle read state on item open
 - [ ] "a" should toggle read state manually
 - [ ] "A" should mark feed as read
@@ -13,14 +14,14 @@
 - [ ] State should be stored in JSON
 - [ ] "o" should not trigger feed open when filtering
 
-## Refactor
-- [ ] Make field test names descriptive
-- [ ] Table test field names
-- [ ] Test unloadedFeed
-
 ## Future
 - [ ] Opening feed items should work on all operating systems with default browser
 
 ## Maybe
 - [ ] "q" should not quit when in items view, but should go back to feeds view
 - [ ] "h" and "l" should open and close feeds
+
+## Done
+- [x] Make field test names descriptive
+- [x] Table test field names
+- [x] Test unloadedFeed

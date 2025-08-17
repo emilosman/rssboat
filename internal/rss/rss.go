@@ -13,6 +13,7 @@ import (
 
 var ErrFeedHasNoUrl = errors.New("Feed has no URL")
 var ErrNoFeedsInList = errors.New("No feeds in list")
+var MsgFeedNotLoaded = "Feed not loaded yet. Press shift+r"
 
 type Feed struct {
 	*gofeed.Feed
@@ -154,7 +155,7 @@ func (f *Feed) GetField(field string) string {
 		case f.Feed != nil:
 			result = f.Feed.Description
 		default:
-			result = ""
+			result = MsgFeedNotLoaded
 		}
 	}
 	return result

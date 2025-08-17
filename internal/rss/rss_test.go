@@ -74,38 +74,55 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Test field", func(t *testing.T) {
-		field := "Url"
-		want := feed.Url
-		got := feed.GetField(field)
-		if got != want {
-			t.Error("Should return correct field")
+	t.Run("Test feed fields", func(t *testing.T) {
+		fieldsTest := []struct {
+			field string
+			want  string
+		}{
+			{"Url", feed.Url},
+			{"Category", feed.Category},
+		}
+		for _, tt := range fieldsTest {
+			got := feed.GetField(tt.field)
+			if got != tt.want {
+				t.Error("Should return correct field")
+			}
 		}
 	})
 
-	t.Run("Test latest field", func(t *testing.T) {
+	t.Run("Should get feed description when feed does not have items", func(t *testing.T) {
 		field := "Latest"
 		want := "Feed description"
 		got := feedWithoutItems.GetField(field)
 		if got != want {
-			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
+			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
 	})
 
-	t.Run("Test lastest field", func(t *testing.T) {
+	t.Run("Should get latest item title when items present", func(t *testing.T) {
 		field := "Latest"
 		want := "Latest item title"
 		got := feed.GetField(field)
 		if got != want {
-			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
+			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
 	})
 
-	t.Run("Test lastest field", func(t *testing.T) {
+	t.Run("Should get error message if present", func(t *testing.T) {
 		field := "Latest"
 		want := "Error happened"
 		feed.Error = want
 		got := feed.GetField(field)
+		if got != want {
+			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
+		}
+	})
+
+	t.Run("Should get message when feed not loaded yet", func(t *testing.T) {
+		field := "Latest"
+		want := MsgFeedNotLoaded
+		feed.Error = want
+		got := unloadedFeed.GetField(field)
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
 		}
