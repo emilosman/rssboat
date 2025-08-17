@@ -8,6 +8,7 @@
 - [ ] Sort feeds
 - [ ] Sort feed items by date
 - [ ] Feed items without "Link" should open "Url"
+- [ ] UpdateAll() called multiple times should update the list
 - [ ] Unread items should have different color
 - [ ] Feeds should load async on UpdateAll()
 - [ ] Should send update command after go func finishes

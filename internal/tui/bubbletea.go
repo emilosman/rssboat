@@ -66,8 +66,6 @@ func (m *model) Init() tea.Cmd {
 }
 
 func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	m.feedsList.NewStatusMessage("")
-	m.itemsList.NewStatusMessage("")
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
