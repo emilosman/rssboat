@@ -2,6 +2,7 @@
 - RSS reader inspired by newsboat
 
 ## Todo
+- [ ] Unit test tui funcs
 - [ ] "a" should toggle item read state manually
 - [ ] Toggle read state on item open
 - [ ] "C" should mark entire feed list read
@@ -16,6 +17,7 @@
 - [ ] feeds.yaml should not be relative path
 - [ ] State should be stored in JSON
 - [ ] "o" should not trigger feed open when filtering
+- [ ] Unset filter state on back navigation
 
 ## Refactor
 - [ ] Refactor list updates into helper func

@@ -121,7 +121,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.feedsList.NewStatusMessage("Updated all feeds")
 			}(m)
 		case "enter":
-			if m.selectedFeed == nil {
+			if m.selectedFeed == nil && m.feedsList.FilterState().String() != "filtering" {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
 					if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
 						m.selectedFeed = i.rssFeed
@@ -131,24 +131,24 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					}
 				}
 			} else {
-				i, ok := m.itemsList.SelectedItem().(rssListItem)
-				if ok {
-					rssItem := i.item
-					if rssItem.Item != nil {
-						err := openInBrowser(rssItem.Item.Link)
-						if err != nil {
-							errorMessage := fmt.Sprintf("Error opening item, %q", err)
-							m.itemsList.NewStatusMessage(errorMessage)
+				if m.itemsList.FilterState().String() != "filtering" {
+					i, ok := m.itemsList.SelectedItem().(rssListItem)
+					if ok {
+						rssItem := i.item
+						if rssItem.Item != nil {
+							err := openInBrowser(rssItem.Item.Link)
+							if err != nil {
+								errorMessage := fmt.Sprintf("Error opening item, %q", err)
+								m.itemsList.NewStatusMessage(errorMessage)
+							}
 						}
 					}
 				}
 			}
 		case "b":
-			if m.selectedFeed != nil {
-				all := BuildFeedList(m.feedList.All)
-				m.feedsList.SetItems(all)
-				m.selectedFeed = nil
-			}
+			all := BuildFeedList(m.feedList.All)
+			m.feedsList.SetItems(all)
+			m.selectedFeed = nil
 		case "o":
 			if m.selectedFeed == nil {
 				i, ok := m.feedsList.SelectedItem().(feedItem)
