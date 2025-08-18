@@ -49,7 +49,7 @@ func initialModel() *model {
 	var feedList rss.FeedList
 	feedList.Add(feeds...)
 
-	all := BuildFeedList(feedList.All)
+	all := buildFeedList(feedList.All)
 
 	m := model{
 		feedList:  feedList,
@@ -76,7 +76,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
 					f := i.rssFeed
 					f.MarkAllItemsRead()
-					all := BuildFeedList(m.feedList.All)
+					all := buildFeedList(m.feedList.All)
 					m.feedsList.SetItems(all)
 					m.feedsList.NewStatusMessage("Marked all feed items read")
 				}
@@ -87,7 +87,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if ok {
 					rssItem := i.item
 					rssItem.ToggleRead()
-					items := BuildItemsList(m.selectedFeed)
+					items := buildItemsList(m.selectedFeed)
 					m.itemsList.SetItems(items)
 					m.itemsList.NewStatusMessage("Item read state toggled")
 				}
@@ -103,7 +103,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						if err != nil {
 							m.feedsList.NewStatusMessage("Error updating feed")
 						}
-						all := BuildFeedList(m.feedList.All)
+						all := buildFeedList(m.feedList.All)
 						m.feedsList.SetItems(all)
 						m.feedsList.NewStatusMessage("Feed updated")
 					}(m)
@@ -116,7 +116,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if err != nil {
 					m.feedsList.NewStatusMessage("Error updating feeds")
 				}
-				all := BuildFeedList(m.feedList.All)
+				all := buildFeedList(m.feedList.All)
 				m.feedsList.SetItems(all)
 				m.feedsList.NewStatusMessage("Updated all feeds")
 			}(m)
@@ -125,7 +125,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
 					if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
 						m.selectedFeed = i.rssFeed
-						items := BuildItemsList(m.selectedFeed)
+						items := buildItemsList(m.selectedFeed)
 						m.itemsList.Title = i.title
 						m.itemsList.SetItems(items)
 					}
@@ -146,7 +146,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		case "b":
-			all := BuildFeedList(m.feedList.All)
+			all := buildFeedList(m.feedList.All)
 			m.feedsList.SetItems(all)
 			m.selectedFeed = nil
 		case "o":
@@ -177,7 +177,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		case "q", "esc":
 			if m.selectedFeed != nil {
-				all := BuildFeedList(m.feedList.All)
+				all := buildFeedList(m.feedList.All)
 				m.feedsList.SetItems(all)
 				m.selectedFeed = nil
 			} else {
@@ -208,7 +208,7 @@ func (m *model) View() string {
 	return docStyle.Render(m.feedsList.View())
 }
 
-func BuildFeedList(feeds []*rss.RssFeed) []list.Item {
+func buildFeedList(feeds []*rss.RssFeed) []list.Item {
 	var listItems []list.Item
 	for _, feed := range feeds {
 		title := feed.GetField("Title")
@@ -222,10 +222,10 @@ func BuildFeedList(feeds []*rss.RssFeed) []list.Item {
 	return listItems
 }
 
-func BuildItemsList(feed *rss.RssFeed) []list.Item {
+func buildItemsList(feed *rss.RssFeed) []list.Item {
 	var listItems []list.Item
 	for _, rssItem := range feed.RssItems {
-		title := rssItem.Item.Title
+		title := rssItem.GetField("Title")
 		description := rssItem.Item.Description
 		listItems = append(listItems, rssListItem{
 			title: title,

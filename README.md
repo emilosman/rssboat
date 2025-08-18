@@ -2,13 +2,13 @@
 - RSS reader inspired by newsboat
 
 ## Todo
+- [ ] Fix item pointers and state persistance
 - [ ] Unit test tui funcs
-- [ ] "a" should toggle item read state manually
+- [ ] Timeout network request 10s
 - [ ] Toggle read state on item open
 - [ ] "C" should mark entire feed list read
 - [ ] Sort feeds
 - [ ] Sort feed items by date
-- [ ] Feed items without "Link" should open "Url"
 - [ ] UpdateAll() called multiple times should update the list
 - [ ] Unread items should have different color
 - [ ] Feeds should load async on UpdateAll()
@@ -33,6 +33,7 @@
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] "a" should toggle item read state manually
 - [x] "q" quit disabled
 - [x] "A" should mark feed as read
 - [x] "r" should refresh a single feed
