@@ -18,6 +18,8 @@
 - [ ] State should be stored in JSON
 - [ ] "o" should not trigger feed open when filtering
 - [ ] Unset filter state on back navigation
+- [ ] AdditionalShortHelpKeys() extend
+- [ ] AdditionalFullHelpKeys() extend
 
 ## Refactor
 - [ ] Refactor list updates into helper func
