@@ -1,6 +1,7 @@
 package rss
 
 import (
+	"bytes"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -47,9 +48,36 @@ var (
 		Url:      "example.com",
 		Category: "Fun",
 	}
+
+	feedList = FeedList{
+		All: []*RssFeed{
+			&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems,
+		},
+	}
 )
 
 func TestFeed(t *testing.T) {
+	t.Run("Should marshal feed list to JSON", func(t *testing.T) {
+		_, err := feedList.ToJson()
+		if err != nil {
+			t.Errorf("Error marshaling feed list to JSON: %q", err)
+		}
+	})
+
+	t.Run("Should write JSON to file", func(t *testing.T) {
+		var buf bytes.Buffer
+
+		err := feedList.Save(&buf)
+		if err != nil {
+			t.Fatalf("Unexpected error: %q", err)
+		}
+
+		got := buf.String()
+		if !bytes.Contains([]byte(got), []byte("Latest item title")) {
+			t.Errorf("JSON output does not contain expected feeds: %s", got)
+		}
+	})
+
 	t.Run("Get url instead of title when title not set", func(t *testing.T) {
 		columnName := "Title"
 		rssFeed.Feed.Title = ""

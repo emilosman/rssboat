@@ -1,6 +1,7 @@
 package rss
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -95,10 +96,7 @@ func CreateFeedsFromFS(filesystem fs.FS) ([]*RssFeed, error) {
 	}
 	defer file.Close()
 
-	yamlData, err := io.ReadAll(file)
-	if err != nil {
-		return nil, err
-	}
+	yamlData, _ := io.ReadAll(file)
 
 	var raw map[string][]string
 	if err := yaml.Unmarshal(yamlData, &raw); err != nil {
@@ -184,4 +182,21 @@ func (f *RssFeed) GetField(field string) string {
 	default:
 		return ""
 	}
+}
+
+func (fl *FeedList) ToJson() ([]byte, error) {
+	return json.MarshalIndent(fl, "", " ")
+}
+
+/*
+Save to file
+
+f, _ := os.Create("data.json")
+defer f.Close()
+feedList.Save(f)
+*/
+func (fl *FeedList) Save(w io.Writer) error {
+	data, err := fl.ToJson()
+	_, err = w.Write(data)
+	return err
 }
