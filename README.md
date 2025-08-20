@@ -3,6 +3,7 @@
 
 ## Todo
 - [ ] Save/restore on app open
+- [ ] Update JSON items via GUID
 - [ ] Fix item pointers and state persistance
 - [ ] Unit test tui funcs
 - [ ] Timeout network request 10s
