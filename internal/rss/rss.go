@@ -200,3 +200,23 @@ func (fl *FeedList) Save(w io.Writer) error {
 	_, err = w.Write(data)
 	return err
 }
+
+/*
+Restore from file
+
+f, _ := os.Open("data.json")
+defer f.Close()
+feedList, err := Restore(f)
+
+	if err != nil {
+	    log.Fatalf("failed to restore feeds: %v", err)
+	}
+*/
+func Restore(r io.Reader) (*FeedList, error) {
+	var fl FeedList
+	dec := json.NewDecoder(r)
+	if err := dec.Decode(&fl); err != nil {
+		return nil, err
+	}
+	return &fl, nil
+}

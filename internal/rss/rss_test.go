@@ -78,6 +78,29 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Should restore feeds from JSON file", func(t *testing.T) {
+		var buf bytes.Buffer
+
+		err := feedList.Save(&buf)
+		if err != nil {
+			t.Fatalf("Unexpected error: %q", err)
+		}
+
+		got, err := Restore(&buf)
+		if err != nil {
+			t.Fatalf("Unexpected error restoring: %q", err)
+		}
+
+		// Check round-trip integrity
+		if len(got.All) != len(feedList.All) {
+			t.Errorf("Expected %d feeds, got %d", len(feedList.All), len(got.All))
+		}
+
+		if got.All[0].Feed.Title != feedList.All[0].Feed.Title {
+			t.Errorf("Expected first feed title %q, got %q", feedList.All[0].Feed.Title, got.All[0].Feed.Title)
+		}
+	})
+
 	t.Run("Get url instead of title when title not set", func(t *testing.T) {
 		columnName := "Title"
 		rssFeed.Feed.Title = ""
