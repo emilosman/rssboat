@@ -2,6 +2,7 @@
 - RSS reader inspired by newsboat
 
 ## Todo
+- [ ] Save/restore on app open
 - [ ] Fix item pointers and state persistance
 - [ ] Unit test tui funcs
 - [ ] Timeout network request 10s
@@ -15,7 +16,6 @@
 - [ ] Should send update command after go func finishes
 - [ ] Feed items should have a view that displays content
 - [ ] feeds.yaml should not be relative path
-- [ ] State should be stored in JSON
 - [ ] "o" should not trigger feed open when filtering
 - [ ] Unset filter state on back navigation
 - [ ] AdditionalShortHelpKeys() extend
@@ -35,6 +35,7 @@
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] State should be stored in JSON
 - [x] "a" should toggle item read state manually
 - [x] "q" quit disabled
 - [x] "A" should mark feed as read
