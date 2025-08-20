@@ -12,7 +12,11 @@ import (
 	"github.com/emilosman/rssboat/internal/rss"
 )
 
-var docStyle = lipgloss.NewStyle().Margin(1, 2)
+var (
+	MsgUpdatingAllFeeds = "Updating all feeds..."
+	MsgAllFeedsUpdated  = "All feeds updated."
+	docStyle            = lipgloss.NewStyle().Margin(1, 2)
+)
 
 type feedItem struct {
 	title, desc string
@@ -127,7 +131,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		case "R":
-			m.feedsList.NewStatusMessage("Updating feeds...")
+			m.feedsList.NewStatusMessage(MsgUpdatingAllFeeds)
+			m.itemsList.NewStatusMessage(MsgUpdatingAllFeeds)
 			go func(m *model) {
 				err := m.feedList.UpdateAll()
 				if err != nil {
@@ -135,7 +140,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 				all := buildFeedList(m.feedList.All)
 				m.feedsList.SetItems(all)
-				m.feedsList.NewStatusMessage("Updated all feeds")
+				m.feedsList.NewStatusMessage(MsgAllFeedsUpdated)
+				m.itemsList.NewStatusMessage(MsgAllFeedsUpdated)
 				f, _ := os.Create("./data.json")
 				defer f.Close()
 				m.feedList.Save(f)

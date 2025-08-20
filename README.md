@@ -7,6 +7,7 @@
 
 ## Todo
 - [ ] Update JSON items via GUID
+- [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
 - [ ] "C" should mark entire feed list read
@@ -31,6 +32,7 @@
 ## Future
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 - [ ] Opening feed items should work on all operating systems with default browser
+- [ ] Public repo...
 
 ## Maybe
 - [ ] Tabs for feed categories
