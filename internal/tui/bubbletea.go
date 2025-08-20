@@ -40,14 +40,30 @@ type model struct {
 }
 
 func initialModel() *model {
-	filesystem := os.DirFS(".")
-	feeds, err := rss.CreateFeedsFromFS(filesystem)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	var feedList rss.FeedList
-	feedList.Add(feeds...)
+	var initialStatusMsg string
+	f, err := os.Open("./data.json")
+	if err != nil {
+		fmt.Println("Error opening data file:", err)
+		f.Close()
+		filesystem := os.DirFS(".")
+
+		feeds, err := rss.CreateFeedsFromFS(filesystem)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		feedList.Add(feeds...)
+		initialStatusMsg = "Feeds loaded from YAML file"
+	} else {
+		defer f.Close()
+
+		feedList, err = rss.Restore(f)
+		if err != nil {
+			log.Fatalf("failed to restore feeds: %v", err)
+		}
+		initialStatusMsg = "Feeds restored from JSON file"
+	}
 
 	all := buildFeedList(feedList.All)
 
@@ -59,6 +75,7 @@ func initialModel() *model {
 	m.feedsList.DisableQuitKeybindings()
 	m.itemsList.DisableQuitKeybindings()
 	m.feedsList.Title = "rssboat"
+	m.feedsList.NewStatusMessage(initialStatusMsg)
 
 	return &m
 }
@@ -119,6 +136,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				all := buildFeedList(m.feedList.All)
 				m.feedsList.SetItems(all)
 				m.feedsList.NewStatusMessage("Updated all feeds")
+				f, _ := os.Create("./data.json")
+				defer f.Close()
+				m.feedList.Save(f)
 			}(m)
 		case "enter":
 			if m.selectedFeed == nil && m.feedsList.FilterState().String() != "filtering" {

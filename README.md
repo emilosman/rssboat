@@ -1,13 +1,14 @@
 # rssboat
 - RSS reader inspired by newsboat
 
-## Todo
-- [ ] Save/restore on app open
-- [ ] Update JSON items via GUID
+## MVP
 - [ ] Fix item pointers and state persistance
-- [ ] Unit test tui funcs
-- [ ] Timeout network request 10s
 - [ ] Toggle read state on item open
+
+## Todo
+- [ ] Update JSON items via GUID
+- [ ] Unit test tui funcs (BuildFeedList...)
+- [ ] Timeout network request 10s
 - [ ] "C" should mark entire feed list read
 - [ ] Sort feeds
 - [ ] Sort feed items by date
@@ -28,14 +29,16 @@
 - [ ] Refactor feed/item open error messages and funcs
 
 ## Future
+- [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 - [ ] Opening feed items should work on all operating systems with default browser
 
 ## Maybe
 - [ ] Tabs for feed categories
-- [ ] "q" should not quit when in items view, but should go back to feeds view
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] Save/restore on app open
+- [x] "q" should not quit when in items view, but should go back to feeds view
 - [x] State should be stored in JSON
 - [x] "a" should toggle item read state manually
 - [x] "q" quit disabled

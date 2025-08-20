@@ -185,7 +185,7 @@ func (f *RssFeed) GetField(field string) string {
 }
 
 func (fl *FeedList) ToJson() ([]byte, error) {
-	return json.MarshalIndent(fl, "", " ")
+	return json.Marshal(fl)
 }
 
 /*
@@ -209,14 +209,14 @@ defer f.Close()
 feedList, err := Restore(f)
 
 	if err != nil {
-	    log.Fatalf("failed to restore feeds: %v", err)
+			log.Fatalf("failed to restore feeds: %v", err)
 	}
 */
-func Restore(r io.Reader) (*FeedList, error) {
+func Restore(r io.Reader) (FeedList, error) {
 	var fl FeedList
 	dec := json.NewDecoder(r)
 	if err := dec.Decode(&fl); err != nil {
-		return nil, err
+		return fl, err
 	}
-	return &fl, nil
+	return fl, nil
 }
