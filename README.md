@@ -2,15 +2,13 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Fix item pointers and state persistance
-- [ ] Toggle read state on item open
 
 ## Todo
+- [ ] "C" should mark entire feed list read
 - [ ] Update JSON items via GUID
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
-- [ ] "C" should mark entire feed list read
 - [ ] Sort feeds
 - [ ] Sort feed items by date
 - [ ] UpdateAll() called multiple times should update the list
@@ -39,6 +37,8 @@
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] Fix item pointers and state persistance
+- [x] Toggle read state on item open
 - [x] Save/restore on app open
 - [x] "q" should not quit when in items view, but should go back to feeds view
 - [x] State should be stored in JSON

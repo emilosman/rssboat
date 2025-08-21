@@ -106,8 +106,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.selectedFeed != nil {
 				i, ok := m.itemsList.SelectedItem().(rssListItem)
 				if ok {
-					rssItem := i.item
-					rssItem.ToggleRead()
+					i.item.ToggleRead()
 					items := buildItemsList(m.selectedFeed)
 					m.itemsList.SetItems(items)
 					m.itemsList.NewStatusMessage("Item read state toggled")
@@ -127,6 +126,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						all := buildFeedList(m.feedList.All)
 						m.feedsList.SetItems(all)
 						m.feedsList.NewStatusMessage("Feed updated")
+						m.SaveState()
 					}(m)
 				}
 			}
@@ -142,9 +142,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.feedsList.SetItems(all)
 				m.feedsList.NewStatusMessage(MsgAllFeedsUpdated)
 				m.itemsList.NewStatusMessage(MsgAllFeedsUpdated)
-				f, _ := os.Create("./data.json")
-				defer f.Close()
-				m.feedList.Save(f)
+				m.SaveState()
 			}(m)
 		case "enter":
 			if m.selectedFeed == nil && m.feedsList.FilterState().String() != "filtering" {
@@ -167,6 +165,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 								errorMessage := fmt.Sprintf("Error opening item, %q", err)
 								m.itemsList.NewStatusMessage(errorMessage)
 							}
+							rssItem.ToggleRead()
+							items := buildItemsList(m.selectedFeed)
+							m.itemsList.SetItems(items)
 						}
 					}
 				}
@@ -198,6 +199,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 							errorMessage := fmt.Sprintf("Error opening item, %q", err)
 							m.itemsList.NewStatusMessage(errorMessage)
 						}
+						rssItem.ToggleRead()
+						items := buildItemsList(m.selectedFeed)
+						m.itemsList.SetItems(items)
 					}
 				}
 			}
@@ -207,9 +211,11 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.feedsList.SetItems(all)
 				m.selectedFeed = nil
 			} else {
+				m.SaveState()
 				return m, tea.Quit
 			}
 		case "ctrl+c":
+			m.SaveState()
 			return m, tea.Quit
 		}
 	case tea.WindowSizeMsg:
@@ -225,6 +231,12 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.feedsList, cmd = m.feedsList.Update(msg)
 	}
 	return m, cmd
+}
+
+func (m *model) SaveState() error {
+	f, _ := os.Create("./data.json")
+	defer f.Close()
+	return m.feedList.Save(f)
 }
 
 func (m *model) View() string {
@@ -249,14 +261,16 @@ func buildFeedList(feeds []*rss.RssFeed) []list.Item {
 }
 
 func buildItemsList(feed *rss.RssFeed) []list.Item {
-	var listItems []list.Item
-	for _, rssItem := range feed.RssItems {
-		title := rssItem.GetField("Title")
-		description := rssItem.Item.Description
+	listItems := make([]list.Item, 0, len(feed.RssItems))
+	for idx := range feed.RssItems {
+		ri := &feed.RssItems[idx]
+		title := ri.GetField("Title")
+		description := ri.Item.Description
+
 		listItems = append(listItems, rssListItem{
 			title: title,
 			desc:  description,
-			item:  &rssItem,
+			item:  ri,
 		})
 	}
 	return listItems
