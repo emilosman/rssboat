@@ -2,16 +2,15 @@
 - RSS reader inspired by newsboat
 
 ## MVP
+- [ ] Update JSON items via GUID
+- [ ] UpdateAll() should preserve read state
 
 ## Todo
-- [ ] "C" should mark entire feed list read
-- [ ] Update JSON items via GUID
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
 - [ ] Sort feeds
 - [ ] Sort feed items by date
-- [ ] UpdateAll() called multiple times should update the list
 - [ ] Unread items should have different color
 - [ ] Feeds should load async on UpdateAll()
 - [ ] Should send update command after go func finishes
@@ -23,6 +22,9 @@
 - [ ] AdditionalFullHelpKeys() extend
 
 ## Refactor
+- [ ] DRY cleanup
+- [ ] Refactor use of pointers
+- [ ] Alphabetize key commands in Update func
 - [ ] Refactor list updates into helper func
 - [ ] Refactor view selection m.selectedFeed
 - [ ] Refactor feed/item open error messages and funcs
@@ -33,10 +35,12 @@
 - [ ] Public repo...
 
 ## Maybe
+- [ ] Confirmation Y/N on major commands
 - [ ] Tabs for feed categories
 - [ ] "h" and "l" should open and close feeds
 
 ## Done
+- [x] "C" should mark entire feed list read
 - [x] Fix item pointers and state persistance
 - [x] Toggle read state on item open
 - [x] Save/restore on app open

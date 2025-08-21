@@ -144,6 +144,12 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.itemsList.NewStatusMessage(MsgAllFeedsUpdated)
 				m.SaveState()
 			}(m)
+		case "C":
+			m.feedList.MarkAllFeedsRead()
+			all := buildFeedList(m.feedList.All)
+			m.feedsList.SetItems(all)
+			m.feedsList.NewStatusMessage("All feeds marked read")
+			m.SaveState()
 		case "enter":
 			if m.selectedFeed == nil && m.feedsList.FilterState().String() != "filtering" {
 				if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
