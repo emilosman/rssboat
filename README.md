@@ -38,6 +38,7 @@
 - [ ] Confirmation Y/N on major commands
 - [ ] Tabs for feed categories
 - [ ] "h" and "l" should open and close feeds
+- [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
 - [x] "C" should mark entire feed list read
