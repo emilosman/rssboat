@@ -20,6 +20,7 @@
 - [ ] Unset filter state on back navigation
 - [ ] AdditionalShortHelpKeys() extend
 - [ ] AdditionalFullHelpKeys() extend
+- [ ] Reset selected item index when opening feed, remember it on the feedlist
 
 ## Refactor
 - [ ] DRY cleanup

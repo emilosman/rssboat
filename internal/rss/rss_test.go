@@ -91,13 +91,19 @@ func TestFeed(t *testing.T) {
 			t.Fatalf("Unexpected error restoring: %q", err)
 		}
 
-		// Check round-trip integrity
 		if len(got.All) != len(feedList.All) {
 			t.Errorf("Expected %d feeds, got %d", len(feedList.All), len(got.All))
 		}
 
 		if got.All[0].Feed.Title != feedList.All[0].Feed.Title {
 			t.Errorf("Expected first feed title %q, got %q", feedList.All[0].Feed.Title, got.All[0].Feed.Title)
+		}
+	})
+
+	t.Run("Should handle invalid JSON file", func(t *testing.T) {
+		_, err := Restore(invalidJson)
+		if err == nil {
+			t.Error("Should handle invalid JSON file")
 		}
 	})
 
@@ -466,7 +472,12 @@ func assertError(t testing.TB, got error, want error) {
 	}
 }
 
-var yamlData = []byte(`
+var (
+	invalidJson = bytes.NewBufferString(`
+	{invalid
+`)
+
+	yamlData = []byte(`
 golang:
   - https://www.reddit.com/r/golang.rss
   - https://cprss.s3.amazonaws.com/golangweekly.com.xml
@@ -479,7 +490,7 @@ jobs:
   - https://golang.cafe/rss
 `)
 
-var rssData = []byte(`
+	rssData = []byte(`
 <?xml version="1.0"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
    <channel>
@@ -533,3 +544,4 @@ var rssData = []byte(`
    </channel>
 </rss>
 `)
+)
