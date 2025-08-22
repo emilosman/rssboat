@@ -11,7 +11,6 @@ type keyHandler func(*model) tea.Cmd
 var (
 	feedKeyHandlers = map[string]keyHandler{
 		"A":      handleMarkFeedRead,
-		"b":      handleBack,
 		"C":      handleMarkAllFeedsRead,
 		"o":      handleOpenFeed,
 		"r":      handleUpdateFeed,
@@ -25,6 +24,7 @@ var (
 	itemKeyHandlers = map[string]keyHandler{
 		"a":     handleToggleRead,
 		"o":     handleOpenItem,
+		"b":     handleBack,
 		"q":     handleBack,
 		"r":     handleUpdateFeed,
 		"R":     handleUpdateAllFeeds,
