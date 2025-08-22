@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"runtime"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -41,7 +42,18 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 }
 
 func openInBrowser(url string) error {
-	cmd := exec.Command("open", url)
+	var browserCmd = map[string][]string{
+		"darwin":  {"open"},
+		"linux":   {"xdg-open"},
+		"windows": {"rundll32", "url.dll,FileProtocolHandler"},
+	}
+
+	openCmd, ok := browserCmd[runtime.GOOS]
+	if !ok {
+		return fmt.Errorf("Unsuported platform: %s", runtime.GOOS)
+	}
+
+	cmd := exec.Command(openCmd[0], url)
 	if err := cmd.Run(); err != nil {
 		return err
 	}

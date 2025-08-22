@@ -27,12 +27,10 @@
 - [ ] DRY cleanup
 - [ ] Refactor use of pointers
 - [ ] Refactor list updates into helper func
-- [ ] Refactor view selection m.selectedFeed
 - [ ] Refactor feed/item open error messages and funcs
 
 ## Future
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
-- [ ] Opening feed items should work on all operating systems with default browser
 - [ ] Public repo...
 
 ## Maybe
@@ -42,6 +40,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Opening feed items should work on all operating systems with default browser
+- [x] Refactor view selection m.selectedFeed
 - [x] Alphabetize key commands in Update func
 - [x] "C" should mark entire feed list read
 - [x] Fix item pointers and state persistance
