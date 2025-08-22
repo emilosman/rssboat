@@ -4,18 +4,15 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/emilosman/rssboat/internal/rss"
 )
 
 var (
 	MsgUpdatingAllFeeds = "Updating all feeds..."
 	MsgAllFeedsUpdated  = "All feeds updated."
-	docStyle            = lipgloss.NewStyle().Margin(1, 2)
 )
 
 type feedItem struct {
@@ -49,7 +46,6 @@ func initialModel() *model {
 	f, err := os.Open("./data.json")
 	if err != nil {
 		fmt.Println("Error opening data file:", err)
-		f.Close()
 		filesystem := os.DirFS(".")
 
 		feeds, err := rss.CreateFeedsFromFS(filesystem)
@@ -237,62 +233,4 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.feedsList, cmd = m.feedsList.Update(msg)
 	}
 	return m, cmd
-}
-
-func (m *model) SaveState() error {
-	f, _ := os.Create("./data.json")
-	defer f.Close()
-	return m.feedList.Save(f)
-}
-
-func (m *model) View() string {
-	if m.selectedFeed != nil {
-		return docStyle.Render(m.itemsList.View())
-	}
-	return docStyle.Render(m.feedsList.View())
-}
-
-func buildFeedList(feeds []*rss.RssFeed) []list.Item {
-	var listItems []list.Item
-	for _, feed := range feeds {
-		title := feed.GetField("Title")
-		description := feed.GetField("Latest")
-		listItems = append(listItems, feedItem{
-			title:   title,
-			desc:    description,
-			rssFeed: feed,
-		})
-	}
-	return listItems
-}
-
-func buildItemsList(feed *rss.RssFeed) []list.Item {
-	listItems := make([]list.Item, 0, len(feed.RssItems))
-	for idx := range feed.RssItems {
-		ri := &feed.RssItems[idx]
-		title := ri.GetField("Title")
-		description := ri.Item.Description
-
-		listItems = append(listItems, rssListItem{
-			title: title,
-			desc:  description,
-			item:  ri,
-		})
-	}
-	return listItems
-}
-
-func openInBrowser(url string) error {
-	cmd := exec.Command("open", url)
-	if err := cmd.Run(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func BuildApp() {
-	if _, err := tea.NewProgram(initialModel()).Run(); err != nil {
-		fmt.Println("Error running program:", err)
-		os.Exit(1)
-	}
 }
