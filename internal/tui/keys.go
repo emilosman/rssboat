@@ -8,42 +8,48 @@ import (
 
 type keyHandler func(*model) tea.Cmd
 
-var keyHandlers = map[string]keyHandler{
-	"a":      handleToggleItemRead,
-	"A":      handleMarkAllFeedRead,
-	"b":      handleBack,
-	"C":      handleMarkAllFeedsRead,
-	"o":      handleOpen,
-	"r":      handleUpdateFeed,
-	"R":      handleUpdateAllFeeds,
-	"q":      handleQuit,
-	"enter":  handleEnter,
-	"esc":    handleQuit,
-	"ctrl+c": handleInterrupt,
-}
+var (
+	feedKeyHandlers = map[string]keyHandler{
+		"A":      handleMarkAllFeedRead,
+		"b":      handleBack,
+		"C":      handleMarkAllFeedsRead,
+		"o":      handleOpenFeed,
+		"r":      handleUpdateFeed,
+		"R":      handleUpdateAllFeeds,
+		"q":      handleQuit,
+		"enter":  handleEnterFeed,
+		"esc":    handleQuit,
+		"ctrl+c": handleInterrupt,
+	}
 
-func handleToggleItemRead(m *model) tea.Cmd {
-	if m.selectedFeed != nil {
-		i, ok := m.itemsList.SelectedItem().(rssListItem)
-		if ok {
-			i.item.ToggleRead()
-			items := buildItemsList(m.selectedFeed)
-			m.itemsList.SetItems(items)
-			m.itemsList.NewStatusMessage("Item read state toggled")
-		}
+	itemKeyHandlers = map[string]keyHandler{
+		"a":     handleToggleRead,
+		"o":     handleOpenItem,
+		"q":     handleBack,
+		"r":     handleUpdateFeed,
+		"R":     handleUpdateAllFeeds,
+		"enter": handleEnterItem,
+	}
+)
+
+func handleToggleRead(m *model) tea.Cmd {
+	i, ok := m.itemsList.SelectedItem().(rssListItem)
+	if ok {
+		i.item.ToggleRead()
+		items := buildItemsList(m.selectedFeed)
+		m.itemsList.SetItems(items)
+		m.itemsList.NewStatusMessage("Item read state toggled")
 	}
 	return nil
 }
 
 func handleMarkAllFeedRead(m *model) tea.Cmd {
-	if m.selectedFeed == nil {
-		if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
-			f := i.rssFeed
-			f.MarkAllItemsRead()
-			all := buildFeedList(m.feedList.All)
-			m.feedsList.SetItems(all)
-			m.feedsList.NewStatusMessage("Marked all feed items read")
-		}
+	if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
+		f := i.rssFeed
+		f.MarkAllItemsRead()
+		all := buildFeedList(m.feedList.All)
+		m.feedsList.SetItems(all)
+		m.feedsList.NewStatusMessage("Marked all feed items read")
 	}
 	return nil
 }
@@ -64,55 +70,54 @@ func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	return nil
 }
 
-func handleOpen(m *model) tea.Cmd {
-	if m.selectedFeed == nil {
-		i, ok := m.feedsList.SelectedItem().(feedItem)
-		if ok {
-			rssFeed := i.rssFeed
-			if rssFeed.Feed != nil {
-				err := openInBrowser(rssFeed.Feed.Link)
-				if err != nil {
-					errorMessage := fmt.Sprintf("Error opening item, %q", err)
-					m.itemsList.NewStatusMessage(errorMessage)
-				}
-			}
-		}
-	} else {
-		i, ok := m.itemsList.SelectedItem().(rssListItem)
-		if ok {
-			rssItem := i.item
-			if rssItem.Item != nil {
-				err := openInBrowser(rssItem.Item.Link)
-				if err != nil {
-					errorMessage := fmt.Sprintf("Error opening item, %q", err)
-					m.itemsList.NewStatusMessage(errorMessage)
-				}
-				rssItem.ToggleRead()
-				items := buildItemsList(m.selectedFeed)
-				m.itemsList.SetItems(items)
+func handleOpenFeed(m *model) tea.Cmd {
+	i, ok := m.feedsList.SelectedItem().(feedItem)
+	if ok {
+		rssFeed := i.rssFeed
+		if rssFeed.Feed != nil {
+			err := openInBrowser(rssFeed.Feed.Link)
+			if err != nil {
+				errorMessage := fmt.Sprintf("Error opening item, %q", err)
+				m.itemsList.NewStatusMessage(errorMessage)
 			}
 		}
 	}
 	return nil
 }
 
-func handleUpdateFeed(m *model) tea.Cmd {
-	if m.selectedFeed == nil {
-		if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
-			f := i.rssFeed
-			statusMsg := fmt.Sprintf("Updating feed %s", f.Url)
-			m.feedsList.NewStatusMessage(statusMsg)
-			go func(m *model) {
-				err := f.GetFeed()
-				if err != nil {
-					m.feedsList.NewStatusMessage("Error updating feed")
-				}
-				all := buildFeedList(m.feedList.All)
-				m.feedsList.SetItems(all)
-				m.feedsList.NewStatusMessage("Feed updated")
-				m.SaveState()
-			}(m)
+func handleOpenItem(m *model) tea.Cmd {
+	i, ok := m.itemsList.SelectedItem().(rssListItem)
+	if ok {
+		rssItem := i.item
+		if rssItem.Item != nil {
+			err := openInBrowser(rssItem.Item.Link)
+			if err != nil {
+				errorMessage := fmt.Sprintf("Error opening item, %q", err)
+				m.itemsList.NewStatusMessage(errorMessage)
+			}
+			rssItem.ToggleRead()
+			items := buildItemsList(m.selectedFeed)
+			m.itemsList.SetItems(items)
 		}
+	}
+	return nil
+}
+
+func handleUpdateFeed(m *model) tea.Cmd {
+	if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
+		f := i.rssFeed
+		statusMsg := fmt.Sprintf("Updating feed %s", f.Url)
+		m.feedsList.NewStatusMessage(statusMsg)
+		go func(m *model) {
+			err := f.GetFeed()
+			if err != nil {
+				m.feedsList.NewStatusMessage("Error updating feed")
+			}
+			all := buildFeedList(m.feedList.All)
+			m.feedsList.SetItems(all)
+			m.feedsList.NewStatusMessage("Feed updated")
+			m.SaveState()
+		}(m)
 	}
 	return nil
 }
@@ -135,18 +140,12 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 }
 
 func handleQuit(m *model) tea.Cmd {
-	if m.selectedFeed != nil {
-		all := buildFeedList(m.feedList.All)
-		m.feedsList.SetItems(all)
-		m.selectedFeed = nil
-	} else {
-		m.SaveState()
-	}
+	m.SaveState()
 	return tea.Quit
 }
 
-func handleEnter(m *model) tea.Cmd {
-	if m.selectedFeed == nil && m.feedsList.FilterState().String() != "filtering" {
+func handleEnterFeed(m *model) tea.Cmd {
+	if m.feedsList.FilterState().String() != "filtering" {
 		if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
 			if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
 				m.selectedFeed = i.rssFeed
@@ -155,21 +154,24 @@ func handleEnter(m *model) tea.Cmd {
 				m.itemsList.SetItems(items)
 			}
 		}
-	} else {
-		if m.itemsList.FilterState().String() != "filtering" {
-			i, ok := m.itemsList.SelectedItem().(rssListItem)
-			if ok {
-				rssItem := i.item
-				if rssItem.Item != nil {
-					err := openInBrowser(rssItem.Item.Link)
-					if err != nil {
-						errorMessage := fmt.Sprintf("Error opening item, %q", err)
-						m.itemsList.NewStatusMessage(errorMessage)
-					}
-					rssItem.ToggleRead()
-					items := buildItemsList(m.selectedFeed)
-					m.itemsList.SetItems(items)
+	}
+	return nil
+}
+
+func handleEnterItem(m *model) tea.Cmd {
+	if m.itemsList.FilterState().String() != "filtering" {
+		i, ok := m.itemsList.SelectedItem().(rssListItem)
+		if ok {
+			rssItem := i.item
+			if rssItem.Item != nil {
+				err := openInBrowser(rssItem.Item.Link)
+				if err != nil {
+					errorMessage := fmt.Sprintf("Error opening item, %q", err)
+					m.itemsList.NewStatusMessage(errorMessage)
 				}
+				rssItem.ToggleRead()
+				items := buildItemsList(m.selectedFeed)
+				m.itemsList.SetItems(items)
 			}
 		}
 	}

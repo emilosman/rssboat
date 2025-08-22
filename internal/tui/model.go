@@ -87,7 +87,14 @@ func (m *model) Init() tea.Cmd {
 func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		if handler, ok := keyHandlers[msg.String()]; ok {
+		var handlers map[string]keyHandler
+		if m.selectedFeed == nil {
+			handlers = feedKeyHandlers
+		} else {
+			handlers = itemKeyHandlers
+		}
+
+		if handler, ok := handlers[msg.String()]; ok {
 			cmd := handler(m)
 			return m, cmd
 		}
