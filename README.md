@@ -6,6 +6,7 @@
 - [ ] UpdateAll() should preserve read state
 
 ## Todo
+- [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
@@ -25,7 +26,6 @@
 ## Refactor
 - [ ] DRY cleanup
 - [ ] Refactor use of pointers
-- [ ] Alphabetize key commands in Update func
 - [ ] Refactor list updates into helper func
 - [ ] Refactor view selection m.selectedFeed
 - [ ] Refactor feed/item open error messages and funcs
@@ -42,6 +42,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Alphabetize key commands in Update func
 - [x] "C" should mark entire feed list read
 - [x] Fix item pointers and state persistance
 - [x] Toggle read state on item open
