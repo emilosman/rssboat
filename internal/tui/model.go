@@ -10,11 +10,6 @@ import (
 	"github.com/emilosman/rssboat/internal/rss"
 )
 
-var (
-	MsgUpdatingAllFeeds = "Updating all feeds..."
-	MsgAllFeedsUpdated  = "All feeds updated."
-)
-
 type feedItem struct {
 	title, desc string
 	rssFeed     *rss.RssFeed

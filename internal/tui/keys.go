@@ -10,7 +10,7 @@ type keyHandler func(*model) tea.Cmd
 
 var (
 	feedKeyHandlers = map[string]keyHandler{
-		"A":      handleMarkAllFeedRead,
+		"A":      handleMarkFeedRead,
 		"b":      handleBack,
 		"C":      handleMarkAllFeedsRead,
 		"o":      handleOpenFeed,
@@ -38,18 +38,18 @@ func handleToggleRead(m *model) tea.Cmd {
 		i.item.ToggleRead()
 		items := buildItemsList(m.selectedFeed)
 		m.itemsList.SetItems(items)
-		m.itemsList.NewStatusMessage("Item read state toggled")
+		m.itemsList.NewStatusMessage(MsgItemReadToggled)
 	}
 	return nil
 }
 
-func handleMarkAllFeedRead(m *model) tea.Cmd {
+func handleMarkFeedRead(m *model) tea.Cmd {
 	if i, ok := m.feedsList.SelectedItem().(feedItem); ok {
 		f := i.rssFeed
 		f.MarkAllItemsRead()
 		all := buildFeedList(m.feedList.All)
 		m.feedsList.SetItems(all)
-		m.feedsList.NewStatusMessage("Marked all feed items read")
+		m.feedsList.NewStatusMessage(MsgMarkFeedRead)
 	}
 	return nil
 }
@@ -65,7 +65,7 @@ func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	m.feedList.MarkAllFeedsRead()
 	all := buildFeedList(m.feedList.All)
 	m.feedsList.SetItems(all)
-	m.feedsList.NewStatusMessage("All feeds marked read")
+	m.feedsList.NewStatusMessage(MsgMarkAllFeedsRead)
 	m.SaveState()
 	return nil
 }
@@ -111,11 +111,11 @@ func handleUpdateFeed(m *model) tea.Cmd {
 		go func(m *model) {
 			err := f.GetFeed()
 			if err != nil {
-				m.feedsList.NewStatusMessage("Error updating feed")
+				m.feedsList.NewStatusMessage(ErrUpdatingFeed)
 			}
 			all := buildFeedList(m.feedList.All)
 			m.feedsList.SetItems(all)
-			m.feedsList.NewStatusMessage("Feed updated")
+			m.feedsList.NewStatusMessage(MsgFeedUpdated)
 			m.SaveState()
 		}(m)
 	}
@@ -128,7 +128,7 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 	go func(m *model) {
 		err := m.feedList.UpdateAll()
 		if err != nil {
-			m.feedsList.NewStatusMessage("Error updating feeds")
+			m.feedsList.NewStatusMessage(ErrUpdatingFeeds)
 		}
 		all := buildFeedList(m.feedList.All)
 		m.feedsList.SetItems(all)
