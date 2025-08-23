@@ -5,7 +5,6 @@
 - [ ] Sort feed items by date
 
 ## Todo
-- [ ] Disable key handlers when filtering
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
@@ -15,8 +14,6 @@
 - [ ] Should send update command after go func finishes
 - [ ] Feed items should have a view that displays content
 - [ ] feeds.yaml should not be relative path
-- [ ] "o" should not trigger feed open when filtering
-- [ ] Unset filter state on back navigation
 - [ ] AdditionalShortHelpKeys() extend
 - [ ] AdditionalFullHelpKeys() extend
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
@@ -39,6 +36,9 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] "o" should not trigger feed open when filtering
+- [x] Disable key handlers when filtering
+- [x] Unset filter state on back navigation
 - [x] Mark read instead of toggle on open
 - [x] Update JSON items via GUID
 - [x] UpdateAll() should preserve read state

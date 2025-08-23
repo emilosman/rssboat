@@ -83,10 +83,12 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler
-		if m.selectedFeed == nil {
-			handlers = feedKeyHandlers
-		} else {
-			handlers = itemKeyHandlers
+		if m.feedsList.FilterState().String() != "filtering" && m.itemsList.FilterState().String() != "filtering" {
+			if m.selectedFeed == nil {
+				handlers = feedKeyHandlers
+			} else {
+				handlers = itemKeyHandlers
+			}
 		}
 
 		if handler, ok := handlers[msg.String()]; ok {

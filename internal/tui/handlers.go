@@ -57,6 +57,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 func handleBack(m *model) tea.Cmd {
 	all := buildFeedList(m.feedList.All)
 	m.feedsList.SetItems(all)
+	m.feedsList.ResetFilter()
 	m.selectedFeed = nil
 	return nil
 }
