@@ -236,6 +236,16 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Mark item read", func(t *testing.T) {
+		var feedItem RssItem
+
+		feedItem.MarkRead()
+
+		if !feedItem.Read {
+			t.Error("Item should be read")
+		}
+	})
+
 	t.Run("Add feeds to feedList", func(t *testing.T) {
 		feeds := make([]*RssFeed, 3)
 		for i := range feeds {

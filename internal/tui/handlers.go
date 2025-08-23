@@ -95,7 +95,7 @@ func handleOpenItem(m *model) tea.Cmd {
 				errorMessage := fmt.Sprintf("Error opening item, %q", err)
 				m.itemsList.NewStatusMessage(errorMessage)
 			}
-			rssItem.ToggleRead()
+			rssItem.MarkRead()
 			items := buildItemsList(m.selectedFeed)
 			m.itemsList.SetItems(items)
 		}
@@ -169,7 +169,7 @@ func handleEnterItem(m *model) tea.Cmd {
 					errorMessage := fmt.Sprintf("Error opening item, %q", err)
 					m.itemsList.NewStatusMessage(errorMessage)
 				}
-				rssItem.ToggleRead()
+				rssItem.MarkRead()
 				items := buildItemsList(m.selectedFeed)
 				m.itemsList.SetItems(items)
 			}

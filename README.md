@@ -6,7 +6,6 @@
 
 ## Todo
 - [ ] Disable key handlers when filtering
-- [ ] Mark read instead of toggle on open
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
@@ -40,6 +39,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Mark read instead of toggle on open
 - [x] Update JSON items via GUID
 - [x] UpdateAll() should preserve read state
 - [x] Opening feed items should work on all operating systems with default browser

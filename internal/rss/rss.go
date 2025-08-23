@@ -38,6 +38,10 @@ func (i *RssItem) ToggleRead() {
 	i.Read = !i.Read
 }
 
+func (i *RssItem) MarkRead() {
+	i.Read = true
+}
+
 func (f *RssFeed) GetFeed() error {
 	if f.Url == "" {
 		return ErrFeedHasNoUrl
