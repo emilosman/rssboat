@@ -2,16 +2,15 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Update JSON items via GUID
-- [ ] UpdateAll() should preserve read state
+- [ ] Sort feed items by date
 
 ## Todo
+- [ ] Disable key handlers when filtering
+- [ ] Mark read instead of toggle on open
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
-- [ ] Sort feeds
-- [ ] Sort feed items by date
 - [ ] Unread items should have different color
 - [ ] Feeds should load async on UpdateAll()
 - [ ] Should send update command after go func finishes
@@ -41,6 +40,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Update JSON items via GUID
+- [x] UpdateAll() should preserve read state
 - [x] Opening feed items should work on all operating systems with default browser
 - [x] Refactor view selection m.selectedFeed
 - [x] Alphabetize key commands in Update func
