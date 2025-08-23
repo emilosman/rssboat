@@ -6,6 +6,7 @@
 - [ ] Refresh status messages fix
 
 ## Todo
+- [ ] Increase test coverage
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
