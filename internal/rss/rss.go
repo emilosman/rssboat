@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"sort"
 	"sync"
 
 	yaml "github.com/goccy/go-yaml"
@@ -47,40 +48,68 @@ func (f *RssFeed) GetFeed() error {
 		return ErrFeedHasNoUrl
 	}
 
-	fp := gofeed.NewParser()
-	parsedFeed, err := fp.ParseURL(f.Url)
+	parsedFeed, err := gofeed.NewParser().ParseURL(f.Url)
 	if err != nil {
 		f.Error = err.Error()
 		return err
 	}
 
 	f.Feed = parsedFeed
+	f.mergeItems(parsedFeed.Items)
+	f.SortByDate()
+	f.Error = ""
+	return nil
+}
 
-	existing := make(map[string]bool)
-	for _, item := range f.RssItems {
-		if item.Item.GUID != "" {
-			existing[item.Item.GUID] = true
-		} else if item.Item.Link != "" {
-			existing[item.Item.Link] = true
-		}
-	}
+func (f *RssFeed) mergeItems(items []*gofeed.Item) {
+	existing := f.existingKeys()
 
-	for _, item := range parsedFeed.Items {
+	for _, item := range items {
 		key := item.GUID
 		if key == "" {
 			key = item.Link
 		}
-		if !existing[key] {
-			f.RssItems = append(f.RssItems, RssItem{
-				Item: item,
-				Read: false,
-			})
-			existing[key] = true
+
+		if _, ok := existing[key]; ok {
+			continue
+		}
+
+		f.RssItems = append(f.RssItems, RssItem{
+			Item: item,
+			Read: false,
+		})
+		existing[key] = struct{}{}
+	}
+}
+
+func (f *RssFeed) existingKeys() map[string]struct{} {
+	existing := make(map[string]struct{}, len(f.RssItems))
+	for _, item := range f.RssItems {
+		if item.Item.GUID != "" {
+			existing[item.Item.GUID] = struct{}{}
+		} else if item.Item.Link != "" {
+			existing[item.Item.Link] = struct{}{}
 		}
 	}
+	return existing
+}
 
-	f.Error = ""
-	return nil
+func (f *RssFeed) SortByDate() {
+	sort.Slice(f.RssItems, func(i, j int) bool {
+		ti := f.RssItems[i].Item.PublishedParsed
+		tj := f.RssItems[j].Item.PublishedParsed
+
+		switch {
+		case ti == nil && tj == nil:
+			return false
+		case ti == nil:
+			return false
+		case tj == nil:
+			return true
+		default:
+			return ti.After(*tj)
+		}
+	})
 }
 
 func (l *FeedList) Add(feeds ...*RssFeed) {
