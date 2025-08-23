@@ -25,17 +25,18 @@
 
 ## Refactor
 - [ ] DRY cleanup
-- [ ] Refactor use of pointers
 - [ ] Refactor list updates into helper func
 - [ ] Refactor feed/item open error messages and funcs
+- [ ] Refactor use of pointers ?
 
 ## Future
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
-- [ ] Public repo...
+- [ ] Public repo
+- [ ] GH sponsors
 
 ## Maybe
 - [ ] Confirmation Y/N on major commands
-- [ ] Tabs for feed categories
+- [ ] Tabs for categories
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
