@@ -52,16 +52,30 @@ func (f *RssFeed) GetFeed() error {
 
 	f.Feed = parsedFeed
 
-	f.RssItems = make([]RssItem, len(parsedFeed.Items))
-	for i, item := range parsedFeed.Items {
-		f.RssItems[i] = RssItem{
-			Item: item,
-			Read: false,
+	existing := make(map[string]bool)
+	for _, item := range f.RssItems {
+		if item.Item.GUID != "" {
+			existing[item.Item.GUID] = true
+		} else if item.Item.Link != "" {
+			existing[item.Item.Link] = true
+		}
+	}
+
+	for _, item := range parsedFeed.Items {
+		key := item.GUID
+		if key == "" {
+			key = item.Link
+		}
+		if !existing[key] {
+			f.RssItems = append(f.RssItems, RssItem{
+				Item: item,
+				Read: false,
+			})
+			existing[key] = true
 		}
 	}
 
 	f.Error = ""
-
 	return nil
 }
 

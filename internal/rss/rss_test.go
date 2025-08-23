@@ -253,7 +253,7 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Update all feeds in list", func(t *testing.T) {
 		var feedList FeedList
-		server := Server(t)
+		server := Server(t, rssData)
 		defer server.Close()
 
 		feeds := make([]*RssFeed, 3)
@@ -272,6 +272,18 @@ func TestFeed(t *testing.T) {
 		for _, feed := range feedList.All {
 			if feed.Feed == nil {
 				t.Errorf("Feed data empty after UpdateAll")
+			}
+		}
+
+		feedList.MarkAllFeedsRead()
+		err = feedList.UpdateAll()
+		if err != nil {
+			t.Errorf("Error updating feeds: %q", err)
+		}
+
+		for _, feed := range feedList.All {
+			if feed.HasUnread() == true {
+				t.Errorf("Unread state should not be overwritten")
 			}
 		}
 	})
@@ -355,7 +367,7 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Get and parse feed", func(t *testing.T) {
-		server := Server(t)
+		server := Server(t, rssData)
 		defer server.Close()
 
 		rssFeed := RssFeed{Url: server.URL}
@@ -379,6 +391,28 @@ func TestFeed(t *testing.T) {
 
 		if rssFeed.RssItems[0].Item.Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
 			t.Error("Wrong feed item title")
+		}
+	})
+
+	t.Run("Do not overwrite read state", func(t *testing.T) {
+		server := Server(t, rssData)
+		defer server.Close()
+
+		rssFeed := RssFeed{Url: server.URL}
+
+		err := rssFeed.GetFeed()
+		if err != nil {
+			t.Errorf("Error getting feed %q", err)
+		}
+
+		rssFeed.MarkAllItemsRead()
+		err = rssFeed.GetFeed()
+		if err != nil {
+			t.Errorf("Error getting feed %q", err)
+		}
+
+		if rssFeed.HasUnread() {
+			t.Error("Unread state should not be overwritten")
 		}
 	})
 
@@ -442,12 +476,12 @@ func TestFeed(t *testing.T) {
 	})
 }
 
-func Server(t *testing.T) *httptest.Server {
+func Server(t *testing.T, data []byte) *httptest.Server {
 	t.Helper()
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write(rssData)
+		w.Write(data)
 	}))
 	return server
 }
