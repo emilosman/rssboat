@@ -2,7 +2,8 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Sort feed items by date
+- [ ] Feeds should load async on UpdateAll(), update one-by-one
+- [ ] Refresh status messages fix
 
 ## Todo
 - [ ] Unread counter (15/254)
@@ -10,10 +11,9 @@
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
 - [ ] Unread items should have different color
-- [ ] Feeds should load async on UpdateAll()
 - [ ] Should send update command after go func finishes
 - [ ] Feed items should have a view that displays content
-- [ ] feeds.yaml should not be relative path
+- [ ] feeds.yml should not be relative path
 - [ ] AdditionalShortHelpKeys() extend
 - [ ] AdditionalFullHelpKeys() extend
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
@@ -36,6 +36,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Sort feed items by date
 - [x] "o" should not trigger feed open when filtering
 - [x] Disable key handlers when filtering
 - [x] Unset filter state on back navigation
