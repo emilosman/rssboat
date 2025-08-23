@@ -7,13 +7,13 @@
 
 ## Todo
 - [ ] Increase test coverage
+- [ ] Content display view
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
 - [ ] Unread items should have different color
 - [ ] Should send update command after go func finishes
-- [ ] Feed items should have a view that displays content
 - [ ] feeds.yml should not be relative path
 - [ ] AdditionalShortHelpKeys() extend
 - [ ] AdditionalFullHelpKeys() extend
