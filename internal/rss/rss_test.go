@@ -404,6 +404,26 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Feed items should be sorted by pub date", func(t *testing.T) {
+		server := Server(t, rssData)
+		defer server.Close()
+
+		rssFeed := RssFeed{Url: server.URL}
+
+		err := rssFeed.GetFeed()
+		if err != nil {
+			t.Errorf("Error getting feed %q", err)
+		}
+
+		prevItem := rssFeed.RssItems[0]
+		for i := range rssFeed.RssItems[1:] {
+			if rssFeed.RssItems[i].Item.PublishedParsed.After(*prevItem.Item.PublishedParsed) {
+				t.Error("Wrong order of feed items")
+			}
+			prevItem = rssFeed.RssItems[i]
+		}
+	})
+
 	t.Run("Do not overwrite read state", func(t *testing.T) {
 		server := Server(t, rssData)
 		defer server.Close()
@@ -563,19 +583,19 @@ jobs:
          <guid>http://www.nasa.gov/press-release/nasa-awards-integrated-mission-operations-contract-iii</guid>
       </item>
       <item>
+         <title>NASA to Provide Coverage as Dragon Departs Station</title>
+         <link>http://www.nasa.gov/press-release/nasa-to-provide-coverage-as-dragon-departs-station-with-science</link>
+         <description>NASA is set to receive scientific research samples and hardware as a SpaceX Dragon cargo resupply spacecraft departs the International Space Station on Thursday, June 29.</description>
+         <pubDate>Tue, 20 May 2003 08:56:02 GMT</pubDate>
+         <guid>http://www.nasa.gov/press-release/nasa-to-provide-coverage-as-dragon-departs-station-with-science</guid>
+      </item>
+      <item>
          <title>NASA Expands Options for Spacewalking, Moonwalking Suits</title>
          <link>http://www.nasa.gov/press-release/nasa-expands-options-for-spacewalking-moonwalking-suits-services</link>
          <description>NASA has awarded Axiom Space and Collins Aerospace task orders under existing contracts to advance spacewalking capabilities in low Earth orbit, as well as moonwalking services for Artemis missions.</description>
          <enclosure url="http://www.nasa.gov/sites/default/files/styles/1x1_cardfeed/public/thumbnails/image/iss068e027836orig.jpg?itok=ucNUaaGx" length="1032272" type="image/jpeg" />
          <pubDate>Mon, 10 Jul 2023 14:14 EDT</pubDate>
          <guid>http://www.nasa.gov/press-release/nasa-expands-options-for-spacewalking-moonwalking-suits-services</guid>
-      </item>
-      <item>
-         <title>NASA to Provide Coverage as Dragon Departs Station</title>
-         <link>http://www.nasa.gov/press-release/nasa-to-provide-coverage-as-dragon-departs-station-with-science</link>
-         <description>NASA is set to receive scientific research samples and hardware as a SpaceX Dragon cargo resupply spacecraft departs the International Space Station on Thursday, June 29.</description>
-         <pubDate>Tue, 20 May 2003 08:56:02 GMT</pubDate>
-         <guid>http://www.nasa.gov/press-release/nasa-to-provide-coverage-as-dragon-departs-station-with-science</guid>
       </item>
       <item>
          <title>NASA Plans Coverage of Roscosmos Spacewalk Outside Space Station</title>
