@@ -395,12 +395,19 @@ func TestFeed(t *testing.T) {
 			t.Error("Error parsing feed")
 		}
 
-		if len(rssFeed.RssItems) != 5 {
-			t.Errorf("Wrong number of feed items, wanted %d, got %d", 5, len(rssFeed.RssItems))
+		rawItemCount := bytes.Count(rssData, []byte(`<item>`))
+		if len(rssFeed.RssItems) != rawItemCount {
+			t.Errorf("Wrong number of feed items, wanted %d, got %d", rawItemCount, len(rssFeed.RssItems))
 		}
 
 		if rssFeed.RssItems[0].Item.Title != "Louisiana Students to Hear from NASA Astronauts Aboard Space Station" {
 			t.Error("Wrong feed item title")
+		}
+
+		for _, item := range rssFeed.RssItems {
+			if item.Item.Link == "" {
+				t.Error("All items should have Link")
+			}
 		}
 	})
 
@@ -604,6 +611,22 @@ jobs:
          <enclosure url="http://www.nasa.gov/sites/default/files/styles/1x1_cardfeed/public/thumbnails/image/spacex_dragon_june_29.jpg?itok=nIYlBLme" length="269866" type="image/jpeg" />
          <pubDate>Mon, 26 Jun 2023 12:45 EDT</pubDate>
          <guid>http://liftoff.msfc.nasa.gov/2003/05/20.html#item570</guid>
+      </item>
+      <item>
+         <title>NASA Plans Coverage of Roscosmos Spacewalk Outside Space Station</title>
+         <link>http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp</link>
+         <description>Compared to earlier spacecraft, the International Space Station has many luxuries, but laundry facilities are not one of them.  Instead, astronauts have other options.</description>
+         <enclosure url="http://www.nasa.gov/sites/default/files/styles/1x1_cardfeed/public/thumbnails/image/spacex_dragon_june_29.jpg?itok=nIYlBLme" length="269866" type="image/jpeg" />
+         <pubDate>Mon, 27 Jun 2023 12:45 EDT</pubDate>
+         <guid></guid>
+      </item>
+      <item>
+         <title>NASA Plans Coverage of Roscosmos Spacewalk Outside Space Station</title>
+         <link>http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp</link>
+         <description>Compared to earlier spacecraft, the International Space Station has many luxuries, but laundry facilities are not one of them.  Instead, astronauts have other options.</description>
+         <enclosure url="http://www.nasa.gov/sites/default/files/styles/1x1_cardfeed/public/thumbnails/image/spacex_dragon_june_29.jpg?itok=nIYlBLme" length="269866" type="image/jpeg" />
+         <pubDate></pubDate>
+         <guid>http://liftoff.msfc.nasa.gov/2003/05/20.html#item571</guid>
       </item>
    </channel>
 </rss>
