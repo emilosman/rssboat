@@ -6,7 +6,6 @@
 - [ ] Refresh status messages fix
 
 ## Todo
-- [ ] Increase test coverage
 - [ ] Content display view
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
@@ -18,6 +17,7 @@
 - [ ] AdditionalShortHelpKeys() extend
 - [ ] AdditionalFullHelpKeys() extend
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
+- [ ] 100% test coverage of rss.go
 
 ## Refactor
 - [ ] DRY cleanup
@@ -37,6 +37,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Increase test coverage
 - [x] Sort feed items by date
 - [x] "o" should not trigger feed open when filtering
 - [x] Disable key handlers when filtering
