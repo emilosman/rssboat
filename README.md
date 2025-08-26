@@ -18,6 +18,7 @@
 - [ ] AdditionalFullHelpKeys() extend
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] 100% test coverage of rss.go
+- [ ] Record demo using Charm's vhs
 
 ## Refactor
 - [ ] DRY cleanup
