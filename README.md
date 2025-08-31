@@ -2,10 +2,13 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Feeds should load async on UpdateAll(), update one-by-one
-- [ ] Refresh status messages fix
+- [ ] Tabs for categories
+- [ ] Tab change on 1-9 or Tab
+- [ ] feeds.yml should not be relative path
 
 ## Todo
+- [ ] Feeds should load async on UpdateAll(), update one-by-one
+- [ ] Refresh status messages fix
 - [ ] Content display view
 - [ ] Unread counter (15/254)
 - [ ] Messages moved to vars
@@ -13,7 +16,6 @@
 - [ ] Timeout network request 10s
 - [ ] Unread items should have different color
 - [ ] Should send update command after go func finishes
-- [ ] feeds.yml should not be relative path
 - [ ] AdditionalShortHelpKeys() extend
 - [ ] AdditionalFullHelpKeys() extend
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
@@ -34,7 +36,6 @@
 
 ## Maybe
 - [ ] Confirmation Y/N on major commands
-- [ ] Tabs for categories
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
