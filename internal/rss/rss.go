@@ -80,6 +80,23 @@ func (fl *FeedList) GetCategory(category string) ([]*RssFeed, error) {
 	return feeds, nil
 }
 
+func (fl *FeedList) GetAllCategories() (map[string][]*RssFeed, error) {
+	categories := make(map[string][]*RssFeed)
+
+	for _, feed := range fl.All {
+		if feed == nil {
+			continue
+		}
+		cat := feed.Category
+		if cat == "" {
+			cat = "Uncategorized"
+		}
+		categories[cat] = append(categories[cat], feed)
+	}
+
+	return categories, nil
+}
+
 func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 	existing := f.existingKeys()
 

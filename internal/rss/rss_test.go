@@ -45,8 +45,7 @@ var (
 	}
 
 	rssFeedUnloaded = RssFeed{
-		Url:      "example.com",
-		Category: "Other",
+		Url: "example.com",
 	}
 
 	feedList = FeedList{
@@ -100,6 +99,43 @@ func TestFeed(t *testing.T) {
 		var category string
 		_, err := feedList.GetCategory(category)
 		assertError(t, err, ErrNoCategoryGiven)
+	})
+
+	t.Run("Should return all categories", func(t *testing.T) {
+		categories, err := feedList.GetAllCategories()
+		if err != nil {
+			t.Errorf("Error getting categories: %q", err)
+		}
+
+		control := []string{"Fun", "Serious"}
+		for _, category := range control {
+			feeds, ok := categories[category]
+			if !ok {
+				t.Errorf("Category not returned: %s", category)
+			}
+			for _, feed := range feeds {
+				if feed.Category != category {
+					t.Errorf("Feed has wrong category: got %s, want %s", feed.Category, category)
+				}
+			}
+		}
+	})
+
+	t.Run("Should return all categories", func(t *testing.T) {
+		categories, err := feedList.GetAllCategories()
+		if err != nil {
+			t.Errorf("Error getting categories: %q", err)
+		}
+
+		feeds, ok := categories["Uncategorized"]
+		if !ok {
+			t.Error("Uncategorized feeds not returned")
+		}
+		for _, feed := range feeds {
+			if feed.Category != "" {
+				t.Errorf("Feed has wrong category: got %s, want Uncategorized", feed.Category)
+			}
+		}
 	})
 
 	t.Run("Should restore feeds from JSON file", func(t *testing.T) {
