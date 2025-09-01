@@ -37,7 +37,7 @@ var (
 
 	rssFeedWithoutItems = RssFeed{
 		Url:      "example.com",
-		Category: "Fun",
+		Category: "Serious",
 		Feed: &gofeed.Feed{
 			Title:       "Feed title",
 			Description: "Feed description",
@@ -46,7 +46,7 @@ var (
 
 	rssFeedUnloaded = RssFeed{
 		Url:      "example.com",
-		Category: "Fun",
+		Category: "Other",
 	}
 
 	feedList = FeedList{
@@ -76,6 +76,30 @@ func TestFeed(t *testing.T) {
 		if !bytes.Contains([]byte(got), []byte("Latest item title")) {
 			t.Errorf("JSON output does not contain expected feeds: %s", got)
 		}
+	})
+
+	t.Run("Should return specified category", func(t *testing.T) {
+		category := "Fun"
+		feeds, err := feedList.GetCategory(category)
+		if err != nil {
+			t.Errorf("Error returning category: %q", err)
+		}
+
+		if len(feeds) == 0 {
+			t.Error("No feeds returned")
+		}
+
+		for _, feed := range feeds {
+			if feed.Category != category {
+				t.Error("Wrong category returned")
+			}
+		}
+	})
+
+	t.Run("Should handle unspecified category", func(t *testing.T) {
+		var category string
+		_, err := feedList.GetCategory(category)
+		assertError(t, err, ErrNoCategoryGiven)
 	})
 
 	t.Run("Should restore feeds from JSON file", func(t *testing.T) {

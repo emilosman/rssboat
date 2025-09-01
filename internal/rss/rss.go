@@ -13,9 +13,12 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-var ErrFeedHasNoUrl = errors.New("Feed has no URL")
-var ErrNoFeedsInList = errors.New("No feeds in list")
-var MsgFeedNotLoaded = "Feed not loaded yet. Press shift+r"
+var (
+	ErrFeedHasNoUrl    = errors.New("Feed has no URL")
+	ErrNoFeedsInList   = errors.New("No feeds in list")
+	ErrNoCategoryGiven = errors.New("No category given")
+	MsgFeedNotLoaded   = "Feed not loaded yet. Press shift+r"
+)
 
 type RssFeed struct {
 	Url      string
@@ -59,6 +62,22 @@ func (f *RssFeed) GetFeed() error {
 	f.SortByDate()
 	f.Error = ""
 	return nil
+}
+
+func (fl *FeedList) GetCategory(category string) ([]*RssFeed, error) {
+	if category == "" {
+		return nil, ErrNoCategoryGiven
+	}
+
+	var feeds []*RssFeed
+
+	for _, feed := range fl.All {
+		if feed.Category == category {
+			feeds = append(feeds, feed)
+		}
+	}
+
+	return feeds, nil
 }
 
 func (f *RssFeed) mergeItems(items []*gofeed.Item) {
