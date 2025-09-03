@@ -2,9 +2,10 @@
 - RSS reader inspired by newsboat
 
 ## MVP
+- [ ] feeds.yml should not be relative path
+- [ ] Check YAML file when restoring from JSON
 - [ ] Tabs for categories
 - [ ] Tab change on 1-9 or Tab
-- [ ] feeds.yml should not be relative path
 
 ## Todo
 - [ ] Feeds should load async on UpdateAll(), update one-by-one
