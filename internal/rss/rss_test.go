@@ -48,7 +48,7 @@ var (
 		Url: "example.com",
 	}
 
-	feedList = FeedList{
+	l = List{
 		All: []*RssFeed{
 			&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems,
 		},
@@ -57,7 +57,7 @@ var (
 
 func TestFeed(t *testing.T) {
 	t.Run("Should marshal feed list to JSON", func(t *testing.T) {
-		_, err := feedList.ToJson()
+		_, err := l.ToJson()
 		if err != nil {
 			t.Errorf("Error marshaling feed list to JSON: %q", err)
 		}
@@ -66,7 +66,7 @@ func TestFeed(t *testing.T) {
 	t.Run("Should write JSON to file", func(t *testing.T) {
 		var buf bytes.Buffer
 
-		err := feedList.Save(&buf)
+		err := l.Save(&buf)
 		if err != nil {
 			t.Fatalf("Unexpected error: %q", err)
 		}
@@ -79,7 +79,7 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Should return specified category", func(t *testing.T) {
 		category := "Fun"
-		feeds, err := feedList.GetCategory(category)
+		feeds, err := l.GetCategory(category)
 		if err != nil {
 			t.Errorf("Error returning category: %q", err)
 		}
@@ -97,12 +97,12 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Should handle unspecified category", func(t *testing.T) {
 		var category string
-		_, err := feedList.GetCategory(category)
+		_, err := l.GetCategory(category)
 		assertError(t, err, ErrNoCategoryGiven)
 	})
 
 	t.Run("Should return all categories", func(t *testing.T) {
-		categories, err := feedList.GetAllCategories()
+		categories, err := l.GetAllCategories()
 		if err != nil {
 			t.Errorf("Error getting categories: %q", err)
 		}
@@ -122,7 +122,7 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should return all categories", func(t *testing.T) {
-		categories, err := feedList.GetAllCategories()
+		categories, err := l.GetAllCategories()
 		if err != nil {
 			t.Errorf("Error getting categories: %q", err)
 		}
@@ -141,7 +141,7 @@ func TestFeed(t *testing.T) {
 	t.Run("Should restore feeds from JSON file", func(t *testing.T) {
 		var buf bytes.Buffer
 
-		err := feedList.Save(&buf)
+		err := l.Save(&buf)
 		if err != nil {
 			t.Fatalf("Unexpected error: %q", err)
 		}
@@ -151,12 +151,12 @@ func TestFeed(t *testing.T) {
 			t.Fatalf("Unexpected error restoring: %q", err)
 		}
 
-		if len(got.All) != len(feedList.All) {
-			t.Errorf("Expected %d feeds, got %d", len(feedList.All), len(got.All))
+		if len(got.All) != len(l.All) {
+			t.Errorf("Expected %d feeds, got %d", len(l.All), len(got.All))
 		}
 
-		if got.All[0].Feed.Title != feedList.All[0].Feed.Title {
-			t.Errorf("Expected first feed title %q, got %q", feedList.All[0].Feed.Title, got.All[0].Feed.Title)
+		if got.All[0].Feed.Title != l.All[0].Feed.Title {
+			t.Errorf("Expected first feed title %q, got %q", l.All[0].Feed.Title, got.All[0].Feed.Title)
 		}
 	})
 
@@ -306,23 +306,23 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Add feeds to feedList", func(t *testing.T) {
+	t.Run("Add feeds to l", func(t *testing.T) {
 		feeds := make([]*RssFeed, 3)
 		for i := range feeds {
 			feeds[i] = &RssFeed{}
 		}
 
-		var feedList FeedList
+		var l List
 
-		feedList.Add(feeds...)
+		l.Add(feeds...)
 
-		if len(feedList.All) != len(feeds) {
+		if len(l.All) != len(feeds) {
 			t.Errorf("Wrong number of feeds added to list")
 		}
 	})
 
 	t.Run("Update all feeds in list", func(t *testing.T) {
-		var feedList FeedList
+		var l List
 		server := Server(t, rssData)
 		defer server.Close()
 
@@ -332,26 +332,26 @@ func TestFeed(t *testing.T) {
 			feeds[i].Url = server.URL
 		}
 
-		feedList.Add(feeds...)
+		l.Add(feeds...)
 
-		err := feedList.UpdateAll()
+		err := l.UpdateAll()
 		if err != nil {
 			t.Errorf("Error updating feeds: %q", err)
 		}
 
-		for _, feed := range feedList.All {
+		for _, feed := range l.All {
 			if feed.Feed == nil {
 				t.Errorf("Feed data empty after UpdateAll")
 			}
 		}
 
-		feedList.MarkAllFeedsRead()
-		err = feedList.UpdateAll()
+		l.MarkAllFeedsRead()
+		err = l.UpdateAll()
 		if err != nil {
 			t.Errorf("Error updating feeds: %q", err)
 		}
 
-		for _, feed := range feedList.All {
+		for _, feed := range l.All {
 			if feed.HasUnread() == true {
 				t.Errorf("Unread state should not be overwritten")
 			}
@@ -359,12 +359,12 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Update all only when feeds in list", func(t *testing.T) {
-		var feedList FeedList
+		var l List
 
-		err := feedList.UpdateAll()
+		err := l.UpdateAll()
 		assertError(t, err, ErrNoFeedsInList)
 
-		for _, feed := range feedList.All {
+		for _, feed := range l.All {
 			if feed.Feed == nil {
 				t.Errorf("Feed data empty for feed %s", feed.Url)
 			}
@@ -407,9 +407,9 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Mark all feeds read in feedList", func(t *testing.T) {
+	t.Run("Mark all feeds read in l", func(t *testing.T) {
 		var rssFeed RssFeed
-		var feedList FeedList
+		var l List
 
 		unreadItems := make([]RssItem, 3)
 		for i := range unreadItems {
@@ -418,13 +418,13 @@ func TestFeed(t *testing.T) {
 
 		rssFeed.RssItems = unreadItems
 
-		feedList.Add(&rssFeed)
+		l.Add(&rssFeed)
 
-		feedList.MarkAllFeedsRead()
+		l.MarkAllFeedsRead()
 
-		for _, feed := range feedList.All {
+		for _, feed := range l.All {
 			if feed.HasUnread() == true {
-				t.Error("Error marking all feeds read in feedList")
+				t.Error("Error marking all feeds read in l")
 			}
 		}
 	})

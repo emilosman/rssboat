@@ -31,7 +31,6 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 		ri := &feed.RssItems[idx]
 		title := ri.GetField("Title")
 		description := ri.Item.Description
-
 		listItems = append(listItems, rssListItem{
 			title: title,
 			desc:  description,
@@ -66,7 +65,7 @@ func (m *model) SaveState() error {
 		return err
 	}
 	defer f.Close()
-	return m.feedList.Save(f)
+	return m.l.Save(f)
 }
 
 func BuildApp() {

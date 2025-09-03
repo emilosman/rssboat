@@ -29,14 +29,14 @@ func (r rssListItem) Description() string { return r.desc }
 func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
-	feedList     rss.FeedList
+	l            rss.List
 	selectedFeed *rss.RssFeed
-	feedsList    list.Model
-	itemsList    list.Model
+	lf           list.Model
+	li           list.Model
 }
 
 func initialModel() *model {
-	var feedList rss.FeedList
+	var l rss.List
 	var initialStatusMsg string
 	f, err := os.Open("./data.json")
 	if err != nil {
@@ -48,29 +48,29 @@ func initialModel() *model {
 			log.Fatal(err)
 		}
 
-		feedList.Add(feeds...)
+		l.Add(feeds...)
 		initialStatusMsg = "Feeds loaded from YAML file"
 	} else {
 		defer f.Close()
 
-		feedList, err = rss.Restore(f)
+		l, err = rss.Restore(f)
 		if err != nil {
 			log.Fatalf("failed to restore feeds: %v", err)
 		}
 		initialStatusMsg = "Feeds restored from JSON file"
 	}
 
-	all := buildFeedList(feedList.All)
+	all := buildFeedList(l.All)
 
 	m := model{
-		feedList:  feedList,
-		feedsList: list.New(all, list.NewDefaultDelegate(), 0, 0),
-		itemsList: list.New(nil, list.NewDefaultDelegate(), 0, 0),
+		l:  l,
+		lf: list.New(all, list.NewDefaultDelegate(), 0, 0),
+		li: list.New(nil, list.NewDefaultDelegate(), 0, 0),
 	}
-	m.feedsList.DisableQuitKeybindings()
-	m.itemsList.DisableQuitKeybindings()
-	m.feedsList.Title = "rssboat"
-	m.feedsList.NewStatusMessage(initialStatusMsg)
+	m.lf.DisableQuitKeybindings()
+	m.li.DisableQuitKeybindings()
+	m.lf.Title = "rssboat"
+	m.lf.NewStatusMessage(initialStatusMsg)
 
 	return &m
 }
@@ -83,7 +83,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler
-		if m.feedsList.FilterState().String() != "filtering" && m.itemsList.FilterState().String() != "filtering" {
+		if m.lf.FilterState().String() != "filtering" && m.li.FilterState().String() != "filtering" {
 			if m.selectedFeed == nil {
 				handlers = feedKeyHandlers
 			} else {
@@ -98,15 +98,15 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.WindowSizeMsg:
 		h, v := docStyle.GetFrameSize()
-		m.feedsList.SetSize(msg.Width-h, msg.Height-v)
-		m.itemsList.SetSize(msg.Width-h, msg.Height-v)
+		m.lf.SetSize(msg.Width-h, msg.Height-v)
+		m.li.SetSize(msg.Width-h, msg.Height-v)
 	}
 
 	var cmd tea.Cmd
 	if m.selectedFeed != nil {
-		m.itemsList, cmd = m.itemsList.Update(msg)
+		m.li, cmd = m.li.Update(msg)
 	} else {
-		m.feedsList, cmd = m.feedsList.Update(msg)
+		m.lf, cmd = m.lf.Update(msg)
 	}
 	return m, cmd
 }

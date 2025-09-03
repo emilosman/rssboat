@@ -34,7 +34,7 @@ type RssItem struct {
 	Read bool
 }
 
-type FeedList struct {
+type List struct {
 	All []*RssFeed
 }
 
@@ -64,7 +64,7 @@ func (f *RssFeed) GetFeed() error {
 	return nil
 }
 
-func (fl *FeedList) GetCategory(category string) ([]*RssFeed, error) {
+func (fl *List) GetCategory(category string) ([]*RssFeed, error) {
 	if category == "" {
 		return nil, ErrNoCategoryGiven
 	}
@@ -80,7 +80,7 @@ func (fl *FeedList) GetCategory(category string) ([]*RssFeed, error) {
 	return feeds, nil
 }
 
-func (fl *FeedList) GetAllCategories() (map[string][]*RssFeed, error) {
+func (fl *List) GetAllCategories() (map[string][]*RssFeed, error) {
 	categories := make(map[string][]*RssFeed)
 
 	for _, feed := range fl.All {
@@ -148,11 +148,11 @@ func (f *RssFeed) SortByDate() {
 	})
 }
 
-func (l *FeedList) Add(feeds ...*RssFeed) {
+func (l *List) Add(feeds ...*RssFeed) {
 	l.All = append(l.All, feeds...)
 }
 
-func (l *FeedList) UpdateAll() error {
+func (l *List) UpdateAll() error {
 	if len(l.All) == 0 {
 		return ErrNoFeedsInList
 	}
@@ -214,7 +214,7 @@ func (f *RssFeed) MarkAllItemsRead() {
 	}
 }
 
-func (l *FeedList) MarkAllFeedsRead() {
+func (l *List) MarkAllFeedsRead() {
 	for _, feed := range l.All {
 		feed.MarkAllItemsRead()
 	}
@@ -267,7 +267,7 @@ func (f *RssFeed) GetField(field string) string {
 	}
 }
 
-func (fl *FeedList) ToJson() ([]byte, error) {
+func (fl *List) ToJson() ([]byte, error) {
 	return json.Marshal(fl)
 }
 
@@ -276,9 +276,9 @@ Save to file
 
 f, _ := os.Create("data.json")
 defer f.Close()
-feedList.Save(f)
+l.Save(f)
 */
-func (fl *FeedList) Save(w io.Writer) error {
+func (fl *List) Save(w io.Writer) error {
 	data, err := fl.ToJson()
 	_, err = w.Write(data)
 	return err
@@ -289,14 +289,14 @@ Restore from file
 
 f, _ := os.Open("data.json")
 defer f.Close()
-feedList, err := Restore(f)
+l, err := Restore(f)
 
 	if err != nil {
 			log.Fatalf("failed to restore feeds: %v", err)
 	}
 */
-func Restore(r io.Reader) (FeedList, error) {
-	var fl FeedList
+func Restore(r io.Reader) (List, error) {
+	var fl List
 	dec := json.NewDecoder(r)
 	if err := dec.Decode(&fl); err != nil {
 		return fl, err
