@@ -4,10 +4,11 @@
 ## MVP
 - [ ] feeds.yml should not be relative path
 - [ ] Check YAML file when restoring from JSON
-- [ ] Tabs for categories
-- [ ] Tab change on 1-9 or Tab
+- [ ] Parse URL with standard library to check for errors
 
 ## Todo
+- [ ] Tabs for categories
+- [ ] Tab change on 1-9 or Tab
 - [ ] Feeds should load async on UpdateAll(), update one-by-one
 - [ ] Refresh status messages fix
 - [ ] Content display view
