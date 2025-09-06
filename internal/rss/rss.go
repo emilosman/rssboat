@@ -26,7 +26,7 @@ type RssFeed struct {
 	Error    string
 
 	Feed     *gofeed.Feed
-	RssItems []RssItem
+	RssItems []*RssItem
 }
 
 type RssItem struct {
@@ -110,7 +110,7 @@ func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 			continue
 		}
 
-		f.RssItems = append(f.RssItems, RssItem{
+		f.RssItems = append(f.RssItems, &RssItem{
 			Item: item,
 			Read: false,
 		})
@@ -200,8 +200,8 @@ func CreateFeedsFromYaml(filesystem fs.FS) ([]*RssFeed, error) {
 }
 
 func (f *RssFeed) HasUnread() bool {
-	for _, item := range f.RssItems {
-		if !item.Read {
+	for i := range f.RssItems {
+		if !f.RssItems[i].Read {
 			return true
 		}
 	}
@@ -220,16 +220,11 @@ func (l *List) MarkAllFeedsRead() {
 	}
 }
 
-func (i *RssItem) GetField(field string) string {
-	switch field {
-	case "Title":
-		if i.Read == false {
-			return fmt.Sprintf("🟢 %s", i.Item.Title)
-		}
-		return i.Item.Title
-	default:
-		return ""
+func (i *RssItem) Title() string {
+	if !i.Read {
+		return fmt.Sprintf("🟢 %s", i.Item.Title)
 	}
+	return i.Item.Title
 }
 
 func (f *RssFeed) GetField(field string) string {

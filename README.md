@@ -28,7 +28,6 @@
 - [ ] DRY cleanup
 - [ ] Refactor list updates into helper func
 - [ ] Refactor feed/item open error messages and funcs
-- [ ] Refactor use of pointers ?
 
 ## Future
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
@@ -42,6 +41,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Refactor use of pointers
 - [x] Increase test coverage
 - [x] Sort feed items by date
 - [x] "o" should not trigger feed open when filtering

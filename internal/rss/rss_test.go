@@ -10,32 +10,28 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-var (
-	unreadFeedItem = RssItem{
+func newTestData() (RssItem, RssItem, RssFeed, RssFeed, RssFeed, List) {
+	unreadRssItem := RssItem{
 		Read: false,
-		Item: &gofeed.Item{
-			Title: "Latest item title",
-		},
+		Item: &gofeed.Item{Title: "Latest item title"},
 	}
 
-	readFeedItem = RssItem{
+	readRssItem := RssItem{
 		Read: true,
-		Item: &gofeed.Item{
-			Title: "Latest item title",
-		},
+		Item: &gofeed.Item{Title: "Latest item title"},
 	}
 
-	rssFeed = RssFeed{
+	rssFeed := RssFeed{
 		Url:      "example.com",
 		Category: "Fun",
 		Feed: &gofeed.Feed{
 			Title:       "Feed title",
 			Description: "Feed description",
 		},
-		RssItems: []RssItem{unreadFeedItem, readFeedItem},
+		RssItems: []*RssItem{&unreadRssItem, &readRssItem},
 	}
 
-	rssFeedWithoutItems = RssFeed{
+	rssFeedWithoutItems := RssFeed{
 		Url:      "example.com",
 		Category: "Serious",
 		Feed: &gofeed.Feed{
@@ -44,19 +40,19 @@ var (
 		},
 	}
 
-	rssFeedUnloaded = RssFeed{
-		Url: "example.com",
+	rssFeedUnloaded := RssFeed{Url: "example.com"}
+
+	l := List{
+		All: []*RssFeed{&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems},
 	}
 
-	l = List{
-		All: []*RssFeed{
-			&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems,
-		},
-	}
-)
+	return unreadRssItem, readRssItem, rssFeed, rssFeedWithoutItems, rssFeedUnloaded, l
+}
 
 func TestFeed(t *testing.T) {
 	t.Run("Should marshal feed list to JSON", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		_, err := l.ToJson()
 		if err != nil {
 			t.Errorf("Error marshaling feed list to JSON: %q", err)
@@ -64,6 +60,7 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should write JSON to file", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
 		var buf bytes.Buffer
 
 		err := l.Save(&buf)
@@ -78,6 +75,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should return specified category", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		category := "Fun"
 		feeds, err := l.GetCategory(category)
 		if err != nil {
@@ -96,12 +95,16 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should handle unspecified category", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		var category string
 		_, err := l.GetCategory(category)
 		assertError(t, err, ErrNoCategoryGiven)
 	})
 
 	t.Run("Should return all categories", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		categories, err := l.GetAllCategories()
 		if err != nil {
 			t.Errorf("Error getting categories: %q", err)
@@ -122,6 +125,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should return all categories", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		categories, err := l.GetAllCategories()
 		if err != nil {
 			t.Errorf("Error getting categories: %q", err)
@@ -139,6 +144,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should restore feeds from JSON file", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		var buf bytes.Buffer
 
 		err := l.Save(&buf)
@@ -168,6 +175,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Get url instead of title when title not set", func(t *testing.T) {
+		_, _, rssFeed, _, _, _ := newTestData()
+
 		columnName := "Title"
 		rssFeed.Feed.Title = ""
 		field := rssFeed.GetField(columnName)
@@ -192,6 +201,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Test feed fields", func(t *testing.T) {
+		_, _, rssFeed, _, _, _ := newTestData()
+
 		fieldsTest := []struct {
 			field string
 			want  string
@@ -208,6 +219,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should get feed description when feed does not have items", func(t *testing.T) {
+		_, _, _, rssFeedWithoutItems, _, _ := newTestData()
+
 		field := "Latest"
 		want := "Feed description"
 		got := rssFeedWithoutItems.GetField(field)
@@ -217,6 +230,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should get latest item title when items present", func(t *testing.T) {
+		_, _, rssFeed, _, _, _ := newTestData()
+
 		field := "Latest"
 		want := "Latest item title"
 		got := rssFeed.GetField(field)
@@ -226,6 +241,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should get error message if present", func(t *testing.T) {
+		_, _, rssFeed, _, _, _ := newTestData()
+
 		field := "Latest"
 		want := "Error happened"
 		rssFeed.Error = want
@@ -236,6 +253,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should get message when feed not loaded yet", func(t *testing.T) {
+		_, _, rssFeed, _, rssFeedUnloaded, _ := newTestData()
+
 		field := "Latest"
 		want := MsgFeedNotLoaded
 		rssFeed.Error = want
@@ -246,6 +265,8 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should handle when no field name given", func(t *testing.T) {
+		_, _, rssFeed, _, _, _ := newTestData()
+
 		field := "XYZ"
 		want := ""
 		got := rssFeed.GetField(field)
@@ -255,28 +276,22 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should get read status of unread feed item", func(t *testing.T) {
-		field := "Title"
+		unreadRssItem, _, _, _, _, _ := newTestData()
+
 		want := "🟢 Latest item title"
-		got := unreadFeedItem.GetField(field)
+		got := unreadRssItem.Title()
 		if got != want {
 			t.Errorf("Did not get correct field value, want %s, got %s", want, got)
 		}
 	})
 
 	t.Run("Should get title of read feed item", func(t *testing.T) {
-		field := "Title"
+		_, rssItem, _, _, _, _ := newTestData()
+
 		want := "Latest item title"
-		got := readFeedItem.GetField(field)
+		got := rssItem.Title()
 		if got != want {
 			t.Errorf("Did not get correct field value, want %s, got %s", want, got)
-		}
-	})
-	t.Run("Should handle when no field name given", func(t *testing.T) {
-		field := "XYZ"
-		want := ""
-		got := readFeedItem.GetField(field)
-		if got != want {
-			t.Errorf("Did not get default field value")
 		}
 	})
 
@@ -372,18 +387,27 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Feed has unread item", func(t *testing.T) {
-		var rssFeed RssFeed
-
-		readItems := make([]RssItem, 3)
-		for i := range readItems {
-			readItems[i].Read = true
+		unreadFeedItem := RssItem{
+			Read: false,
+			Item: &gofeed.Item{
+				Title: "Latest item title",
+			},
 		}
-
-		unreadItem := RssItem{Read: false}
-
-		items := append(readItems, unreadItem)
-
-		rssFeed.RssItems = items
+		readFeedItem := RssItem{
+			Read: true,
+			Item: &gofeed.Item{
+				Title: "Latest item title",
+			},
+		}
+		rssFeed := RssFeed{
+			Url:      "example.com",
+			Category: "Fun",
+			Feed: &gofeed.Feed{
+				Title:       "Feed title",
+				Description: "Feed description",
+			},
+			RssItems: []*RssItem{&unreadFeedItem, &readFeedItem},
+		}
 
 		if rssFeed.HasUnread() == false {
 			t.Error("Feed should know there are unread items")
@@ -391,14 +415,27 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Mark all items read in feed", func(t *testing.T) {
-		var rssFeed RssFeed
-
-		unreadItems := make([]RssItem, 3)
-		for i := range unreadItems {
-			unreadItems[i].Read = false
+		unreadFeedItem := RssItem{
+			Read: false,
+			Item: &gofeed.Item{
+				Title: "Latest item title",
+			},
 		}
-
-		rssFeed.RssItems = unreadItems
+		readFeedItem := RssItem{
+			Read: true,
+			Item: &gofeed.Item{
+				Title: "Latest item title",
+			},
+		}
+		rssFeed := RssFeed{
+			Url:      "example.com",
+			Category: "Fun",
+			Feed: &gofeed.Feed{
+				Title:       "Feed title",
+				Description: "Feed description",
+			},
+			RssItems: []*RssItem{&unreadFeedItem, &readFeedItem},
+		}
 
 		rssFeed.MarkAllItemsRead()
 
@@ -407,16 +444,9 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Mark all feeds read in l", func(t *testing.T) {
+	t.Run("Mark all feeds read in list", func(t *testing.T) {
 		var rssFeed RssFeed
 		var l List
-
-		unreadItems := make([]RssItem, 3)
-		for i := range unreadItems {
-			unreadItems[i].Read = false
-		}
-
-		rssFeed.RssItems = unreadItems
 
 		l.Add(&rssFeed)
 
