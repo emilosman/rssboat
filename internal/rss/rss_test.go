@@ -529,7 +529,7 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
-	t.Run("Create feeds from FS", func(t *testing.T) {
+	t.Run("Create feeds from YAML", func(t *testing.T) {
 		fs := fstest.MapFS{
 			"feeds.yml": {Data: yamlData},
 		}
@@ -539,8 +539,9 @@ func TestFeed(t *testing.T) {
 			t.Errorf("Error reading file: %q", err)
 		}
 
-		if len(feeds) != 7 {
-			t.Errorf("Wrong number of feeds created, wanted %d, get %d", 7, len(feeds))
+		rawItemCount := bytes.Count(yamlData, []byte(`http`))
+		if len(feeds) != rawItemCount {
+			t.Errorf("Wrong number of feeds created, wanted %d, get %d", rawItemCount, len(feeds))
 		}
 
 		for _, feed := range feeds {
