@@ -2,8 +2,8 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] feeds.yml should not be relative path
 - [ ] Check YAML file when restoring from JSON
+- [ ] feeds.yml should not be relative path
 - [ ] Parse URL with standard library to check for errors
 
 ## Todo

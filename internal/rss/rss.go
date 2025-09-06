@@ -172,7 +172,7 @@ func (l *List) UpdateAll() error {
 	return nil
 }
 
-func CreateFeedsFromFS(filesystem fs.FS) ([]*RssFeed, error) {
+func CreateFeedsFromYaml(filesystem fs.FS) ([]*RssFeed, error) {
 	file, err := filesystem.Open("feeds.yml")
 	if err != nil {
 		return nil, err

@@ -43,7 +43,7 @@ func initialModel() *model {
 		fmt.Println("Error opening data file:", err)
 		filesystem := os.DirFS(".")
 
-		feeds, err := rss.CreateFeedsFromFS(filesystem)
+		feeds, err := rss.CreateFeedsFromYaml(filesystem)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -534,7 +534,7 @@ func TestFeed(t *testing.T) {
 			"feeds.yml": {Data: yamlData},
 		}
 
-		feeds, err := CreateFeedsFromFS(fs)
+		feeds, err := CreateFeedsFromYaml(fs)
 		if err != nil {
 			t.Errorf("Error reading file: %q", err)
 		}
@@ -555,7 +555,7 @@ func TestFeed(t *testing.T) {
 			"other.yml": {Data: []byte(``)},
 		}
 
-		_, err := CreateFeedsFromFS(fs)
+		_, err := CreateFeedsFromYaml(fs)
 		if err == nil {
 			t.Error("Should raise error when file not found")
 		}
@@ -566,7 +566,7 @@ func TestFeed(t *testing.T) {
 			"feeds.yml": {Data: []byte("invalid: [unbalanced")},
 		}
 
-		_, err := CreateFeedsFromFS(fs)
+		_, err := CreateFeedsFromYaml(fs)
 		if err == nil {
 			t.Error("Should raise error when file invalid")
 		}
