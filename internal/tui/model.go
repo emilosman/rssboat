@@ -2,7 +2,6 @@ package tui
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/charmbracelet/bubbles/list"
@@ -29,48 +28,31 @@ func (r rssListItem) Description() string { return r.desc }
 func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
-	l            rss.List
+	l            *rss.List
 	selectedFeed *rss.RssFeed
 	lf           list.Model
 	li           list.Model
 }
 
 func initialModel() *model {
-	var l rss.List
-	var initialStatusMsg string
-	f, err := os.Open("./data.json")
+	filesystem := os.DirFS(".")
+
+	l, statusMsg, err := rss.LoadList(filesystem)
 	if err != nil {
-		fmt.Println("Error opening data file:", err)
-		filesystem := os.DirFS(".")
-
-		feeds, err := rss.CreateFeedsFromYaml(filesystem)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		l.Add(feeds...)
-		initialStatusMsg = "Feeds loaded from YAML file"
-	} else {
-		defer f.Close()
-
-		l, err = rss.Restore(f)
-		if err != nil {
-			log.Fatalf("failed to restore feeds: %v", err)
-		}
-		initialStatusMsg = "Feeds restored from JSON file"
+		fmt.Println("Error loading list:")
 	}
 
-	all := buildFeedList(l.All)
+	feeds := buildFeedList(l.Feeds)
 
 	m := model{
 		l:  l,
-		lf: list.New(all, list.NewDefaultDelegate(), 0, 0),
+		lf: list.New(feeds, list.NewDefaultDelegate(), 0, 0),
 		li: list.New(nil, list.NewDefaultDelegate(), 0, 0),
 	}
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
 	m.lf.Title = "rssboat"
-	m.lf.NewStatusMessage(initialStatusMsg)
+	m.lf.NewStatusMessage(statusMsg)
 
 	return &m
 }

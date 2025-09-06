@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"log"
+	"os"
 	"sort"
 	"sync"
 
@@ -35,7 +37,7 @@ type RssItem struct {
 }
 
 type List struct {
-	All []*RssFeed
+	Feeds []*RssFeed
 }
 
 func (i *RssItem) ToggleRead() {
@@ -64,14 +66,14 @@ func (f *RssFeed) GetFeed() error {
 	return nil
 }
 
-func (fl *List) GetCategory(category string) ([]*RssFeed, error) {
+func (l *List) GetCategory(category string) ([]*RssFeed, error) {
 	if category == "" {
 		return nil, ErrNoCategoryGiven
 	}
 
 	var feeds []*RssFeed
 
-	for _, feed := range fl.All {
+	for _, feed := range l.Feeds {
 		if feed.Category == category {
 			feeds = append(feeds, feed)
 		}
@@ -80,10 +82,10 @@ func (fl *List) GetCategory(category string) ([]*RssFeed, error) {
 	return feeds, nil
 }
 
-func (fl *List) GetAllCategories() (map[string][]*RssFeed, error) {
+func (l *List) GetAllCategories() (map[string][]*RssFeed, error) {
 	categories := make(map[string][]*RssFeed)
 
-	for _, feed := range fl.All {
+	for _, feed := range l.Feeds {
 		if feed == nil {
 			continue
 		}
@@ -149,21 +151,21 @@ func (f *RssFeed) SortByDate() {
 }
 
 func (l *List) Add(feeds ...*RssFeed) {
-	l.All = append(l.All, feeds...)
+	l.Feeds = append(l.Feeds, feeds...)
 }
 
 func (l *List) UpdateAll() error {
-	if len(l.All) == 0 {
+	if len(l.Feeds) == 0 {
 		return ErrNoFeedsInList
 	}
 
 	var wg sync.WaitGroup
-	wg.Add(len(l.All))
+	wg.Add(len(l.Feeds))
 
-	for i := range l.All {
+	for i := range l.Feeds {
 		go func(i int) {
 			defer wg.Done()
-			l.All[i].GetFeed()
+			l.Feeds[i].GetFeed()
 		}(i)
 	}
 
@@ -215,7 +217,7 @@ func (f *RssFeed) MarkAllItemsRead() {
 }
 
 func (l *List) MarkAllFeedsRead() {
-	for _, feed := range l.All {
+	for _, feed := range l.Feeds {
 		feed.MarkAllItemsRead()
 	}
 }
@@ -251,8 +253,8 @@ func (f *RssFeed) Latest() string {
 	}
 }
 
-func (fl *List) ToJson() ([]byte, error) {
-	return json.Marshal(fl)
+func (l *List) ToJson() ([]byte, error) {
+	return json.Marshal(l)
 }
 
 /*
@@ -262,8 +264,8 @@ f, _ := os.Create("data.json")
 defer f.Close()
 l.Save(f)
 */
-func (fl *List) Save(w io.Writer) error {
-	data, err := fl.ToJson()
+func (l *List) Save(w io.Writer) error {
+	data, err := l.ToJson()
 	_, err = w.Write(data)
 	return err
 }
@@ -279,11 +281,37 @@ l, err := Restore(f)
 			log.Fatalf("failed to restore feeds: %v", err)
 	}
 */
-func Restore(r io.Reader) (List, error) {
-	var fl List
+func (l *List) Restore(r io.Reader) error {
 	dec := json.NewDecoder(r)
-	if err := dec.Decode(&fl); err != nil {
-		return fl, err
+	if err := dec.Decode(&l); err != nil {
+		return err
 	}
-	return fl, nil
+	return nil
+}
+
+func LoadList(filesystem fs.FS) (*List, string, error) {
+	var statusMsg string
+	l := List{}
+
+	f, err := os.Open("data.json")
+	if err != nil {
+		fmt.Println("Error opening data file:", err)
+
+		feeds, err := CreateFeedsFromYaml(filesystem)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		l.Add(feeds...)
+		statusMsg = "Feeds loaded from YAML file"
+	}
+	defer f.Close()
+
+	err = l.Restore(f)
+	if err != nil {
+		return &l, statusMsg, err
+	}
+	statusMsg = "Feeds restored from JSON file"
+
+	return &l, statusMsg, nil
 }

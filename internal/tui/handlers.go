@@ -47,7 +47,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 	if i, ok := m.lf.SelectedItem().(feedItem); ok {
 		f := i.rssFeed
 		f.MarkAllItemsRead()
-		all := buildFeedList(m.l.All)
+		all := buildFeedList(m.l.Feeds)
 		m.lf.SetItems(all)
 		m.lf.NewStatusMessage(MsgMarkFeedRead)
 	}
@@ -55,7 +55,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 }
 
 func handleBack(m *model) tea.Cmd {
-	all := buildFeedList(m.l.All)
+	all := buildFeedList(m.l.Feeds)
 	m.lf.SetItems(all)
 	m.lf.ResetFilter()
 	m.selectedFeed = nil
@@ -64,7 +64,7 @@ func handleBack(m *model) tea.Cmd {
 
 func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	m.l.MarkAllFeedsRead()
-	all := buildFeedList(m.l.All)
+	all := buildFeedList(m.l.Feeds)
 	m.lf.SetItems(all)
 	m.lf.NewStatusMessage(MsgMarkAllFeedsRead)
 	m.SaveState()
@@ -114,7 +114,7 @@ func handleUpdateFeed(m *model) tea.Cmd {
 			if err != nil {
 				m.lf.NewStatusMessage(ErrUpdatingFeed)
 			}
-			all := buildFeedList(m.l.All)
+			all := buildFeedList(m.l.Feeds)
 			m.lf.SetItems(all)
 			m.lf.NewStatusMessage(MsgFeedUpdated)
 			m.SaveState()
@@ -131,7 +131,7 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 		if err != nil {
 			m.lf.NewStatusMessage(ErrUpdatingFeeds)
 		}
-		all := buildFeedList(m.l.All)
+		all := buildFeedList(m.l.Feeds)
 		m.lf.SetItems(all)
 		m.lf.NewStatusMessage(MsgAllFeedsUpdated)
 		m.li.NewStatusMessage(MsgAllFeedsUpdated)
