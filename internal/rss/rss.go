@@ -227,38 +227,27 @@ func (i *RssItem) Title() string {
 	return i.Item.Title
 }
 
-func (f *RssFeed) GetField(field string) string {
-	switch field {
-	case "Url":
+func (f *RssFeed) Title() string {
+	if f.Feed == nil || f.Feed.Title == "" {
 		return f.Url
+	}
+	if f.HasUnread() {
+		return fmt.Sprintf("🟢 %s", f.Feed.Title)
+	}
+	return f.Feed.Title
+}
 
-	case "Category":
-		return f.Category
-
-	case "Title":
-		if f.Feed == nil || f.Feed.Title == "" {
-			return f.Url
-		}
-		if f.HasUnread() {
-			return fmt.Sprintf("🟢 %s", f.Feed.Title)
-		}
-		return f.Feed.Title
-
-	case "Latest":
-		switch {
-		case f.Error != "":
-			return f.Error
-		case len(f.RssItems) > 0:
-			last := f.RssItems[0]
-			return last.Item.Title
-		case f.Feed != nil:
-			return f.Feed.Description
-		default:
-			return MsgFeedNotLoaded
-		}
-
+func (f *RssFeed) Latest() string {
+	switch {
+	case f.Error != "":
+		return f.Error
+	case len(f.RssItems) > 0:
+		last := f.RssItems[0]
+		return last.Item.Title
+	case f.Feed != nil:
+		return f.Feed.Description
 	default:
-		return ""
+		return MsgFeedNotLoaded
 	}
 }
 

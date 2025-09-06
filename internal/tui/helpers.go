@@ -14,8 +14,8 @@ import (
 func buildFeedList(feeds []*rss.RssFeed) []list.Item {
 	var listItems []list.Item
 	for _, feed := range feeds {
-		title := feed.GetField("Title")
-		description := feed.GetField("Latest")
+		title := feed.Title()
+		description := feed.Latest()
 		listItems = append(listItems, feedItem{
 			title:   title,
 			desc:    description,

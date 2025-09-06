@@ -177,9 +177,8 @@ func TestFeed(t *testing.T) {
 	t.Run("Get url instead of title when title not set", func(t *testing.T) {
 		_, _, rssFeed, _, _, _ := newTestData()
 
-		columnName := "Title"
 		rssFeed.Feed.Title = ""
-		field := rssFeed.GetField(columnName)
+		field := rssFeed.Title()
 
 		if field != rssFeed.Url {
 			t.Error("Feed title should be url when no title present")
@@ -187,43 +186,24 @@ func TestFeed(t *testing.T) {
 
 		rssFeed.Feed.Title = "Feed title"
 
-		field = rssFeed.GetField(columnName)
+		field = rssFeed.Title()
 		if field != "🟢 Feed title" {
 			t.Error("Unread feed title not returned")
 		}
 
 		rssFeed.MarkAllItemsRead()
 
-		field = rssFeed.GetField(columnName)
+		field = rssFeed.Title()
 		if field != "Feed title" {
 			t.Error("Read feed title not returned")
-		}
-	})
-
-	t.Run("Test feed fields", func(t *testing.T) {
-		_, _, rssFeed, _, _, _ := newTestData()
-
-		fieldsTest := []struct {
-			field string
-			want  string
-		}{
-			{"Url", rssFeed.Url},
-			{"Category", rssFeed.Category},
-		}
-		for _, tt := range fieldsTest {
-			got := rssFeed.GetField(tt.field)
-			if got != tt.want {
-				t.Error("Should return correct field")
-			}
 		}
 	})
 
 	t.Run("Should get feed description when feed does not have items", func(t *testing.T) {
 		_, _, _, rssFeedWithoutItems, _, _ := newTestData()
 
-		field := "Latest"
 		want := "Feed description"
-		got := rssFeedWithoutItems.GetField(field)
+		got := rssFeedWithoutItems.Latest()
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
@@ -232,9 +212,8 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get latest item title when items present", func(t *testing.T) {
 		_, _, rssFeed, _, _, _ := newTestData()
 
-		field := "Latest"
 		want := "Latest item title"
-		got := rssFeed.GetField(field)
+		got := rssFeed.Latest()
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
@@ -243,10 +222,9 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get error message if present", func(t *testing.T) {
 		_, _, rssFeed, _, _, _ := newTestData()
 
-		field := "Latest"
 		want := "Error happened"
 		rssFeed.Error = want
-		got := rssFeed.GetField(field)
+		got := rssFeed.Latest()
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)
 		}
@@ -255,23 +233,11 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get message when feed not loaded yet", func(t *testing.T) {
 		_, _, rssFeed, _, rssFeedUnloaded, _ := newTestData()
 
-		field := "Latest"
 		want := MsgFeedNotLoaded
 		rssFeed.Error = want
-		got := rssFeedUnloaded.GetField(field)
+		got := rssFeedUnloaded.Latest()
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)
-		}
-	})
-
-	t.Run("Should handle when no field name given", func(t *testing.T) {
-		_, _, rssFeed, _, _, _ := newTestData()
-
-		field := "XYZ"
-		want := ""
-		got := rssFeed.GetField(field)
-		if got != want {
-			t.Errorf("Did not get default field value")
 		}
 	})
 
