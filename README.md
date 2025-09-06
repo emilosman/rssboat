@@ -13,7 +13,6 @@
 - [ ] Refresh status messages fix
 - [ ] Content display view
 - [ ] Unread counter (15/254)
-- [ ] Messages moved to vars
 - [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 10s
 - [ ] Unread items should have different color
@@ -25,7 +24,6 @@
 - [ ] Record demo using Charm's vhs
 
 ## Refactor
-- [ ] DRY cleanup
 - [ ] Refactor list updates into helper func
 - [ ] Refactor feed/item open error messages and funcs
 
@@ -41,6 +39,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Messages moved to vars
+- [x] DRY cleanup
 - [x] Refactor use of pointers
 - [x] Increase test coverage
 - [x] Sort feed items by date
