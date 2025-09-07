@@ -38,7 +38,8 @@ type RssItem struct {
 }
 
 type List struct {
-	Feeds []*RssFeed
+	Feeds     []*RssFeed
+	FeedIndex map[string]*RssFeed
 }
 
 func (i *RssItem) ToggleRead() {
@@ -192,10 +193,12 @@ func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {
 	var feeds []*RssFeed
 	for category, urls := range raw {
 		for _, u := range urls {
-			feeds = append(feeds, &RssFeed{
+			feed := &RssFeed{
 				Url:      u,
 				Category: category,
-			})
+			}
+			l.FeedIndex[u] = feed
+			feeds = append(feeds, feed)
 		}
 	}
 
@@ -297,12 +300,20 @@ func (l *List) Restore(r io.Reader) error {
 		return ErrChacheEmpty
 	}
 
-	*l = decoded
+	for _, decodedFeed := range decoded.Feeds {
+		feed := l.FeedIndex[decodedFeed.Url]
+		if feed != nil {
+			*feed = *decodedFeed
+		}
+	}
+
 	return nil
 }
 
 func LoadList(filesystem fs.FS) (*List, error) {
-	l := List{}
+	l := List{
+		FeedIndex: make(map[string]*RssFeed),
+	}
 
 	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
 	if err != nil {

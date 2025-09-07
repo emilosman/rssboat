@@ -43,7 +43,8 @@ func newTestData() (RssItem, RssItem, RssFeed, RssFeed, RssFeed, List) {
 	rssFeedUnloaded := RssFeed{Url: "example.com"}
 
 	l := List{
-		Feeds: []*RssFeed{&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems},
+		Feeds:     []*RssFeed{&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems},
+		FeedIndex: make(map[string]*RssFeed),
 	}
 
 	return unreadRssItem, readRssItem, rssFeed, rssFeedWithoutItems, rssFeedUnloaded, l

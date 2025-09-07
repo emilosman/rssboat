@@ -2,8 +2,7 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Check YAML file when restoring from JSON
-- [ ] feeds.yml should not be relative path
+- [ ] urls.yaml should not be relative path
 - [ ] Parse URL with standard library to check for errors
 
 ## Todo
@@ -39,6 +38,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] FeedIndex
+- [x] Check YAML file when restoring from JSON
 - [x] Messages moved to vars
 - [x] DRY cleanup
 - [x] Refactor use of pointers
