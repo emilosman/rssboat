@@ -161,7 +161,7 @@ func TestFeed(t *testing.T) {
 
 	t.Run("Should load list", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"feeds.yml": {Data: yamlData},
+			"urls.yaml": {Data: yamlData},
 		}
 
 		l, _, err := LoadList(fs)
@@ -534,21 +534,22 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Create feeds from YAML", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
 		fs := fstest.MapFS{
-			"feeds.yml": {Data: yamlData},
+			"urls.yaml": {Data: yamlData},
 		}
 
-		feeds, err := CreateFeedsFromYaml(fs)
+		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
 		if err != nil {
 			t.Errorf("Error reading file: %q", err)
 		}
 
 		rawItemCount := bytes.Count(yamlData, []byte(`http`))
-		if len(feeds) != rawItemCount {
-			t.Errorf("Wrong number of feeds created, wanted %d, get %d", rawItemCount, len(feeds))
+		if len(l.Feeds) != rawItemCount {
+			t.Errorf("Wrong number of feeds created, wanted %d, get %d", rawItemCount, len(l.Feeds))
 		}
 
-		for _, feed := range feeds {
+		for _, feed := range l.Feeds {
 			if feed.Url == "" {
 				t.Error("Feed URL not set when creating from file")
 			}
@@ -556,22 +557,26 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Handle missing feeds file", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		fs := fstest.MapFS{
-			"other.yml": {Data: []byte(``)},
+			"other.yaml": {Data: []byte(``)},
 		}
 
-		_, err := CreateFeedsFromYaml(fs)
+		err := l.CreateFeedsFromYaml(fs, "other.yaml")
 		if err == nil {
 			t.Error("Should raise error when file not found")
 		}
 	})
 
 	t.Run("Handle invalid feeds file", func(t *testing.T) {
+		_, _, _, _, _, l := newTestData()
+
 		fs := fstest.MapFS{
-			"feeds.yml": {Data: []byte("invalid: [unbalanced")},
+			"urls.yaml": {Data: []byte("invalid: [unbalanced")},
 		}
 
-		_, err := CreateFeedsFromYaml(fs)
+		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
 		if err == nil {
 			t.Error("Should raise error when file invalid")
 		}

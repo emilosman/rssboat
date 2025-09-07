@@ -67,3 +67,10 @@
 - [x] Make field test names descriptive
 - [x] Table test field names
 - [x] Test unloadedFeed
+
+
+## Paths
+
+### MacOS
+- cache: ~/Library/Caches/Ajmo/data.json
+- config ~/Library/Caches/rssboat/urls.json

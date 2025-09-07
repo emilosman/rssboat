@@ -39,7 +39,7 @@ func initialModel() *model {
 
 	l, statusMsg, err := rss.LoadList(filesystem)
 	if err != nil {
-		fmt.Println("Error loading list:")
+		fmt.Println("Error loading list:", err)
 	}
 
 	feeds := buildFeedList(l.Feeds)

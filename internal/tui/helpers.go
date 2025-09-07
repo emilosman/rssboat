@@ -60,11 +60,17 @@ func openInBrowser(url string) error {
 }
 
 func (m *model) SaveState() error {
-	f, err := os.Create("./data.json")
+	cacheFilePath, err := rss.CacheFilePath()
+	if err != nil {
+		return err
+	}
+
+	f, err := os.Create(cacheFilePath)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
+
 	return m.l.Save(f)
 }
 

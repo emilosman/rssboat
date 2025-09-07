@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"path/filepath"
 	"sort"
 	"sync"
 
@@ -173,10 +174,10 @@ func (l *List) UpdateAll() error {
 	return nil
 }
 
-func CreateFeedsFromYaml(filesystem fs.FS) ([]*RssFeed, error) {
-	file, err := filesystem.Open("feeds.yml")
+func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {
+	file, err := filesystem.Open(filename)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer file.Close()
 
@@ -184,7 +185,7 @@ func CreateFeedsFromYaml(filesystem fs.FS) ([]*RssFeed, error) {
 
 	var raw map[string][]string
 	if err := yaml.Unmarshal(yamlData, &raw); err != nil {
-		return nil, err
+		return err
 	}
 
 	var feeds []*RssFeed
@@ -197,7 +198,9 @@ func CreateFeedsFromYaml(filesystem fs.FS) ([]*RssFeed, error) {
 		}
 	}
 
-	return feeds, nil
+	l.Add(feeds...)
+
+	return nil
 }
 
 func (f *RssFeed) HasUnread() bool {
@@ -281,10 +284,19 @@ l, err := Restore(f)
 	}
 */
 func (l *List) Restore(r io.Reader) error {
-	dec := json.NewDecoder(r)
-	if err := dec.Decode(&l); err != nil {
+	var decoded List
+	decoder := json.NewDecoder(r)
+
+	err := decoder.Decode(&decoded)
+	if err != nil {
 		return err
 	}
+
+	if len(decoded.Feeds) == 0 {
+		return errors.New("Cache empty")
+	}
+
+	*l = decoded
 	return nil
 }
 
@@ -292,17 +304,23 @@ func LoadList(filesystem fs.FS) (*List, string, error) {
 	var statusMsg string
 	l := List{}
 
-	f, err := os.Open("data.json")
+	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
 	if err != nil {
-		fmt.Println("Error opening data file:", err)
+		return &l, statusMsg, err
+	}
 
-		feeds, err := CreateFeedsFromYaml(filesystem)
-		if err != nil {
-			return &l, statusMsg, err
-		}
+	statusMsg += "Feeds loaded from YAML file."
 
-		l.Add(feeds...)
-		statusMsg = "Feeds loaded from YAML file"
+	cacheFilePath, err := CacheFilePath()
+	if err != nil {
+		statusMsg = "No cache found. "
+		return &l, statusMsg, err
+	}
+
+	f, err := os.Open(cacheFilePath)
+	if err != nil {
+		statusMsg += err.Error()
+
 	}
 	defer f.Close()
 
@@ -310,7 +328,19 @@ func LoadList(filesystem fs.FS) (*List, string, error) {
 	if err != nil {
 		return &l, statusMsg, err
 	}
-	statusMsg = "Feeds restored from JSON file"
+	statusMsg = "Feeds restored from cache."
 
 	return &l, statusMsg, nil
+}
+
+func CacheFilePath() (string, error) {
+	dir, err := os.UserCacheDir()
+	if err != nil {
+		return "", err
+	}
+	appDir := filepath.Join(dir, "rssboat")
+	if err := os.MkdirAll(appDir, 0755); err != nil {
+		return "", err
+	}
+	return filepath.Join(appDir, "data.json"), nil
 }
