@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
-	"log"
 	"os"
 	"sort"
 	"sync"
@@ -299,7 +298,7 @@ func LoadList(filesystem fs.FS) (*List, string, error) {
 
 		feeds, err := CreateFeedsFromYaml(filesystem)
 		if err != nil {
-			log.Fatal(err)
+			return &l, statusMsg, err
 		}
 
 		l.Add(feeds...)
