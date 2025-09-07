@@ -192,6 +192,19 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Should handle urls.yaml not existing", func(t *testing.T) {
+		fs := fstest.MapFS{}
+
+		l, err := LoadList(fs)
+		if err == nil {
+			t.Errorf("Should throw error")
+		}
+
+		if l == nil {
+			t.Error("List should have been returned")
+		}
+	})
+
 	t.Run("Should handle invalid JSON file", func(t *testing.T) {
 		_, _, _, _, _, l := newTestData()
 		err := l.Restore(invalidJson)
