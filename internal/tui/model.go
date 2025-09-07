@@ -37,7 +37,7 @@ type model struct {
 func initialModel() *model {
 	filesystem := os.DirFS(".")
 
-	l, statusMsg, err := rss.LoadList(filesystem)
+	l, err := rss.LoadList(filesystem)
 	if err != nil {
 		fmt.Println("Error loading list:", err)
 	}
@@ -52,7 +52,7 @@ func initialModel() *model {
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
 	m.lf.Title = "rssboat"
-	m.lf.NewStatusMessage(statusMsg)
+	m.lf.NewStatusMessage("OK")
 
 	return &m
 }

@@ -159,12 +159,29 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Should handle restore feeds from empty JSON file", func(t *testing.T) {
+		var l List
+
+		var buf bytes.Buffer
+
+		err := l.Save(&buf)
+		if err != nil {
+			t.Fatalf("Unexpected error: %q", err)
+		}
+
+		err = l.Restore(&buf)
+		assertError(t, err, ErrChacheEmpty)
+		if err == nil {
+			t.Fatalf("")
+		}
+	})
+
 	t.Run("Should load list", func(t *testing.T) {
 		fs := fstest.MapFS{
 			"urls.yaml": {Data: yamlData},
 		}
 
-		l, _, err := LoadList(fs)
+		l, err := LoadList(fs)
 		if err != nil {
 			t.Errorf("Error loading list: %q", err)
 		}

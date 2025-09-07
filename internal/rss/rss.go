@@ -19,6 +19,7 @@ var (
 	ErrFeedHasNoUrl    = errors.New("Feed has no URL")
 	ErrNoFeedsInList   = errors.New("No feeds in list")
 	ErrNoCategoryGiven = errors.New("No category given")
+	ErrChacheEmpty     = errors.New("Cache empty")
 	MsgFeedNotLoaded   = "Feed not loaded yet. Press shift+r"
 )
 
@@ -293,44 +294,38 @@ func (l *List) Restore(r io.Reader) error {
 	}
 
 	if len(decoded.Feeds) == 0 {
-		return errors.New("Cache empty")
+		return ErrChacheEmpty
 	}
 
 	*l = decoded
 	return nil
 }
 
-func LoadList(filesystem fs.FS) (*List, string, error) {
-	var statusMsg string
+func LoadList(filesystem fs.FS) (*List, error) {
 	l := List{}
 
 	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
 	if err != nil {
-		return &l, statusMsg, err
+		return &l, err
 	}
-
-	statusMsg += "Feeds loaded from YAML file."
 
 	cacheFilePath, err := CacheFilePath()
 	if err != nil {
-		statusMsg = "No cache found. "
-		return &l, statusMsg, err
+		return &l, err
 	}
 
 	f, err := os.Open(cacheFilePath)
 	if err != nil {
-		statusMsg += err.Error()
-
+		return &l, err
 	}
 	defer f.Close()
 
 	err = l.Restore(f)
 	if err != nil {
-		return &l, statusMsg, err
+		return &l, err
 	}
-	statusMsg = "Feeds restored from cache."
 
-	return &l, statusMsg, nil
+	return &l, nil
 }
 
 func CacheFilePath() (string, error) {
