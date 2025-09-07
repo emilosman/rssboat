@@ -546,7 +546,7 @@ func TestFeed(t *testing.T) {
 
 		rawItemCount := bytes.Count(yamlData, []byte(`http`))
 		if len(l.Feeds) != rawItemCount {
-			t.Errorf("Wrong number of feeds created, wanted %d, get %d", rawItemCount, len(l.Feeds))
+			t.Errorf("Wrong number of feeds created, wanted %d, got %d", rawItemCount, len(l.Feeds))
 		}
 
 		for _, feed := range l.Feeds {
@@ -559,11 +559,9 @@ func TestFeed(t *testing.T) {
 	t.Run("Handle missing feeds file", func(t *testing.T) {
 		_, _, _, _, _, l := newTestData()
 
-		fs := fstest.MapFS{
-			"other.yaml": {Data: []byte(``)},
-		}
+		fs := fstest.MapFS{}
 
-		err := l.CreateFeedsFromYaml(fs, "other.yaml")
+		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
 		if err == nil {
 			t.Error("Should raise error when file not found")
 		}

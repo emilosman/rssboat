@@ -198,7 +198,7 @@ func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {
 		}
 	}
 
-	l.Add(feeds...)
+	l.Feeds = feeds
 
 	return nil
 }
