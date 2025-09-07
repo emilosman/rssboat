@@ -1,7 +1,6 @@
 package tui
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/charmbracelet/bubbles/list"
@@ -32,15 +31,13 @@ type model struct {
 	selectedFeed *rss.RssFeed
 	lf           list.Model
 	li           list.Model
+	tabs         []string
 }
 
 func initialModel() *model {
 	filesystem := os.DirFS(".")
 
 	l, err := rss.LoadList(filesystem)
-	if err != nil {
-		fmt.Println("Error loading list:", err)
-	}
 
 	feeds := buildFeedList(l.Feeds)
 
@@ -52,7 +49,10 @@ func initialModel() *model {
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
 	m.lf.Title = "rssboat"
-	m.lf.NewStatusMessage("OK")
+
+	if err != nil {
+		m.lf.NewStatusMessage(err.Error())
+	}
 
 	return &m
 }

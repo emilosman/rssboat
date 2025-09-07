@@ -2,11 +2,11 @@
 - RSS reader inspired by newsboat
 
 ## MVP
+- [ ] Tabs for categories
 - [ ] urls.yaml should not be relative path
 - [ ] Parse URL with standard library to check for errors
 
 ## Todo
-- [ ] Tabs for categories
 - [ ] Tab change on 1-9 or Tab
 - [ ] Feeds should load async on UpdateAll(), update one-by-one
 - [ ] Refresh status messages fix
