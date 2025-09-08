@@ -31,7 +31,7 @@ type model struct {
 	selectedFeed *rss.RssFeed
 	lf           list.Model
 	li           list.Model
-	tabs         []string
+	tabs         string
 }
 
 func initialModel() *model {
@@ -40,15 +40,17 @@ func initialModel() *model {
 	l, err := rss.LoadList(filesystem)
 
 	feeds := buildFeedList(l.Feeds)
+	tabs := buildTabs(l)
 
 	m := model{
-		l:  l,
-		lf: list.New(feeds, list.NewDefaultDelegate(), 0, 0),
-		li: list.New(nil, list.NewDefaultDelegate(), 0, 0),
+		l:    l,
+		lf:   list.New(feeds, list.NewDefaultDelegate(), 0, 0),
+		li:   list.New(nil, list.NewDefaultDelegate(), 0, 0),
+		tabs: tabs,
 	}
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
-	m.lf.Title = "rssboat"
+	m.lf.SetShowTitle(false)
 
 	if err != nil {
 		m.lf.NewStatusMessage(err.Error())

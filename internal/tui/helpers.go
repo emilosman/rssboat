@@ -40,6 +40,18 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 	return listItems
 }
 
+func buildTabs(l *rss.List) string {
+	categories, err := l.GetAllCategories()
+	var renderedTabs string
+	if err != nil {
+		return ""
+	}
+	for title := range categories {
+		renderedTabs += fmt.Sprintf("%s ", title)
+	}
+	return fmt.Sprintf("%s\n", renderedTabs)
+}
+
 func openInBrowser(url string) error {
 	var browserCmd = map[string][]string{
 		"darwin":  {"open"},
