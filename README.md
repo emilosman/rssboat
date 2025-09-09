@@ -3,6 +3,7 @@
 
 ## MVP
 - [ ] Tabs for categories
+  - [ ] "All" tab
   - [example](https://github.com/charmbracelet/bubbletea/blob/28ab4f41b29fef14d900c46a4873a45891a9ee9b/examples/tabs/main.go#L40)
 - [ ] urls.yaml should not be relative path
 - [ ] Parse URL with standard library to check for errors

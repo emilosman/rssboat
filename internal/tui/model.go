@@ -50,7 +50,7 @@ func initialModel() *model {
 	}
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
-	m.lf.SetShowTitle(false)
+	m.lf.Title = "rssboat"
 
 	if err != nil {
 		m.lf.NewStatusMessage(err.Error())
