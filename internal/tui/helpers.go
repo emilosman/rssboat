@@ -8,7 +8,19 @@ import (
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/emilosman/rssboat/internal/rss"
+)
+
+var (
+	activeTabStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color("#ff4fff")).
+			Padding(0, 1)
+
+	inactiveTabStyle = lipgloss.NewStyle().
+				Foreground(lipgloss.Color("#767676")).
+				Padding(0, 1)
 )
 
 func buildFeedList(l *rss.List, tabs []string, activeTab int) []list.Item {
@@ -64,11 +76,12 @@ func renderedTabs(m *model) string {
 	var renderedTabs string
 	for i, tab := range m.tabs {
 		if i == m.activeTab {
-			renderedTabs += fmt.Sprintf("*%s* ", tab)
+			renderedTabs += activeTabStyle.Render(tab)
 		} else {
-			renderedTabs += fmt.Sprintf("%s ", tab)
+			renderedTabs += inactiveTabStyle.Render(tab)
 		}
 	}
+
 	return fmt.Sprintf("%s\n", renderedTabs)
 }
 

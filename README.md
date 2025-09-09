@@ -2,18 +2,18 @@
 - RSS reader inspired by newsboat
 
 ## MVP
+- [ ] Feeds should load async on UpdateAll(), update one-by-one
 - [ ] urls.yaml should not be relative path
-- [ ] Parse URL with standard library to check for errors
 
 ## Todo
+- [ ] Parse URL with standard library to check for errors
 - Tabs
-  - [ ] Color active tab
   - [ ] "All" tab
   - [ ] Tab change on 1-9 or Tab
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
   - [ ] Unread indicator tab
-- [ ] Feeds should load async on UpdateAll(), update one-by-one
+- [ ] CategoriesIndex on List
 - [ ] Refresh status messages fix
 - [ ] Content display view
 - [ ] Unread counter (15/254)
@@ -28,6 +28,8 @@
 - [ ] Record demo using Charm's vhs
 
 ## Refactor
+- [ ] Refactor feed list title usage + custom status message display ?
+- [ ] Refactor GetCategory
 - [ ] Refactor list updates into helper func
 - [ ] Refactor feed/item open error messages and funcs
 
@@ -43,6 +45,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Color active tab
 - [x] Tabs for categories
   - [example](https://github.com/charmbracelet/bubbletea/blob/28ab4f41b29fef14d900c46a4873a45891a9ee9b/examples/tabs/main.go#L40)
 - [x] FeedIndex
