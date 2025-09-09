@@ -31,7 +31,8 @@ type model struct {
 	selectedFeed *rss.RssFeed
 	lf           list.Model
 	li           list.Model
-	tabs         string
+	activeTab    int
+	tabs         []string
 }
 
 func initialModel() *model {
@@ -39,8 +40,9 @@ func initialModel() *model {
 
 	l, err := rss.LoadList(filesystem)
 
-	feeds := buildFeedList(l.Feeds)
-	tabs := buildTabs(l)
+	tabs := getTabs(l)
+	activeTab := 0
+	feeds := buildFeedList(l, tabs, activeTab)
 
 	m := model{
 		l:    l,

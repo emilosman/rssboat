@@ -11,7 +11,13 @@ import (
 	"github.com/emilosman/rssboat/internal/rss"
 )
 
-func buildFeedList(feeds []*rss.RssFeed) []list.Item {
+func buildFeedList(l *rss.List, tabs []string, activeTab int) []list.Item {
+	category := tabs[activeTab]
+	feeds, err := l.GetCategory(category)
+	if err != nil {
+		feeds = l.Feeds
+	}
+
 	var listItems []list.Item
 	for _, feed := range feeds {
 		title := feed.Title()
@@ -40,14 +46,28 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 	return listItems
 }
 
-func buildTabs(l *rss.List) string {
+func getTabs(l *rss.List) []string {
+	var tabs []string
 	categories, err := l.GetAllCategories()
-	var renderedTabs string
 	if err != nil {
-		return ""
+		return tabs
 	}
-	for title := range categories {
-		renderedTabs += fmt.Sprintf("%s ", title)
+
+	for category := range categories {
+		tabs = append(tabs, category)
+	}
+
+	return tabs
+}
+
+func renderedTabs(m *model) string {
+	var renderedTabs string
+	for i, tab := range m.tabs {
+		if i == m.activeTab {
+			renderedTabs += fmt.Sprintf("*%s* ", tab)
+		} else {
+			renderedTabs += fmt.Sprintf("%s ", tab)
+		}
 	}
 	return fmt.Sprintf("%s\n", renderedTabs)
 }

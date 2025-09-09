@@ -19,6 +19,7 @@ var (
 		"enter":  handleEnterFeed,
 		"esc":    handleQuit,
 		"ctrl+c": handleInterrupt,
+		"tab":    handleTabChange,
 	}
 
 	itemKeyHandlers = map[string]keyHandler{
@@ -31,6 +32,17 @@ var (
 		"enter": handleEnterItem,
 	}
 )
+
+func handleTabChange(m *model) tea.Cmd {
+	m.activeTab = min(m.activeTab+1, len(m.tabs)-1)
+	if m.activeTab == len(m.tabs)-1 {
+		m.activeTab = 0
+	}
+
+	items := buildFeedList(m.l, m.tabs, m.activeTab)
+	m.lf.SetItems(items)
+	return nil
+}
 
 func handleToggleRead(m *model) tea.Cmd {
 	i, ok := m.li.SelectedItem().(rssListItem)
@@ -47,16 +59,16 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 	if i, ok := m.lf.SelectedItem().(feedItem); ok {
 		f := i.rssFeed
 		f.MarkAllItemsRead()
-		all := buildFeedList(m.l.Feeds)
-		m.lf.SetItems(all)
+		items := buildFeedList(m.l, m.tabs, m.activeTab)
+		m.lf.SetItems(items)
 		m.lf.NewStatusMessage(MsgMarkFeedRead)
 	}
 	return nil
 }
 
 func handleBack(m *model) tea.Cmd {
-	all := buildFeedList(m.l.Feeds)
-	m.lf.SetItems(all)
+	items := buildFeedList(m.l, m.tabs, m.activeTab)
+	m.lf.SetItems(items)
 	m.lf.ResetFilter()
 	m.selectedFeed = nil
 	return nil
@@ -64,8 +76,8 @@ func handleBack(m *model) tea.Cmd {
 
 func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	m.l.MarkAllFeedsRead()
-	all := buildFeedList(m.l.Feeds)
-	m.lf.SetItems(all)
+	items := buildFeedList(m.l, m.tabs, m.activeTab)
+	m.lf.SetItems(items)
 	m.lf.NewStatusMessage(MsgMarkAllFeedsRead)
 	m.SaveState()
 	return nil
@@ -114,8 +126,8 @@ func handleUpdateFeed(m *model) tea.Cmd {
 			if err != nil {
 				m.lf.NewStatusMessage(ErrUpdatingFeed)
 			}
-			all := buildFeedList(m.l.Feeds)
-			m.lf.SetItems(all)
+			items := buildFeedList(m.l, m.tabs, m.activeTab)
+			m.lf.SetItems(items)
 			m.lf.NewStatusMessage(MsgFeedUpdated)
 			m.SaveState()
 		}(m)
@@ -131,8 +143,8 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 		if err != nil {
 			m.lf.NewStatusMessage(ErrUpdatingFeeds)
 		}
-		all := buildFeedList(m.l.Feeds)
-		m.lf.SetItems(all)
+		items := buildFeedList(m.l, m.tabs, m.activeTab)
+		m.lf.SetItems(items)
 		m.lf.NewStatusMessage(MsgAllFeedsUpdated)
 		m.li.NewStatusMessage(MsgAllFeedsUpdated)
 		m.SaveState()

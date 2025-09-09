@@ -10,5 +10,6 @@ func (m *model) View() string {
 	if m.selectedFeed != nil {
 		return docStyle.Render(m.li.View())
 	}
-	return docStyle.Render(m.tabs, m.lf.View())
+	t := renderedTabs(m)
+	return docStyle.Render(t, m.lf.View())
 }
