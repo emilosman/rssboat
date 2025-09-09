@@ -2,14 +2,16 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Color active tab
-- [ ] "All" tab
 - [ ] urls.yaml should not be relative path
 - [ ] Parse URL with standard library to check for errors
 
 ## Todo
-- [ ] Tab change on 1-9 or Tab
-- [ ] Test long feed list for "h" and "l" handling
+- Tabs
+  - [ ] Color active tab
+  - [ ] "All" tab
+  - [ ] Tab change on 1-9 or Tab
+  - [ ] Test long feed list for "h" and "l" handling
+  - [ ] Refresh tab only "ctrl+r"
 - [ ] Feeds should load async on UpdateAll(), update one-by-one
 - [ ] Refresh status messages fix
 - [ ] Content display view
