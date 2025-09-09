@@ -2,14 +2,14 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Tabs for categories
-  - [ ] "All" tab
-  - [example](https://github.com/charmbracelet/bubbletea/blob/28ab4f41b29fef14d900c46a4873a45891a9ee9b/examples/tabs/main.go#L40)
+- [ ] Color active tab
+- [ ] "All" tab
 - [ ] urls.yaml should not be relative path
 - [ ] Parse URL with standard library to check for errors
 
 ## Todo
 - [ ] Tab change on 1-9 or Tab
+- [ ] Test long feed list for "h" and "l" handling
 - [ ] Feeds should load async on UpdateAll(), update one-by-one
 - [ ] Refresh status messages fix
 - [ ] Content display view
@@ -40,6 +40,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Tabs for categories
+  - [example](https://github.com/charmbracelet/bubbletea/blob/28ab4f41b29fef14d900c46a4873a45891a9ee9b/examples/tabs/main.go#L40)
 - [x] FeedIndex
 - [x] Check YAML file when restoring from JSON
 - [x] Messages moved to vars

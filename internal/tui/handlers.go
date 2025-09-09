@@ -12,6 +12,8 @@ var (
 	feedKeyHandlers = map[string]keyHandler{
 		"A":      handleMarkFeedRead,
 		"C":      handleMarkAllFeedsRead,
+		"h":      handlePrevTab,
+		"l":      handleNextTab,
 		"o":      handleOpenFeed,
 		"r":      handleUpdateFeed,
 		"R":      handleUpdateAllFeeds,
@@ -19,7 +21,7 @@ var (
 		"enter":  handleEnterFeed,
 		"esc":    handleQuit,
 		"ctrl+c": handleInterrupt,
-		"tab":    handleTabChange,
+		"tab":    handleNextTab,
 	}
 
 	itemKeyHandlers = map[string]keyHandler{
@@ -33,16 +35,14 @@ var (
 	}
 )
 
-func handleTabChange(m *model) tea.Cmd {
+func handleNextTab(m *model) tea.Cmd {
 	m.activeTab = min(m.activeTab+1, len(m.tabs)-1)
-	if m.activeTab == len(m.tabs)-1 {
-		m.activeTab = 0
-	}
+	return rebuildFeedList(m)
+}
 
-	items := buildFeedList(m.l, m.tabs, m.activeTab)
-	m.lf.SetItems(items)
-	m.lf.Title = m.tabs[m.activeTab]
-	return nil
+func handlePrevTab(m *model) tea.Cmd {
+	m.activeTab = max(m.activeTab-1, 0)
+	return rebuildFeedList(m)
 }
 
 func handleToggleRead(m *model) tea.Cmd {
@@ -68,8 +68,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 }
 
 func handleBack(m *model) tea.Cmd {
-	items := buildFeedList(m.l, m.tabs, m.activeTab)
-	m.lf.SetItems(items)
+	rebuildFeedList(m)
 	m.lf.ResetFilter()
 	m.selectedFeed = nil
 	return nil
@@ -77,8 +76,7 @@ func handleBack(m *model) tea.Cmd {
 
 func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	m.l.MarkAllFeedsRead()
-	items := buildFeedList(m.l, m.tabs, m.activeTab)
-	m.lf.SetItems(items)
+	rebuildFeedList(m)
 	m.lf.NewStatusMessage(MsgMarkAllFeedsRead)
 	m.SaveState()
 	return nil
@@ -195,4 +193,11 @@ func handleEnterItem(m *model) tea.Cmd {
 func handleInterrupt(m *model) tea.Cmd {
 	m.SaveState()
 	return tea.Quit
+}
+
+func rebuildFeedList(m *model) tea.Cmd {
+	items := buildFeedList(m.l, m.tabs, m.activeTab)
+	m.lf.SetItems(items)
+	m.lf.Title = m.tabs[m.activeTab]
+	return nil
 }
