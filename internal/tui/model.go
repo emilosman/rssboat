@@ -52,7 +52,7 @@ func initialModel() *model {
 	}
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
-	m.lf.Title = "rssboat"
+	m.lf.Title = tabs[activeTab]
 
 	if err != nil {
 		m.lf.NewStatusMessage(err.Error())

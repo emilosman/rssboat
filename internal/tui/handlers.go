@@ -41,6 +41,7 @@ func handleTabChange(m *model) tea.Cmd {
 
 	items := buildFeedList(m.l, m.tabs, m.activeTab)
 	m.lf.SetItems(items)
+	m.lf.Title = m.tabs[m.activeTab]
 	return nil
 }
 
