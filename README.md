@@ -26,6 +26,7 @@
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] 100% test coverage of rss.go
 - [ ] Record demo using Charm's vhs
+- [ ] Fix linebreak in item titles
 
 ## Refactor
 - [ ] Refactor feed list title usage + custom status message display ?
@@ -46,6 +47,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Sanitize content (titles, items, descriptions) of HTML, JS, newlines...
 - [x] Handle update event for async
 - [x] Feeds should load async on UpdateAll(), update one-by-one
 - [x] Color active tab

@@ -4,14 +4,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"html"
 	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"sync"
 
 	yaml "github.com/goccy/go-yaml"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -239,20 +242,29 @@ func (l *List) MarkAllFeedsRead() {
 }
 
 func (i *RssItem) Title() string {
+	title := Clean(i.Item.Title)
 	if !i.Read {
-		return fmt.Sprintf("🟢 %s", i.Item.Title)
+		return fmt.Sprintf("🟢 %s", title)
 	}
-	return i.Item.Title
+	return title
 }
 
 func (f *RssFeed) Title() string {
 	if f.Feed == nil || f.Feed.Title == "" {
 		return f.Url
 	}
+
+	title := Clean(f.Feed.Title)
+
 	if f.HasUnread() {
-		return fmt.Sprintf("🟢 %s", f.Feed.Title)
+		return fmt.Sprintf("🟢 %s", title)
 	}
-	return f.Feed.Title
+
+	return title
+}
+
+func (i *RssItem) Description() string {
+	return Clean(i.Item.Description)
 }
 
 func (f *RssFeed) Latest() string {
@@ -359,4 +371,19 @@ func CacheFilePath() (string, error) {
 		return "", err
 	}
 	return filepath.Join(appDir, "data.json"), nil
+}
+
+func Clean(input string) string {
+	p := bluemonday.StrictPolicy()
+	clean := p.Sanitize(input)
+	decoded := html.UnescapeString(clean)
+	return normalizeSpaces(decoded)
+}
+
+func normalizeSpaces(s string) string {
+	s = strings.ReplaceAll(s, "\r\n", " ")
+	s = strings.ReplaceAll(s, "\n", " ")
+	s = strings.ReplaceAll(s, "\r", " ")
+
+	return strings.Join(strings.Fields(s), " ")
 }

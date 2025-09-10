@@ -11,6 +11,40 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
+var (
+	sanitationTests = []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "strips HTML tags",
+			input:    `Hello <b>World</b>`,
+			expected: "Hello World",
+		},
+		{
+			name:     "removes scripts",
+			input:    `Test <script>alert("x")</script> Done`,
+			expected: "Test Done",
+		},
+		{
+			name:     "decodes entities",
+			input:    `I&#39;M fine`,
+			expected: "I'M fine",
+		},
+		{
+			name:     "normalizes spaces and newlines",
+			input:    "Line1\nLine2   Line3\r\nLine4",
+			expected: "Line1 Line2 Line3 Line4",
+		},
+		{
+			name:     "mixed case",
+			input:    "COASTAL REGION:\n thu - partly cloudy; <sup><i>Run time: Wednesday ,",
+			expected: "COASTAL REGION: thu - partly cloudy; Run time: Wednesday ,",
+		},
+	}
+)
+
 func newTestData() (RssItem, RssItem, RssFeed, RssFeed, RssFeed, List) {
 	unreadRssItem := RssItem{
 		Read: false,
@@ -612,6 +646,57 @@ func TestFeed(t *testing.T) {
 		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
 		if err == nil {
 			t.Error("Should raise error when file invalid")
+		}
+	})
+
+	t.Run("Should sanitize text", func(t *testing.T) {
+		for _, tt := range sanitationTests {
+			t.Run(tt.name, func(t *testing.T) {
+				got := Clean(tt.input)
+				if got != tt.expected {
+					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+				}
+			})
+		}
+
+		for _, tt := range sanitationTests {
+			t.Run(tt.name, func(t *testing.T) {
+				item := RssItem{Item: &gofeed.Item{Description: tt.input}}
+
+				got := item.Description()
+				if got != tt.expected {
+					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+				}
+			})
+		}
+
+		for _, tt := range sanitationTests {
+			t.Run(tt.name, func(t *testing.T) {
+				item := RssItem{
+					Read: true,
+					Item: &gofeed.Item{Title: tt.input},
+				}
+
+				got := item.Title()
+				if got != tt.expected {
+					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+				}
+			})
+		}
+
+		for _, tt := range sanitationTests {
+			t.Run(tt.name, func(t *testing.T) {
+				feed := RssFeed{
+					Feed: &gofeed.Feed{
+						Title: tt.input,
+					},
+				}
+
+				got := feed.Title()
+				if got != tt.expected {
+					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+				}
+			})
 		}
 	})
 }

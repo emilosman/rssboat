@@ -80,7 +80,7 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 	for idx := range feed.RssItems {
 		ri := feed.RssItems[idx]
 		title := ri.Title()
-		description := ri.Item.Description
+		description := ri.Description()
 		listItems = append(listItems, rssListItem{
 			title: title,
 			desc:  description,
