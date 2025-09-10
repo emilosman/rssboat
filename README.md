@@ -12,6 +12,7 @@
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
   - [ ] Unread indicator tab
+- [ ] Edit urls.yaml with "shift+e"
 - [ ] Single feed refresh status messages fix
 - [ ] CategoriesIndex on List
 - [ ] Content display view
@@ -33,10 +34,11 @@
 - [ ] Refactor feed/item open error messages and funcs
 
 ## Future
-- [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 - [ ] Public repo
 - [ ] Licencing
 - [ ] GH sponsors
+- [ ] Reddit post
+- [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 
 ## Maybe
 - [ ] Confirmation Y/N on major commands
