@@ -267,15 +267,19 @@ func (i *RssItem) Description() string {
 	return Clean(i.Item.Description)
 }
 
+func (f *RssFeed) Description() string {
+	return Clean(f.Feed.Description)
+}
+
 func (f *RssFeed) Latest() string {
 	switch {
 	case f.Error != "":
 		return f.Error
 	case len(f.RssItems) > 0:
 		last := f.RssItems[0]
-		return last.Item.Title
+		return last.Title()
 	case f.Feed != nil:
-		return f.Feed.Description
+		return f.Description()
 	default:
 		return MsgFeedNotLoaded
 	}
