@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/charmbracelet/bubbles/list"
@@ -27,6 +28,7 @@ func (r rssListItem) Description() string { return r.desc }
 func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
+	prog         *tea.Program
 	l            *rss.List
 	selectedFeed *rss.RssFeed
 	lf           list.Model
@@ -44,12 +46,13 @@ func initialModel() *model {
 	activeTab := 0
 	feeds := buildFeedList(l, tabs, activeTab)
 
-	m := model{
+	m := &model{
 		l:    l,
 		lf:   list.New(feeds, list.NewDefaultDelegate(), 0, 0),
 		li:   list.New(nil, list.NewDefaultDelegate(), 0, 0),
 		tabs: tabs,
 	}
+
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
 	m.lf.Title = tabs[activeTab]
@@ -58,7 +61,7 @@ func initialModel() *model {
 		m.lf.NewStatusMessage(err.Error())
 	}
 
-	return &m
+	return m
 }
 
 func (m *model) Init() tea.Cmd {
@@ -67,6 +70,14 @@ func (m *model) Init() tea.Cmd {
 
 func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
+	case feedUpdatedMsg:
+		if msg.Err != nil {
+			m.lf.NewStatusMessage(fmt.Sprintf("Error updating %s: %v", msg.Feed.Url, msg.Err))
+		} else {
+			rebuildFeedList(m)
+			m.lf.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))
+		}
+		return m, nil
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler
 		if m.lf.FilterState().String() != "filtering" && m.li.FilterState().String() != "filtering" {

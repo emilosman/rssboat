@@ -271,10 +271,9 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Should get message when feed not loaded yet", func(t *testing.T) {
-		_, _, rssFeed, _, rssFeedUnloaded, _ := newTestData()
+		_, _, _, _, rssFeedUnloaded, _ := newTestData()
 
 		want := MsgFeedNotLoaded
-		rssFeed.Error = want
 		got := rssFeedUnloaded.Latest()
 		if got != want {
 			t.Errorf("Did not get latest feed item title, wanted %s, got %s", want, got)

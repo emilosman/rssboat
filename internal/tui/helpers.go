@@ -28,17 +28,17 @@ type feedUpdatedMsg struct {
 	Err  error
 }
 
-func updateAllFeedsCmd(l *rss.List) tea.Cmd {
+func updateAllFeedsCmd(m *model) tea.Cmd {
 	return func() tea.Msg {
-		results, err := l.UpdateAllAsync()
+		results, err := m.l.UpdateAllAsync()
 		if err != nil {
 			return feedUpdatedMsg{Feed: nil, Err: err}
 		}
 
 		go func() {
-			for range l.Feeds {
+			for range m.l.Feeds {
 				res := <-results
-				tea.Println(fmt.Sprintf("Feed updated: %s (err=%v)", res.Feed.Url, res.Err))
+				m.prog.Send(feedUpdatedMsg{Feed: res.Feed, Err: res.Err})
 			}
 		}()
 
@@ -150,7 +150,11 @@ func (m *model) SaveState() error {
 }
 
 func BuildApp() {
-	if _, err := tea.NewProgram(initialModel()).Run(); err != nil {
+	m := initialModel()
+	p := tea.NewProgram(m)
+	m.prog = p
+
+	if _, err := p.Run(); err != nil {
 		fmt.Println("Error running program:", err)
 		os.Exit(1)
 	}

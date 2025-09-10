@@ -138,7 +138,7 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 	m.lf.NewStatusMessage(MsgUpdatingAllFeeds)
 	m.li.NewStatusMessage(MsgUpdatingAllFeeds)
 
-	return updateAllFeedsCmd(m.l)
+	return updateAllFeedsCmd(m)
 }
 
 func handleQuit(m *model) tea.Cmd {
