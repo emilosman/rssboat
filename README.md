@@ -2,7 +2,6 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Handle update event for async
 - [ ] urls.yaml should not be relative path
 
 ## Todo
@@ -13,8 +12,8 @@
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
   - [ ] Unread indicator tab
+- [ ] Single feed refresh status messages fix
 - [ ] CategoriesIndex on List
-- [ ] Refresh status messages fix
 - [ ] Content display view
 - [ ] Unread counter (15/254)
 - [ ] Unit test tui funcs (BuildFeedList...)
@@ -45,6 +44,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Handle update event for async
 - [x] Feeds should load async on UpdateAll(), update one-by-one
 - [x] Color active tab
 - [x] Tabs for categories
