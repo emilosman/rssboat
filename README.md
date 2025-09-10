@@ -2,7 +2,7 @@
 - RSS reader inspired by newsboat
 
 ## MVP
-- [ ] Feeds should load async on UpdateAll(), update one-by-one
+- [ ] Handle update event for async
 - [ ] urls.yaml should not be relative path
 
 ## Todo
@@ -45,6 +45,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Feeds should load async on UpdateAll(), update one-by-one
 - [x] Color active tab
 - [x] Tabs for categories
   - [example](https://github.com/charmbracelet/bubbletea/blob/28ab4f41b29fef14d900c46a4873a45891a9ee9b/examples/tabs/main.go#L40)
