@@ -286,7 +286,7 @@ func TestFeed(t *testing.T) {
 	t.Run("Should get latest item title when items present", func(t *testing.T) {
 		_, _, rssFeed, _, _, _ := newTestData()
 
-		want := "🟢 Latest item title"
+		want := "Latest item title"
 		got := rssFeed.Latest()
 		if got != want {
 			t.Errorf("Did not get correct value, wanted %s, got %s", want, got)

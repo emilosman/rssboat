@@ -277,7 +277,7 @@ func (f *RssFeed) Latest() string {
 		return f.Error
 	case len(f.RssItems) > 0:
 		last := f.RssItems[0]
-		return last.Title()
+		return Clean(last.Item.Title)
 	case f.Feed != nil:
 		return f.Description()
 	default:
