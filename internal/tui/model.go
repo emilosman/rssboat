@@ -78,6 +78,10 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.lf.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))
 		}
 		return m, nil
+	case feedsDoneMsg:
+		m.lf.NewStatusMessage(MsgAllFeedsUpdated)
+		m.li.NewStatusMessage(MsgAllFeedsUpdated)
+		return m, nil
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler
 		if m.lf.FilterState().String() != "filtering" && m.li.FilterState().String() != "filtering" {

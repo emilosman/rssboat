@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"sync"
 
 	yaml "github.com/goccy/go-yaml"
 	"github.com/mmcdole/gofeed"
@@ -166,13 +167,21 @@ func (l *List) UpdateAllAsync() (<-chan FeedResult, error) {
 	}
 
 	results := make(chan FeedResult, len(l.Feeds))
+	var wg sync.WaitGroup
+	wg.Add(len(l.Feeds))
 
 	for _, feed := range l.Feeds {
 		go func(f *RssFeed) {
+			defer wg.Done()
 			err := f.GetFeed()
 			results <- FeedResult{Feed: f, Err: err}
 		}(feed)
 	}
+
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
 
 	return results, nil
 }

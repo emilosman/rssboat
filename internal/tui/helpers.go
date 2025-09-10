@@ -28,6 +28,8 @@ type feedUpdatedMsg struct {
 	Err  error
 }
 
+type feedsDoneMsg struct{}
+
 func updateAllFeedsCmd(m *model) tea.Cmd {
 	return func() tea.Msg {
 		results, err := m.l.UpdateAllAsync()
@@ -36,10 +38,10 @@ func updateAllFeedsCmd(m *model) tea.Cmd {
 		}
 
 		go func() {
-			for range m.l.Feeds {
-				res := <-results
+			for res := range results {
 				m.prog.Send(feedUpdatedMsg{Feed: res.Feed, Err: res.Err})
 			}
+			m.prog.Send(feedsDoneMsg{})
 		}()
 
 		return MsgUpdatingAllFeeds
