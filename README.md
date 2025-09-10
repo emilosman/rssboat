@@ -5,6 +5,7 @@
 - [ ] urls.yaml should not be relative path
 
 ## Todo
+- [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Parse URL with standard library to check for errors
 - Tabs
   - [ ] "All" tab
@@ -21,7 +22,6 @@
 - [ ] Timeout network request 10s
 - [ ] Unread items should have different color
 - [ ] Should send update command after go func finishes
-- [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] 100% test coverage of rss.go
 - [ ] Record demo using Charm's vhs
