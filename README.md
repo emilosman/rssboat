@@ -21,8 +21,7 @@
 - [ ] Timeout network request 10s
 - [ ] Unread items should have different color
 - [ ] Should send update command after go func finishes
-- [ ] AdditionalShortHelpKeys() extend
-- [ ] AdditionalFullHelpKeys() extend
+- [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] 100% test coverage of rss.go
 - [ ] Record demo using Charm's vhs
@@ -36,7 +35,6 @@
 
 ## Future
 - [ ] Public repo
-- [ ] Licencing
 - [ ] GH sponsors
 - [ ] Reddit post
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
@@ -47,6 +45,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] License
 - [x] Sanitize content (titles, items, descriptions) of HTML, JS, newlines...
 - [x] Handle update event for async
 - [x] Feeds should load async on UpdateAll(), update one-by-one
