@@ -23,6 +23,36 @@ var (
 				Padding(0, 1)
 )
 
+type feedUpdatedMsg struct {
+	Feed *rss.RssFeed
+	Err  error
+}
+
+func updateAllFeedsCmd(l *rss.List) tea.Cmd {
+	return func() tea.Msg {
+		results, err := l.UpdateAllAsync()
+		if err != nil {
+			return feedUpdatedMsg{Feed: nil, Err: err}
+		}
+
+		go func() {
+			for range l.Feeds {
+				res := <-results
+				tea.Println(fmt.Sprintf("Feed updated: %s (err=%v)", res.Feed.Url, res.Err))
+			}
+		}()
+
+		return MsgUpdatingAllFeeds
+	}
+}
+
+func rebuildFeedList(m *model) tea.Cmd {
+	items := buildFeedList(m.l, m.tabs, m.activeTab)
+	m.lf.SetItems(items)
+	m.lf.Title = m.tabs[m.activeTab]
+	return nil
+}
+
 func buildFeedList(l *rss.List, tabs []string, activeTab int) []list.Item {
 	category := tabs[activeTab]
 	feeds, err := l.GetCategory(category)

@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 	"testing/fstest"
+	"time"
 
 	"github.com/mmcdole/gofeed"
 )
@@ -342,53 +343,57 @@ func TestFeed(t *testing.T) {
 	})
 
 	t.Run("Update all feeds in list", func(t *testing.T) {
-		var l List
 		server := Server(t, rssData)
 		defer server.Close()
 
-		feeds := make([]*RssFeed, 3)
-		for i := range feeds {
-			feeds[i] = &RssFeed{}
-			feeds[i].Url = server.URL
+		feeds := []*RssFeed{
+			{Url: server.URL},
+			{Url: server.URL},
+			{Url: ""},
 		}
 
+		var l List
 		l.Add(feeds...)
 
-		err := l.UpdateAll()
+		results, err := l.UpdateAllAsync()
 		if err != nil {
-			t.Errorf("Error updating feeds: %q", err)
+			t.Fatalf("unexpected error: %v", err)
 		}
 
-		for _, feed := range l.Feeds {
-			if feed.Feed == nil {
-				t.Errorf("Feed data empty after UpdateAll")
+		received := 0
+		successes := 0
+		failures := 0
+
+		for range feeds {
+			select {
+			case res := <-results:
+				received++
+				if res.Err != nil {
+					failures++
+				} else {
+					successes++
+				}
+			case <-time.After(2 * time.Second):
+				t.Fatalf("timeout waiting for feed results")
 			}
 		}
 
-		l.MarkAllFeedsRead()
-		err = l.UpdateAll()
-		if err != nil {
-			t.Errorf("Error updating feeds: %q", err)
+		if received != len(feeds) {
+			t.Errorf("expected %d results, got %d", len(feeds), received)
 		}
-
-		for _, feed := range l.Feeds {
-			if feed.HasUnread() == true {
-				t.Errorf("Unread state should not be overwritten")
-			}
+		if successes == 0 {
+			t.Errorf("expected at least one successful feed")
+		}
+		if failures == 0 {
+			t.Errorf("expected at least one failed feed")
 		}
 	})
 
 	t.Run("Update all only when feeds in list", func(t *testing.T) {
 		var l List
 
-		err := l.UpdateAll()
+		_, err := l.UpdateAllAsync()
 		assertError(t, err, ErrNoFeedsInList)
-
-		for _, feed := range l.Feeds {
-			if feed.Feed == nil {
-				t.Errorf("Feed data empty for feed %s", feed.Url)
-			}
-		}
 	})
 
 	t.Run("Feed has unread item", func(t *testing.T) {

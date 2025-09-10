@@ -9,7 +9,6 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
-	"sync"
 
 	yaml "github.com/goccy/go-yaml"
 	"github.com/mmcdole/gofeed"
@@ -30,6 +29,11 @@ type RssFeed struct {
 
 	Feed     *gofeed.Feed
 	RssItems []*RssItem
+}
+
+type FeedResult struct {
+	Feed *RssFeed
+	Err  error
 }
 
 type RssItem struct {
@@ -156,24 +160,21 @@ func (l *List) Add(feeds ...*RssFeed) {
 	l.Feeds = append(l.Feeds, feeds...)
 }
 
-func (l *List) UpdateAll() error {
+func (l *List) UpdateAllAsync() (<-chan FeedResult, error) {
 	if len(l.Feeds) == 0 {
-		return ErrNoFeedsInList
+		return nil, ErrNoFeedsInList
 	}
 
-	var wg sync.WaitGroup
-	wg.Add(len(l.Feeds))
+	results := make(chan FeedResult, len(l.Feeds))
 
-	for i := range l.Feeds {
-		go func(i int) {
-			defer wg.Done()
-			l.Feeds[i].GetFeed()
-		}(i)
+	for _, feed := range l.Feeds {
+		go func(f *RssFeed) {
+			err := f.GetFeed()
+			results <- FeedResult{Feed: f, Err: err}
+		}(feed)
 	}
 
-	wg.Wait()
-
-	return nil
+	return results, nil
 }
 
 func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {

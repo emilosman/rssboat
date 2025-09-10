@@ -83,5 +83,5 @@
 ## Paths
 
 ### MacOS
-- cache: ~/Library/Caches/Ajmo/data.json
+- cache: ~/Library/Caches/rssboat/data.json
 - config ~/Library/Caches/rssboat/urls.json

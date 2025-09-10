@@ -137,18 +137,8 @@ func handleUpdateFeed(m *model) tea.Cmd {
 func handleUpdateAllFeeds(m *model) tea.Cmd {
 	m.lf.NewStatusMessage(MsgUpdatingAllFeeds)
 	m.li.NewStatusMessage(MsgUpdatingAllFeeds)
-	go func(m *model) {
-		err := m.l.UpdateAll()
-		if err != nil {
-			m.lf.NewStatusMessage(ErrUpdatingFeeds)
-		}
-		items := buildFeedList(m.l, m.tabs, m.activeTab)
-		m.lf.SetItems(items)
-		m.lf.NewStatusMessage(MsgAllFeedsUpdated)
-		m.li.NewStatusMessage(MsgAllFeedsUpdated)
-		m.SaveState()
-	}(m)
-	return nil
+
+	return updateAllFeedsCmd(m.l)
 }
 
 func handleQuit(m *model) tea.Cmd {
@@ -193,11 +183,4 @@ func handleEnterItem(m *model) tea.Cmd {
 func handleInterrupt(m *model) tea.Cmd {
 	m.SaveState()
 	return tea.Quit
-}
-
-func rebuildFeedList(m *model) tea.Cmd {
-	items := buildFeedList(m.l, m.tabs, m.activeTab)
-	m.lf.SetItems(items)
-	m.lf.Title = m.tabs[m.activeTab]
-	return nil
 }
