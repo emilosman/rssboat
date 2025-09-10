@@ -377,6 +377,18 @@ func CacheFilePath() (string, error) {
 	return filepath.Join(appDir, "data.json"), nil
 }
 
+func ConfigFilePath() (string, error) {
+	dir, err := os.UserConfigDir()
+	if err != nil {
+		return "", err
+	}
+	appDir := filepath.Join(dir, "rssboat")
+	if err := os.MkdirAll(appDir, 0755); err != nil {
+		return "", err
+	}
+	return appDir, nil
+}
+
 func Clean(input string) string {
 	p := bluemonday.StrictPolicy()
 	clean := p.Sanitize(input)

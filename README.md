@@ -3,6 +3,7 @@
 
 ## MVP
 - [ ] urls.yaml should not be relative path
+  - [ ] Should handle urls.yaml not existing
 
 ## Todo
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
@@ -88,4 +89,4 @@
 
 ### MacOS
 - cache: ~/Library/Caches/rssboat/data.json
-- config ~/Library/Caches/rssboat/urls.json
+- config: ~/Library/Application\ Support/rssboat/urls.yaml
