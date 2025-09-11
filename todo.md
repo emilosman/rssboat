@@ -10,6 +10,7 @@
 - [ ] 100% test coverage of rss.go
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] README.md write
+- [ ] Don't overwrite data.json on feed error
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9 or Tab
