@@ -240,6 +240,36 @@ func TestFeed(t *testing.T) {
 		}
 	})
 
+	t.Run("Should handle empty urls.yaml file", func(t *testing.T) {
+		fs := fstest.MapFS{
+			"urls.yaml": {Data: []byte(``)},
+		}
+
+		l, err := LoadList(fs)
+		if err != nil {
+			t.Errorf("Error loading list: %q", err)
+		}
+
+		if l == nil {
+			t.Error("List should have been returned")
+		}
+	})
+
+	t.Run("Should handle invalid urls.yaml file", func(t *testing.T) {
+		fs := fstest.MapFS{
+			"urls.yaml": {Data: rssData},
+		}
+
+		l, err := LoadList(fs)
+		if err == nil {
+			t.Errorf("Should have thrown error")
+		}
+
+		if l == nil {
+			t.Error("List should have been returned")
+		}
+	})
+
 	t.Run("Should handle invalid JSON file", func(t *testing.T) {
 		_, _, _, _, _, l := newTestData()
 		err := l.Restore(invalidJson)

@@ -1,11 +1,11 @@
 # Todo
 
 ## MVP
-- [ ] Should handle urls.yaml not existing
+- [ ] Parse URL with standard library to check for errors
 
 ## Todo
+- [ ] Edit urls.yaml with "shift+e"
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
-- [ ] Parse URL with standard library to check for errors
 - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
 - Tabs
   - [ ] "All" tab
@@ -14,7 +14,6 @@
   - [ ] Refresh tab only "ctrl+r"
   - [ ] Unread indicator tab
 - [ ] urls.yaml custom ENV path support
-- [ ] Edit urls.yaml with "shift+e"
 - [ ] Single feed refresh status messages fix
 - [ ] CategoriesIndex on List
 - [ ] Content display view
@@ -26,7 +25,6 @@
 - [ ] Record demo using Charm's vhs
 
 ## Refactor
-- [ ] Refactor feed list title usage + custom status message display ?
 - [ ] Refactor GetCategory
 - [ ] Refactor list updates into helper func
 - [ ] Refactor feed/item open error messages and funcs
@@ -43,6 +41,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Refactor feed list title usage + custom status message display
+- [x] Should handle urls.yaml not existing
 - [x] Unit test tui funcs (BuildFeedList...)
 - [x] Should send update command after go func finishes
 - [x] Fix linebreak in item titles

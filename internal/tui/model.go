@@ -47,20 +47,20 @@ func initialModel() *model {
 
 	l, err := rss.LoadList(filesystem)
 
-	tabs := getTabs(l)
-	activeTab := 0
-	feeds := buildFeedList(l, tabs, activeTab)
+	t := getTabs(l)
+	a := 0
+	feeds := buildFeedList(l, t, a)
 
 	m := &model{
 		l:    l,
 		lf:   list.New(feeds, list.NewDefaultDelegate(), 0, 0),
 		li:   list.New(nil, list.NewDefaultDelegate(), 0, 0),
-		tabs: tabs,
+		tabs: t,
 	}
 
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
-	m.lf.Title = tabs[activeTab]
+	m.lf.Title = activeTab(t, 0)
 
 	if err != nil {
 		m.lf.NewStatusMessage(err.Error())

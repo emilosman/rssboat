@@ -55,24 +55,35 @@ func rebuildFeedList(m *model) tea.Cmd {
 	return nil
 }
 
-func buildFeedList(l *rss.List, tabs []string, activeTab int) []list.Item {
-	category := tabs[activeTab]
-	feeds, err := l.GetCategory(category)
+func buildFeedList(l *rss.List, t []string, a int) []list.Item {
+	var listItems []list.Item
+
+	feeds, err := l.GetCategory(activeTab(t, a))
 	if err != nil {
 		feeds = l.Feeds
 	}
 
-	var listItems []list.Item
-	for _, feed := range feeds {
-		title := feed.Title()
-		description := feed.Latest()
-		listItems = append(listItems, feedItem{
-			title:   title,
-			desc:    description,
-			rssFeed: feed,
-		})
+	if len(feeds) != 0 {
+		for _, feed := range feeds {
+			title := feed.Title()
+			description := feed.Latest()
+			listItems = append(listItems, feedItem{
+				title:   title,
+				desc:    description,
+				rssFeed: feed,
+			})
+		}
 	}
+
 	return listItems
+}
+
+func activeTab(t []string, a int) string {
+	var activeTab string
+	if len(t) != 0 {
+		activeTab = t[a]
+	}
+	return activeTab
 }
 
 func buildItemsList(feed *rss.RssFeed) []list.Item {

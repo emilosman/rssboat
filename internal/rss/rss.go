@@ -77,11 +77,11 @@ func (f *RssFeed) GetFeed() error {
 }
 
 func (l *List) GetCategory(category string) ([]*RssFeed, error) {
-	if category == "" {
-		return nil, ErrNoCategoryGiven
-	}
-
 	var feeds []*RssFeed
+
+	if category == "" {
+		return feeds, ErrNoCategoryGiven
+	}
 
 	for _, feed := range l.Feeds {
 		if feed.Category == category {
@@ -382,10 +382,22 @@ func ConfigFilePath() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	appDir := filepath.Join(dir, "rssboat")
 	if err := os.MkdirAll(appDir, 0755); err != nil {
 		return "", err
 	}
+
+	configFile := filepath.Join(appDir, "urls.yaml")
+
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+		f, err := os.Create(configFile)
+		if err != nil {
+			return "", err
+		}
+		defer f.Close()
+	}
+
 	return appDir, nil
 }
 
