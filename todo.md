@@ -19,7 +19,6 @@
 - [ ] CategoriesIndex on List
 - [ ] Content display view
 - [ ] Unread counter (15/254)
-- [ ] Unit test tui funcs (BuildFeedList...)
 - [ ] Timeout network request 8s
 - [ ] Unread items should have different color
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
@@ -44,6 +43,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Unit test tui funcs (BuildFeedList...)
 - [x] Should send update command after go func finishes
 - [x] Fix linebreak in item titles
 - [x] urls.yaml should be absolute path
