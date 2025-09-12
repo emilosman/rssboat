@@ -1,6 +1,7 @@
 # Todo
 
 ## MVP
+- [ ] Categories order alphabetical or as in yaml
 
 ## Todo
 - [ ] Parse URL with standard library to check for errors
