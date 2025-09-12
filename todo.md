@@ -1,9 +1,9 @@
 # Todo
 
 ## MVP
-- [ ] Parse URL with standard library to check for errors
 
 ## Todo
+- [ ] Parse URL with standard library to check for errors
 - [ ] Content display view
 - [ ] Refactor GetCategory
 - [ ] Edit urls.yaml with "shift+e"
@@ -29,8 +29,6 @@
 - [ ] Record demo using Charm's vhs
 
 ## Refactor
-- [ ] Refactor list updates into helper func
-- [ ] Refactor feed/item open error messages and funcs
 
 ## Future
 - [ ] Public repo
@@ -44,6 +42,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Refactor feed/item open error messages and funcs
+- [x] Refactor list updates into helper func
 - [x] Refactor feed list title usage + custom status message display
 - [x] Should handle urls.yaml not existing
 - [x] Unit test tui funcs (BuildFeedList...)
