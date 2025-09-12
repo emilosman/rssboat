@@ -2,6 +2,8 @@
 
 ## MVP
 - [ ] Categories order alphabetical or as in yaml
+- [ ] Tab unread indicator tab (green .)
+- [ ] "Latest" should return first unread if present
 
 ## Todo
 - [ ] Parse URL with standard library to check for errors
@@ -12,13 +14,11 @@
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] README.md write
 - [ ] Don't overwrite data.json on feed error
-- [ ] "Latest" should return first unread if present
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9 or Tab
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
-  - [ ] Unread indicator tab
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
