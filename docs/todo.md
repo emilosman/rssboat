@@ -5,6 +5,7 @@
 - [ ] Single feed refresh refactor, status messages fix
 
 ## Todo
+- [ ] Remember tab selection on close
 - [ ] Categories order alphabetical or as in yaml
 - [ ] Tab unread indicator tab (green .)
 - [ ] "Latest" should return first unread if present
@@ -39,6 +40,7 @@
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 
 ## Maybe
+- [ ] Live reload urls.yaml on change
 - [ ] Confirmation Y/N on major commands
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
