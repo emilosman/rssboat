@@ -1,18 +1,19 @@
 # Todo
 
 ## MVP
+- [ ] README.md write
+- [ ] Single feed refresh refactor, status messages fix
+
+## Todo
 - [ ] Categories order alphabetical or as in yaml
 - [ ] Tab unread indicator tab (green .)
 - [ ] "Latest" should return first unread if present
-
-## Todo
 - [ ] Parse URL with standard library to check for errors
 - [ ] Content display view
 - [ ] Refactor GetCategory
 - [ ] Edit urls.yaml with "shift+e"
 - [ ] 100% test coverage of rss.go
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
-- [ ] README.md write
 - [ ] Don't overwrite data.json on feed error
 - Tabs
   - [ ] "All" tab
@@ -22,7 +23,6 @@
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
-- [ ] Single feed refresh status messages fix
 - [ ] CategoriesIndex on List
 - [ ] Timeout network request 8s
 - [ ] Unread items should have different color
