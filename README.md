@@ -6,7 +6,6 @@
 
 ## Installation
 - `go install github.com/emilosman/rssboat@latest`
-- No outside dependencies needed
 
 ## Usage
 - `vim` style movement through lists
