@@ -38,6 +38,7 @@
   - [ ] Refactor handleEdit to not have tui depend on rss package
   - [ ] Refactor handleEdit + initialModel DRY
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
+- [ ] rss.go break up into smaller files
 - [ ] Config paths func should not be in the rss package
 
 ## Future
