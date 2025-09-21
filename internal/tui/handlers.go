@@ -67,6 +67,7 @@ func handleEdit(m *model) tea.Cmd {
 
 	// TODO: Add tab rebuild
 
+	m.lf.NewStatusMessage("URLs file edited")
 	return rebuildFeedList(m)
 }
 

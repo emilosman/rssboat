@@ -89,7 +89,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler
-		if m.lf.FilterState().String() != "filtering" && m.li.FilterState().String() != "filtering" {
+		lfState := m.lf.FilterState().String()
+		liState := m.li.FilterState().String()
+		if lfState != "filtering" && liState != "filtering" {
 			if m.selectedFeed == nil {
 				handlers = feedKeyHandlers
 			} else {

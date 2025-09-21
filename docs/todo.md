@@ -5,7 +5,11 @@
 - [ ] Single feed refresh refactor, status messages fix
 
 ## Todo
-- [ ] Default editor instead of vim
+- shift+e
+  - [ ] Custom Cmd.Msg while editing
+  - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
+  - [ ] Default editor instead of vim
+  - [ ] Rebuild tabs
 - [ ] Remember tab selection on close
 - [ ] Categories order alphabetical or as in yaml
 - [ ] Tab unread indicator tab (green .)
@@ -16,7 +20,6 @@
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Don't overwrite data.json on feed error
 - Tabs
-  - [ ] "shift+r" rebuild tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9 or Tab
   - [ ] Test long feed list for "h" and "l" handling
@@ -36,6 +39,7 @@
   - [ ] Refactor handleEdit to not have tui depend on rss package
   - [ ] Refactor handleEdit + initialModel DRY
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
+- [ ] Config paths func should not be in the rss package
 
 ## Future
 - [ ] Public repo
