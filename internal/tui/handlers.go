@@ -2,8 +2,12 @@ package tui
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/emilosman/rssboat/internal/rss"
 )
 
 type keyHandler func(*model) tea.Cmd
@@ -12,6 +16,7 @@ var (
 	feedKeyHandlers = map[string]keyHandler{
 		"A":      handleMarkFeedRead,
 		"C":      handleMarkAllFeedsRead,
+		"E":      handleEdit,
 		"h":      handlePrevTab,
 		"l":      handleNextTab,
 		"o":      handleOpenFeed,
@@ -34,6 +39,36 @@ var (
 		"enter": handleEnterItem,
 	}
 )
+
+func handleEdit(m *model) tea.Cmd {
+	configFilePath, err := rss.ConfigFilePath()
+	configFile := filepath.Join(configFilePath, "urls.yaml")
+	cmd := exec.Command("vi", configFile)
+
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err = cmd.Run()
+	if err != nil {
+		m.lf.NewStatusMessage(err.Error())
+		return nil
+	}
+
+	filesystem := os.DirFS(configFilePath)
+
+	l, err := rss.LoadList(filesystem)
+	if err != nil {
+		m.lf.NewStatusMessage(err.Error())
+		return nil
+	}
+
+	m.l = l
+
+	// TODO: Add tab rebuild
+
+	return rebuildFeedList(m)
+}
 
 func handleNextTab(m *model) tea.Cmd {
 	m.activeTab = min(m.activeTab+1, len(m.tabs)-1)

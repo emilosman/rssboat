@@ -5,17 +5,18 @@
 - [ ] Single feed refresh refactor, status messages fix
 
 ## Todo
+- [ ] Default editor instead of vim
 - [ ] Remember tab selection on close
 - [ ] Categories order alphabetical or as in yaml
 - [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
 - [ ] Content display view
 - [ ] Refactor GetCategory
-- [ ] Edit urls.yaml with "shift+e"
 - [ ] 100% test coverage of rss.go
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Don't overwrite data.json on feed error
 - Tabs
+  - [ ] "shift+r" rebuild tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9 or Tab
   - [ ] Test long feed list for "h" and "l" handling
@@ -31,6 +32,10 @@
 - [ ] Record demo using Charm's vhs
 
 ## Refactor
+- shift+e
+  - [ ] Refactor handleEdit to not have tui depend on rss package
+  - [ ] Refactor handleEdit + initialModel DRY
+  - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
 
 ## Future
 - [ ] Public repo
@@ -39,12 +44,14 @@
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 
 ## Maybe
+- [ ] Index number in front of items
 - [ ] Live reload urls.yaml on change
 - [ ] Confirmation Y/N on major commands
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Edit urls.yaml with "shift+e"
 - [x] "Latest" should return first unread if present
 - [x] Refactor feed/item open error messages and funcs
 - [x] Refactor list updates into helper func
