@@ -1,7 +1,6 @@
 # Todo
 
 ## MVP
-- [ ] README.md write
 - [ ] Single feed refresh refactor, status messages fix
 
 ## Todo
@@ -31,6 +30,7 @@
 - [ ] Unread items should have different color
 - [ ] Unread counter (15/254)
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
+- [ ] README extend
 - [ ] Record demo using Charm's vhs
 
 ## Refactor
@@ -41,7 +41,6 @@
 - [ ] Config paths func should not be in the rss package
 
 ## Future
-- [ ] Public repo
 - [ ] GH sponsors
 - [ ] Reddit post
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
@@ -54,6 +53,8 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Public repo
+- [x] README.md write
 - [x] Categories order alphabetical or as in yaml
 - [x] Edit urls.yaml with "shift+e"
 - [x] "Latest" should return first unread if present
