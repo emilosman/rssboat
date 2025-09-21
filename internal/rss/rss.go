@@ -277,6 +277,12 @@ func (f *RssFeed) Latest() string {
 		return f.Error
 	case len(f.RssItems) > 0:
 		last := f.RssItems[0]
+		// reverse RssItems and return first unread item
+		for i := len(f.RssItems) - 1; i >= 0; i-- {
+			if !f.RssItems[i].Read {
+				last = f.RssItems[i]
+			}
+		}
 		return Clean(last.Item.Title)
 	case f.Feed != nil:
 		return f.Description()

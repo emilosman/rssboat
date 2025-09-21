@@ -8,7 +8,6 @@
 - [ ] Remember tab selection on close
 - [ ] Categories order alphabetical or as in yaml
 - [ ] Tab unread indicator tab (green .)
-- [ ] "Latest" should return first unread if present
 - [ ] Parse URL with standard library to check for errors
 - [ ] Content display view
 - [ ] Refactor GetCategory
@@ -46,6 +45,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] "Latest" should return first unread if present
 - [x] Refactor feed/item open error messages and funcs
 - [x] Refactor list updates into helper func
 - [x] Refactor feed list title usage + custom status message display
