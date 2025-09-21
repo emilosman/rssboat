@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"sort"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -111,6 +112,8 @@ func getTabs(l *rss.List) []string {
 	for category := range categories {
 		tabs = append(tabs, category)
 	}
+
+	sort.Strings(tabs)
 
 	return tabs
 }
