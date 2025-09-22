@@ -9,6 +9,8 @@
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
   - [ ] Rebuild tabs
+- [ ] 'n' jump to next unread
+- [ ] Updating / Updated message reformat. Show both messages
 - [ ] Remember tab selection on close
 - [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
@@ -17,6 +19,7 @@
 - [ ] 100% test coverage of rss.go
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Don't overwrite data.json on feed error
+- [ ] Clear item list filter on back
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9 or Tab
