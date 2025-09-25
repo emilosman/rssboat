@@ -9,6 +9,7 @@
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
   - [ ] Rebuild tabs
+- [ ] Link helper func (handle Enclosure.Url fallback)
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Remember tab selection on close
@@ -42,7 +43,6 @@
   - [ ] Refactor handleEdit to not have tui depend on rss package
   - [ ] Refactor handleEdit + initialModel DRY
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
-- [ ] rss.go break up into smaller files
 - [ ] Config paths func should not be in the rss package
 
 ## Future
@@ -58,6 +58,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] rss.go break up into smaller files
 - [x] Public repo
 - [x] README.md write
 - [x] Categories order alphabetical or as in yaml
