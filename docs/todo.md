@@ -44,6 +44,7 @@
   - [ ] Refactor handleEdit + initialModel DRY
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
 - [ ] Config paths func should not be in the rss package
+- [ ] Break up rss_test.go
 
 ## Future
 - [ ] GH sponsors
