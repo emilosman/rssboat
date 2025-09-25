@@ -17,6 +17,7 @@
 - [ ] Content display view
 - [ ] Refactor GetCategory
 - [ ] 100% test coverage of rss.go
+- [ ] 🔴 error feed
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Don't overwrite data.json on feed error
 - [ ] Clear item list filter on back
