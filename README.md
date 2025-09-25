@@ -12,7 +12,9 @@
 
 ## Installation
 ```bash
-go install github.com/emilosman/rssboat@latest
+git clone https://github.com/emilosman/rssboat.git
+cd rssboat
+go install ./cmd/rssboat
 ```
 
 ## Usage
