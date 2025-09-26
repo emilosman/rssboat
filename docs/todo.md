@@ -26,6 +26,7 @@
   - [ ] Tab change on 1-9 or Tab
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
+  - [ ] Preserve tab order from urls.yaml
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
