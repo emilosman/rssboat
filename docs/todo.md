@@ -1,14 +1,14 @@
 # Todo
 
 ## MVP
-- [ ] Single feed refresh refactor, status messages fix
+- [ ] Rebuild tabs after shift+e
 
 ## Todo
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
-  - [ ] Rebuild tabs
+- [ ] Single feed refresh refactor, status messages fix
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Remember tab selection on close
