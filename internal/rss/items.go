@@ -11,6 +11,19 @@ type RssItem struct {
 	Read bool
 }
 
+func (i *RssItem) Link() string {
+	if i.Item == nil {
+		return ""
+	}
+	if i.Item.Link != "" {
+		return i.Item.Link
+	}
+	if len(i.Item.Enclosures) > 0 {
+		return i.Item.Enclosures[0].URL
+	}
+	return ""
+}
+
 func (i *RssItem) Title() string {
 	title := Clean(i.Item.Title)
 	if !i.Read {

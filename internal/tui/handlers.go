@@ -138,7 +138,7 @@ func handleOpenItem(m *model) tea.Cmd {
 	if ok {
 		rssItem := i.item
 		if rssItem.Item != nil {
-			err := openInBrowser(rssItem.Item.Link)
+			err := openInBrowser(rssItem.Link())
 			if err != nil {
 				errorMessage := fmt.Sprintf("Error opening item, %q", err)
 				m.li.NewStatusMessage(errorMessage)
@@ -202,7 +202,7 @@ func handleEnterItem(m *model) tea.Cmd {
 		if ok {
 			rssItem := i.item
 			if rssItem.Item != nil {
-				err := openInBrowser(rssItem.Item.Link)
+				err := openInBrowser(rssItem.Link())
 				if err != nil {
 					errorMessage := fmt.Sprintf("Error opening item, %q", err)
 					m.li.NewStatusMessage(errorMessage)

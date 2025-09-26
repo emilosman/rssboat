@@ -9,7 +9,6 @@
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
   - [ ] Rebuild tabs
-- [ ] Link helper func (handle Enclosure.Url fallback)
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Remember tab selection on close
@@ -44,7 +43,8 @@
   - [ ] Refactor handleEdit + initialModel DRY
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
 - [ ] Config paths func should not be in the rss package
-- [ ] Break up rss_test.go
+- [ ] Use Break up rss_test.go
+- [ ] Table driven tests
 
 ## Future
 - [ ] GH sponsors
