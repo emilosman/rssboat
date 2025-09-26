@@ -62,11 +62,12 @@ func (f *RssFeed) MarkAllItemsRead() {
 }
 
 func (f *RssFeed) Title() string {
+	var title string
 	if f.Feed == nil || f.Feed.Title == "" {
-		return f.Url
+		title = f.Url
+	} else {
+		title = Clean(f.Feed.Title)
 	}
-
-	title := Clean(f.Feed.Title)
 
 	if f.HasUnread() {
 		return fmt.Sprintf("🟢 %s", title)

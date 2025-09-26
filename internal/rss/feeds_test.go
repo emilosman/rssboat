@@ -2,6 +2,7 @@ package rss
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 
 	"github.com/mmcdole/gofeed"
@@ -14,7 +15,8 @@ func TestFeeds(t *testing.T) {
 		rssFeed.Feed.Title = ""
 		field := rssFeed.Title()
 
-		if field != rssFeed.Url {
+		want := fmt.Sprintf("🟢 %s", rssFeed.Url)
+		if field != want {
 			t.Error("Feed title should be url when no title present")
 		}
 
