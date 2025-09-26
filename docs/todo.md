@@ -43,7 +43,6 @@
   - [ ] Refactor handleEdit + initialModel DRY
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
 - [ ] Config paths func should not be in the rss package
-- [ ] Use Break up rss_test.go
 - [ ] Table driven tests
 
 ## Future
@@ -53,12 +52,12 @@
 
 ## Maybe
 - [ ] Index number in front of items
-- [ ] Live reload urls.yaml on change
-- [ ] Confirmation Y/N on major commands
+- [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Break up rss_test.go
 - [x] rss.go break up into smaller files
 - [x] Public repo
 - [x] README.md write
