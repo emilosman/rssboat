@@ -67,6 +67,7 @@ func handleEdit(m *model) tea.Cmd {
 	}
 
 	m.l = l
+	m.activeTab = 0
 	m.tabs = getTabs(l)
 	m.lf.NewStatusMessage("URLs file edited")
 

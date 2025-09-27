@@ -10,7 +10,6 @@
   - [ ] Default editor instead of vim
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
-- [ ] Remember tab selection on close
 - [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
 - [ ] Content display view
@@ -21,13 +20,12 @@
 - [ ] Clear item list filter on back
 - Tabs
   - [ ] "All" tab
-  - [ ] Tab change on 1-9 or Tab
+  - [ ] Tab change on 1-9
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
-- [ ] CategoriesIndex on List
 - [ ] Timeout network request 8s
 - [ ] Unread items should have different color
 - [ ] Unread counter (15/254)
@@ -42,7 +40,6 @@
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
 - [ ] Config paths func should not be in the rss package
 - [ ] Table driven tests
-- [ ] Refactor GetCategory
 
 ## Future
 - [ ] GH sponsors
@@ -55,6 +52,10 @@
 - [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
+- [ ] Remember tab selection on close
+- Categories
+  - [ ] Refactor GetCategory
+  - [ ] CategoriesIndex on List
 
 ## Done
 - [x] Rebuild tabs after shift+e
