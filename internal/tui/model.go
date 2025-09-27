@@ -42,21 +42,19 @@ func initialModel() *model {
 	if err != nil {
 		fmt.Println("Error opening config dir", err)
 	}
-
 	filesystem := os.DirFS(configFilePath)
-
 	l, err := rss.LoadList(filesystem)
-
 	t := getTabs(l)
-	a := 0
-	feeds := buildFeedList(l, t, a)
 
 	m := &model{
-		l:    l,
-		lf:   list.New(feeds, list.NewDefaultDelegate(), 0, 0),
-		li:   list.New(nil, list.NewDefaultDelegate(), 0, 0),
-		tabs: t,
+		l:         l,
+		lf:        list.New(nil, list.NewDefaultDelegate(), 0, 0),
+		li:        list.New(nil, list.NewDefaultDelegate(), 0, 0),
+		tabs:      t,
+		activeTab: 0,
 	}
+
+	rebuildFeedList(m)
 
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()

@@ -42,6 +42,10 @@ var (
 
 func handleEdit(m *model) tea.Cmd {
 	configFilePath, err := rss.ConfigFilePath()
+	if err != nil {
+		fmt.Println("Error opening config dir", err)
+		return nil
+	}
 	configFile := filepath.Join(configFilePath, "urls.yaml")
 	cmd := exec.Command("vi", configFile)
 
@@ -56,7 +60,6 @@ func handleEdit(m *model) tea.Cmd {
 	}
 
 	filesystem := os.DirFS(configFilePath)
-
 	l, err := rss.LoadList(filesystem)
 	if err != nil {
 		m.lf.NewStatusMessage(err.Error())
@@ -64,10 +67,9 @@ func handleEdit(m *model) tea.Cmd {
 	}
 
 	m.l = l
-
-	// TODO: Add tab rebuild
-
+	m.tabs = getTabs(l)
 	m.lf.NewStatusMessage("URLs file edited")
+
 	return rebuildFeedList(m)
 }
 
@@ -96,8 +98,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 	if i, ok := m.lf.SelectedItem().(feedItem); ok {
 		f := i.rssFeed
 		f.MarkAllItemsRead()
-		items := buildFeedList(m.l, m.tabs, m.activeTab)
-		m.lf.SetItems(items)
+		rebuildFeedList(m)
 		m.lf.NewStatusMessage(MsgMarkFeedRead)
 	}
 	return nil
@@ -161,8 +162,7 @@ func handleUpdateFeed(m *model) tea.Cmd {
 			if err != nil {
 				m.lf.NewStatusMessage(ErrUpdatingFeed)
 			}
-			items := buildFeedList(m.l, m.tabs, m.activeTab)
-			m.lf.SetItems(items)
+			rebuildFeedList(m)
 			m.lf.NewStatusMessage(MsgFeedUpdated)
 			m.SaveState()
 		}(m)

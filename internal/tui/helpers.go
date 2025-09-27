@@ -49,6 +49,7 @@ func updateAllFeedsCmd(m *model) tea.Cmd {
 	}
 }
 
+// Builds the feed list and sets the items
 func rebuildFeedList(m *model) tea.Cmd {
 	items := buildFeedList(m.l, m.tabs, m.activeTab)
 	m.lf.SetItems(items)
@@ -56,6 +57,7 @@ func rebuildFeedList(m *model) tea.Cmd {
 	return nil
 }
 
+// Builds the feed list
 func buildFeedList(l *rss.List, t []string, a int) []list.Item {
 	var listItems []list.Item
 

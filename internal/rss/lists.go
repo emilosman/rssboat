@@ -162,7 +162,9 @@ func (l *List) Restore(r io.Reader) error {
 	for _, decodedFeed := range decoded.Feeds {
 		feed := l.FeedIndex[decodedFeed.Url]
 		if feed != nil {
-			*feed = *decodedFeed
+			feed.Error = decodedFeed.Error
+			feed.Feed = decodedFeed.Feed
+			feed.RssItems = decodedFeed.RssItems
 		}
 	}
 

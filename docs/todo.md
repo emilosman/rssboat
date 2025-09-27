@@ -1,14 +1,13 @@
 # Todo
 
 ## MVP
-- [ ] Rebuild tabs after shift+e
+- [ ] Single feed refresh refactor, status messages fix
 
 ## Todo
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
-- [ ] Single feed refresh refactor, status messages fix
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Remember tab selection on close
@@ -58,6 +57,7 @@
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 
 ## Done
+- [x] Rebuild tabs after shift+e
 - [x] Break up rss_test.go
 - [x] rss.go break up into smaller files
 - [x] Public repo
