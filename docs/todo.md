@@ -14,7 +14,6 @@
 - [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
 - [ ] Content display view
-- [ ] Refactor GetCategory
 - [ ] 100% test coverage of rss.go
 - [ ] 🔴 error feed
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
@@ -25,7 +24,6 @@
   - [ ] Tab change on 1-9 or Tab
   - [ ] Test long feed list for "h" and "l" handling
   - [ ] Refresh tab only "ctrl+r"
-  - [ ] Preserve tab order from urls.yaml
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
@@ -44,6 +42,7 @@
   - [ ] Refactor initial list build (issues with tab rebuild, data.json items remain after items removed)
 - [ ] Config paths func should not be in the rss package
 - [ ] Table driven tests
+- [ ] Refactor GetCategory
 
 ## Future
 - [ ] GH sponsors
@@ -51,6 +50,7 @@
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 
 ## Maybe
+- [ ] Preserve tab order from urls.yaml
 - [ ] Index number in front of items
 - [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] "h" and "l" should open and close feeds
