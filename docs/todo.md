@@ -33,6 +33,9 @@
 - [ ] README extend
 - [ ] Record demo using Charm's vhs
 
+## Database
+- [ ] Use database instead of JSON only
+
 ## Refactor
 - shift+e
   - [ ] Refactor handleEdit to not have tui depend on rss package
@@ -42,9 +45,12 @@
 - [ ] Table driven tests
 
 ## Future
-- [ ] GH sponsors
 - [ ] Reddit post
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
+
+## Ownership
+- [ ] Transfer rssboat to picigato org
+- [ ] GH sponsors setup finish [link](https://github.com/sponsors/picigato/signup)
 
 ## Maybe
 - [ ] Preserve tab order from urls.yaml
