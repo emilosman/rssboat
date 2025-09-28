@@ -57,6 +57,12 @@ func rebuildFeedList(m *model) tea.Cmd {
 	return nil
 }
 
+func rebuildItemsList(m *model) tea.Cmd {
+	items := buildItemsList(m.selectedFeed)
+	m.li.SetItems(items)
+	return nil
+}
+
 // Builds the feed list
 func buildFeedList(l *rss.List, t []string, a int) []list.Item {
 	var listItems []list.Item

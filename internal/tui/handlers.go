@@ -31,6 +31,7 @@ var (
 
 	itemKeyHandlers = map[string]keyHandler{
 		"a":     handleToggleRead,
+		"A":     handleMarkItemsRead,
 		"o":     handleOpenItem,
 		"b":     handleBack,
 		"q":     handleBack,
@@ -101,6 +102,15 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 		f.MarkAllItemsRead()
 		rebuildFeedList(m)
 		m.lf.NewStatusMessage(MsgMarkFeedRead)
+	}
+	return nil
+}
+
+func handleMarkItemsRead(m *model) tea.Cmd {
+	if m.selectedFeed != nil {
+		m.selectedFeed.MarkAllItemsRead()
+		rebuildItemsList(m)
+		m.li.NewStatusMessage(MsgMarkFeedRead)
 	}
 	return nil
 }

@@ -37,6 +37,7 @@
 - [ ] Use database instead of JSON only
 
 ## Refactor
+- [ ] Refactor m.selectedFeed vs m.lf.SelectedItem() usage (handleMarkFeedRead)
 - shift+e
   - [ ] Refactor handleEdit to not have tui depend on rss package
   - [ ] Refactor handleEdit + initialModel DRY
