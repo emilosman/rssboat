@@ -3,6 +3,7 @@ package rss
 import (
 	"fmt"
 	"sort"
+	"sync"
 
 	"github.com/mmcdole/gofeed"
 )
@@ -137,4 +138,29 @@ func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 		})
 		existing[key] = struct{}{}
 	}
+}
+
+func UpdateFeeds(feeds []*RssFeed) (<-chan FeedResult, error) {
+	if len(feeds) == 0 {
+		return nil, ErrNoFeedsInList
+	}
+
+	results := make(chan FeedResult, len(feeds))
+	var wg sync.WaitGroup
+	wg.Add(len(feeds))
+
+	for _, feed := range feeds {
+		go func(f *RssFeed) {
+			defer wg.Done()
+			err := f.GetFeed()
+			results <- FeedResult{Feed: f, Err: err}
+		}(feed)
+	}
+
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
+	return results, nil
 }

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"io/fs"
-	"sync"
 
 	yaml "github.com/goccy/go-yaml"
 )
@@ -56,29 +55,8 @@ func (l *List) Add(feeds ...*RssFeed) {
 	l.Feeds = append(l.Feeds, feeds...)
 }
 
-func (l *List) UpdateAllAsync() (<-chan FeedResult, error) {
-	if len(l.Feeds) == 0 {
-		return nil, ErrNoFeedsInList
-	}
-
-	results := make(chan FeedResult, len(l.Feeds))
-	var wg sync.WaitGroup
-	wg.Add(len(l.Feeds))
-
-	for _, feed := range l.Feeds {
-		go func(f *RssFeed) {
-			defer wg.Done()
-			err := f.GetFeed()
-			results <- FeedResult{Feed: f, Err: err}
-		}(feed)
-	}
-
-	go func() {
-		wg.Wait()
-		close(results)
-	}()
-
-	return results, nil
+func (l *List) UpdateAllFeeds() (<-chan FeedResult, error) {
+	return UpdateFeeds(l.Feeds)
 }
 
 func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {

@@ -1,9 +1,10 @@
 # Todo
 
 ## MVP
-- [ ] Single feed refresh refactor, status messages fix
+- [ ] Single feed update refactor, status messages fix
 
 ## Todo
+- [ ] Don't delete cache on error
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
@@ -16,13 +17,12 @@
 - [ ] 100% test coverage of rss.go
 - [ ] 🔴 error feed
 - [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
-- [ ] Don't overwrite data.json on feed error
 - [ ] Clear item list filter on back
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9
   - [ ] Test long feed list for "h" and "l" handling
-  - [ ] Refresh tab only "ctrl+r"
+  - [ ] Update tab only "ctrl+r"
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?

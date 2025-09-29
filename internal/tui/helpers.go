@@ -33,7 +33,7 @@ type feedsDoneMsg struct{}
 
 func updateAllFeedsCmd(m *model) tea.Cmd {
 	return func() tea.Msg {
-		results, err := m.l.UpdateAllAsync()
+		results, err := m.l.UpdateAllFeeds()
 		if err != nil {
 			return feedUpdatedMsg{Feed: nil, Err: err}
 		}

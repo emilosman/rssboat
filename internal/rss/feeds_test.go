@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/mmcdole/gofeed"
 )
@@ -231,6 +232,50 @@ func TestFeeds(t *testing.T) {
 
 		if rssFeed.Error == "" {
 			t.Errorf("Should store error on feed: %s", rssFeed.Error)
+		}
+	})
+
+	t.Run("Update feeds", func(t *testing.T) {
+		server := Server(t, rssData(t))
+		defer server.Close()
+
+		feeds := []*RssFeed{
+			{Url: server.URL},
+			{Url: server.URL},
+			{Url: ""},
+		}
+
+		results, err := UpdateFeeds(feeds)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+
+		received := 0
+		successes := 0
+		failures := 0
+
+		for range feeds {
+			select {
+			case res := <-results:
+				received++
+				if res.Err != nil {
+					failures++
+				} else {
+					successes++
+				}
+			case <-time.After(2 * time.Second):
+				t.Fatalf("timeout waiting for feed results")
+			}
+		}
+
+		if received != len(feeds) {
+			t.Errorf("expected %d results, got %d", len(feeds), received)
+		}
+		if successes == 0 {
+			t.Errorf("expected at least one successful feed")
+		}
+		if failures == 0 {
+			t.Errorf("expected at least one failed feed")
 		}
 	})
 }

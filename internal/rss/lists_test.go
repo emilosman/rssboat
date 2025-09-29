@@ -268,7 +268,7 @@ func TestLists(t *testing.T) {
 		var l List
 		l.Add(feeds...)
 
-		results, err := l.UpdateAllAsync()
+		results, err := l.UpdateAllFeeds()
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -305,7 +305,7 @@ func TestLists(t *testing.T) {
 	t.Run("Update all only when feeds in list", func(t *testing.T) {
 		var l List
 
-		_, err := l.UpdateAllAsync()
+		_, err := l.UpdateAllFeeds()
 		assertError(t, err, ErrNoFeedsInList)
 	})
 
