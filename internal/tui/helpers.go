@@ -19,6 +19,11 @@ var (
 			Foreground(lipgloss.Color("#ff4fff")).
 			Padding(0, 1)
 
+	unreadTabStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color("#00cf42")).
+			Padding(0, 1)
+
 	inactiveTabStyle = lipgloss.NewStyle().
 				Foreground(lipgloss.Color("#767676")).
 				Padding(0, 1)
@@ -173,7 +178,19 @@ func renderedTabs(m *model) string {
 		if i == m.activeTab {
 			renderedTabs += activeTabStyle.Render(tab)
 		} else {
-			renderedTabs += inactiveTabStyle.Render(tab)
+			feeds, _ := m.l.GetCategory(tab)
+			hasUnread := false
+			for _, f := range feeds {
+				if f.HasUnread() {
+					hasUnread = true
+					break
+				}
+			}
+			if hasUnread {
+				renderedTabs += unreadTabStyle.Render(tab)
+			} else {
+				renderedTabs += inactiveTabStyle.Render(tab)
+			}
 		}
 	}
 
