@@ -26,6 +26,7 @@ var (
 		"enter":  handleEnterFeed,
 		"esc":    handleQuit,
 		"ctrl+c": handleInterrupt,
+		"ctrl+r": handleTabUpdate,
 		"tab":    handleNextTab,
 	}
 
@@ -183,6 +184,13 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 	m.li.NewStatusMessage(MsgUpdatingAllFeeds)
 
 	return updateAllFeedsCmd(m)
+}
+
+func handleTabUpdate(m *model) tea.Cmd {
+	m.lf.NewStatusMessage(MsgUpdatingAllFeeds)
+	m.li.NewStatusMessage(MsgUpdatingAllFeeds)
+
+	return updateTabFeedsCmd(m)
 }
 
 func handleQuit(m *model) tea.Cmd {

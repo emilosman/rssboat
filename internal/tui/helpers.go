@@ -49,6 +49,29 @@ func updateAllFeedsCmd(m *model) tea.Cmd {
 	}
 }
 
+func updateTabFeedsCmd(m *model) tea.Cmd {
+	return func() tea.Msg {
+		feeds, err := m.l.GetCategory(activeTab(m.tabs, m.activeTab))
+		if err != nil {
+			return feedUpdatedMsg{Feed: nil, Err: err}
+		}
+
+		results, err := rss.UpdateFeeds(feeds...)
+		if err != nil {
+			return feedUpdatedMsg{Feed: nil, Err: err}
+		}
+
+		go func() {
+			for res := range results {
+				m.prog.Send(feedUpdatedMsg{Feed: res.Feed, Err: res.Err})
+			}
+			m.prog.Send(feedsDoneMsg{})
+		}()
+
+		return MsgUpdatingAllFeeds
+	}
+}
+
 func updateFeedCmd(m *model, feed *rss.RssFeed) tea.Cmd {
 	return func() tea.Msg {
 		results, err := rss.UpdateFeeds(feed)

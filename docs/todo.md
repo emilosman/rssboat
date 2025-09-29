@@ -1,14 +1,15 @@
 # Todo
 
 ## MVP
-- [ ] Don't delete cache on error
+- [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 
 ## Todo
+- [ ] Don't delete cache on error
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
-- [ ] Single feed update complete message
+- [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Tab unread indicator tab (green .)
@@ -16,13 +17,11 @@
 - [ ] Content display view
 - [ ] 100% test coverage of rss.go
 - [ ] 🔴 error feed
-- [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
 - [ ] Clear item list filter on back
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9
   - [ ] Test long feed list for "h" and "l" handling
-  - [ ] Update tab only "ctrl+r"
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
@@ -37,6 +36,9 @@
 - [ ] Use database instead of JSON only
 
 ## Refactor
+- Categories
+  - [ ] Refactor GetCategory
+  - [ ] CategoriesIndex on List
 - [ ] Refactor m.selectedFeed vs m.lf.SelectedItem() usage (handleMarkFeedRead)
 - shift+e
   - [ ] Refactor handleEdit to not have tui depend on rss package
@@ -60,11 +62,9 @@
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
 - [ ] Remember tab selection on close
-- Categories
-  - [ ] Refactor GetCategory
-  - [ ] CategoriesIndex on List
 
 ## Done
+- [x] Update tab only "ctrl+r"
 - [x] Single feed update refactor, status messages fix
 - [x] Rebuild tabs after shift+e
 - [x] Break up rss_test.go
