@@ -19,7 +19,6 @@
 - [ ] 🔴 error feed
 - [ ] Clear item list filter on back
 - Tabs
-  - [ ] Mark all tab items read "ctrl+a"
   - [ ] "All" tab
   - [ ] Tab change on 1-9
   - [ ] Test long feed list for "h" and "l" handling
@@ -68,6 +67,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Mark all tab items read "ctrl+a"
 - [x] Update tab only "ctrl+r"
 - [x] Single feed update refactor, status messages fix
 - [x] Rebuild tabs after shift+e

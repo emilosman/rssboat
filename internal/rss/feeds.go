@@ -164,3 +164,9 @@ func UpdateFeeds(feeds ...*RssFeed) (<-chan FeedResult, error) {
 
 	return results, nil
 }
+
+func MarkFeedsAsRead(feeds ...*RssFeed) {
+	for i := range feeds {
+		feeds[i].MarkAllItemsRead()
+	}
+}

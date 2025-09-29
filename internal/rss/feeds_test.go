@@ -135,6 +135,22 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
+	t.Run("Mark feeds as read", func(t *testing.T) {
+		feeds := []*RssFeed{
+			{RssItems: []*RssItem{{Read: false}, {Read: false}}},
+			{RssItems: []*RssItem{{Read: false}, {Read: false}}},
+			{RssItems: []*RssItem{{Read: false}, {Read: false}}},
+		}
+
+		MarkFeedsAsRead(feeds...)
+
+		for i := range feeds {
+			if feeds[i].HasUnread() {
+				t.Error("Feed not marked as read")
+			}
+		}
+	})
+
 	t.Run("Get feed if url present", func(t *testing.T) {
 		var rssFeed RssFeed
 

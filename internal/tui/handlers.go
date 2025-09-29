@@ -23,6 +23,7 @@ var (
 		"r":      handleUpdateFeed,
 		"R":      handleUpdateAllFeeds,
 		"q":      handleQuit,
+		"ctrl+a": handleMarkTabAsRead,
 		"ctrl+c": handleInterrupt,
 		"ctrl+r": handleTabUpdate,
 		"enter":  handleEnterFeed,
@@ -113,6 +114,19 @@ func handleMarkItemsRead(m *model) tea.Cmd {
 		rebuildItemsList(m)
 		m.li.NewStatusMessage(MsgMarkFeedRead)
 	}
+	return nil
+}
+
+func handleMarkTabAsRead(m *model) tea.Cmd {
+	feeds, err := m.l.GetCategory(activeTab(m.tabs, m.activeTab))
+	if err != nil {
+		m.lf.NewStatusMessage(err.Error())
+	}
+
+	rss.MarkFeedsAsRead(feeds...)
+	rebuildFeedList(m)
+	m.lf.NewStatusMessage(MsgMakrTabAsRead)
+
 	return nil
 }
 
