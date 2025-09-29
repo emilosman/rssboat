@@ -56,7 +56,7 @@ func (l *List) Add(feeds ...*RssFeed) {
 }
 
 func (l *List) UpdateAllFeeds() (<-chan FeedResult, error) {
-	return UpdateFeeds(l.Feeds)
+	return UpdateFeeds(l.Feeds...)
 }
 
 func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {

@@ -245,7 +245,7 @@ func TestFeeds(t *testing.T) {
 			{Url: ""},
 		}
 
-		results, err := UpdateFeeds(feeds)
+		results, err := UpdateFeeds(feeds...)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}

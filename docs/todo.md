@@ -1,14 +1,14 @@
 # Todo
 
 ## MVP
-- [ ] Single feed update refactor, status messages fix
+- [ ] Don't delete cache on error
 
 ## Todo
-- [ ] Don't delete cache on error
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
+- [ ] Single feed update complete message
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Tab unread indicator tab (green .)
@@ -65,6 +65,7 @@
   - [ ] CategoriesIndex on List
 
 ## Done
+- [x] Single feed update refactor, status messages fix
 - [x] Rebuild tabs after shift+e
 - [x] Break up rss_test.go
 - [x] rss.go break up into smaller files

@@ -6,6 +6,7 @@ var (
 	MsgItemReadToggled  = "Item read state toggled"
 	MsgMarkFeedRead     = "Marked feed as read"
 	MsgMarkAllFeedsRead = "Marked all feeds as read"
+	MsgUpdatingFeed     = "Updating feed"
 	MsgFeedUpdated      = "Feed updated"
 	ErrUpdatingFeed     = "Error updating feed"
 	ErrUpdatingFeeds    = "Error updating feeds"

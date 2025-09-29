@@ -140,7 +140,7 @@ func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 	}
 }
 
-func UpdateFeeds(feeds []*RssFeed) (<-chan FeedResult, error) {
+func UpdateFeeds(feeds ...*RssFeed) (<-chan FeedResult, error) {
 	if len(feeds) == 0 {
 		return nil, ErrNoFeedsInList
 	}

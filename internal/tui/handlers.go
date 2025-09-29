@@ -164,21 +164,18 @@ func handleOpenItem(m *model) tea.Cmd {
 }
 
 func handleUpdateFeed(m *model) tea.Cmd {
-	if i, ok := m.lf.SelectedItem().(feedItem); ok {
-		f := i.rssFeed
-		statusMsg := fmt.Sprintf("Updating feed %s", f.Url)
-		m.lf.NewStatusMessage(statusMsg)
-		go func(m *model) {
-			err := f.GetFeed()
-			if err != nil {
-				m.lf.NewStatusMessage(ErrUpdatingFeed)
-			}
-			rebuildFeedList(m)
-			m.lf.NewStatusMessage(MsgFeedUpdated)
-			m.SaveState()
-		}(m)
+	feed := m.selectedFeed
+	if m.selectedFeed == nil {
+		if i, ok := m.lf.SelectedItem().(feedItem); ok {
+			feed = i.rssFeed
+		}
 	}
-	return nil
+
+	message := fmt.Sprintf("%s %s", MsgUpdatingFeed, feed.Url)
+	m.lf.NewStatusMessage(message)
+	m.li.NewStatusMessage(message)
+
+	return updateFeedCmd(m, feed)
 }
 
 func handleUpdateAllFeeds(m *model) tea.Cmd {

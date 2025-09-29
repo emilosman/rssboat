@@ -49,6 +49,24 @@ func updateAllFeedsCmd(m *model) tea.Cmd {
 	}
 }
 
+func updateFeedCmd(m *model, feed *rss.RssFeed) tea.Cmd {
+	return func() tea.Msg {
+		results, err := rss.UpdateFeeds(feed)
+		if err != nil {
+			return feedUpdatedMsg{Feed: nil, Err: err}
+		}
+
+		go func() {
+			for res := range results {
+				m.prog.Send(feedUpdatedMsg{Feed: res.Feed, Err: res.Err})
+			}
+			m.prog.Send(feedsDoneMsg{})
+		}()
+
+		return fmt.Sprintf("%s %s", MsgUpdatingFeed, feed.Url)
+	}
+}
+
 // Builds the feed list and sets the items
 func rebuildFeedList(m *model) tea.Cmd {
 	items := buildFeedList(m.l, m.tabs, m.activeTab)
