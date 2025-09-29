@@ -19,6 +19,7 @@
 - [ ] 🔴 error feed
 - [ ] Clear item list filter on back
 - Tabs
+  - [ ] Mark all tab items read "ctrl+a"
   - [ ] "All" tab
   - [ ] Tab change on 1-9
   - [ ] Test long feed list for "h" and "l" handling
@@ -30,6 +31,7 @@
 - [ ] Unread counter (15/254)
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] README extend
+  - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Record demo using Charm's vhs
 
 ## Database

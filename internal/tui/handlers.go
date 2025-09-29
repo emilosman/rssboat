@@ -23,10 +23,10 @@ var (
 		"r":      handleUpdateFeed,
 		"R":      handleUpdateAllFeeds,
 		"q":      handleQuit,
-		"enter":  handleEnterFeed,
-		"esc":    handleQuit,
 		"ctrl+c": handleInterrupt,
 		"ctrl+r": handleTabUpdate,
+		"enter":  handleEnterFeed,
+		"esc":    handleQuit,
 		"tab":    handleNextTab,
 	}
 
