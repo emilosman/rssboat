@@ -33,6 +33,8 @@
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Record demo using Charm's vhs
+- [ ] Windows test
+- [ ] Linux test
 
 ## Database
 - [ ] Use database instead of JSON only
