@@ -200,22 +200,20 @@ func renderedTabs(m *model) string {
 }
 
 func openInBrowser(url string) error {
-	var browserCmd = map[string][]string{
-		"darwin":  {"open"},
-		"linux":   {"xdg-open"},
-		"windows": {"rundll32", "url.dll,FileProtocolHandler"},
+	var cmd *exec.Cmd
+
+	switch runtime.GOOS {
+	case "darwin":
+		cmd = exec.Command("open", url)
+	case "linux":
+		cmd = exec.Command("xdg-open", url)
+	case "windows":
+		cmd = exec.Command("cmd", "/c", "start", "", url)
+	default:
+		return fmt.Errorf("unsupported platform: %s", runtime.GOOS)
 	}
 
-	openCmd, ok := browserCmd[runtime.GOOS]
-	if !ok {
-		return fmt.Errorf("Unsuported platform: %s", runtime.GOOS)
-	}
-
-	cmd := exec.Command(openCmd[0], url)
-	if err := cmd.Run(); err != nil {
-		return err
-	}
-	return nil
+	return cmd.Start()
 }
 
 func (m *model) SaveState() error {
