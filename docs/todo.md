@@ -1,16 +1,19 @@
 # Todo
 
 ## MVP
-- [ ] Don't delete cache on error
+- Fresh install
+  - [ ] Test first run flow
+  - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Fresh install test
-- [ ] Windows test
+- Windows
+  - [ ] Fix browser open
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
+- [ ] Don't delete cache on error
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
@@ -68,6 +71,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Fresh install test
+- [x] Windows test
 - [x] Test long feed list for "h" and "l" handling
 - [x] Help keys extend
 - [x] Mark all tab items read "ctrl+a"
