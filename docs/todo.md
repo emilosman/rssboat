@@ -4,6 +4,8 @@
 - [ ] Don't delete cache on error
 
 ## Todo
+- [ ] Fresh install test
+- [ ] Windows test
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
@@ -31,7 +33,6 @@
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Record demo using Charm's vhs
-- [ ] Windows test
 - [ ] Linux test
 
 ## Database
@@ -52,6 +53,7 @@
 ## Future
 - [ ] Reddit post
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
+- [ ] @latest
 
 ## Ownership
 - [ ] Transfer rssboat to picigato org

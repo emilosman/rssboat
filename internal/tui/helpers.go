@@ -99,7 +99,9 @@ func updateFeedCmd(m *model, feed *rss.RssFeed) tea.Cmd {
 func rebuildFeedList(m *model) tea.Cmd {
 	items := buildFeedList(m.l, m.tabs, m.activeTab)
 	m.lf.SetItems(items)
-	m.lf.Title = m.tabs[m.activeTab]
+	if len(m.tabs) > 0 {
+		m.lf.Title = m.tabs[m.activeTab]
+	}
 	return nil
 }
 
