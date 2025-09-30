@@ -3,6 +3,7 @@
 ## MVP
 - Fresh install
   - [ ] Test first run flow
+  - [ ] First use message, empty list, show "shift+e"
   - [ ] Create default values in urls.yaml
 
 ## Todo
