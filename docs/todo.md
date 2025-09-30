@@ -4,9 +4,11 @@
 - Fresh install
   - [ ] Test first run flow
   - [ ] First use message, empty list, show "shift+e"
+  - [ ] Display "(n)" instead of 🟢 in terminals that don't support it
   - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] Unread items should have different color
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
@@ -29,7 +31,6 @@
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
 - [ ] Timeout network request 8s
-- [ ] Unread items should have different color
 - [ ] Unread counter (15/254)
 - [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] README extend
