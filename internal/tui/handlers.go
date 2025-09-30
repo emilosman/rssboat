@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/emilosman/rssboat/internal/rss"
@@ -53,7 +54,18 @@ func handleEdit(m *model) tea.Cmd {
 		return nil
 	}
 	configFile := filepath.Join(configFilePath, "urls.yaml")
-	cmd := exec.Command("vi", configFile)
+
+	editor := os.Getenv("EDITOR")
+	if editor == "" {
+		switch runtime.GOOS {
+		case "windows":
+			editor = "notepad"
+		default:
+			editor = "vi"
+		}
+	}
+
+	cmd := exec.Command(editor, configFile)
 
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
