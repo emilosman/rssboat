@@ -2,8 +2,8 @@
 
 ## MVP
 - Fresh install
-  - [ ] Test first run flow
-  - [ ] First use message, empty list, show "shift+e"
+  - [ ] Test first run flow (lists_test.go)
+  - [ ] First use message, empty list, show "shift+e" prompt
   - [ ] Display "(n)" instead of 🟢 in terminals that don't support it
   - [ ] Create default values in urls.yaml
 
