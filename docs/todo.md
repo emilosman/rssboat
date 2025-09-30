@@ -6,8 +6,6 @@
   - [ ] Create default values in urls.yaml
 
 ## Todo
-- Windows
-  - [ ] Fix browser open
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
@@ -71,6 +69,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Fix browser open
 - [x] Fresh install test
 - [x] Windows test
 - [x] Test long feed list for "h" and "l" handling
