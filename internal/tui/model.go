@@ -46,10 +46,18 @@ func initialModel() *model {
 	l, err := rss.LoadList(filesystem)
 	t := getTabs(l)
 
+	df := list.NewDefaultDelegate()
+	df.ShortHelpFunc = listShortHelp
+	df.FullHelpFunc = listFullHelp
+
+	di := list.NewDefaultDelegate()
+	di.ShortHelpFunc = itemsShortHelp
+	di.FullHelpFunc = itemsFullHelp
+
 	m := &model{
 		l:         l,
-		lf:        list.New(nil, list.NewDefaultDelegate(), 0, 0),
-		li:        list.New(nil, list.NewDefaultDelegate(), 0, 0),
+		lf:        list.New(nil, df, 0, 0),
+		li:        list.New(nil, di, 0, 0),
 		tabs:      t,
 		activeTab: 0,
 	}

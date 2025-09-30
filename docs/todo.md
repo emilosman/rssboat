@@ -1,14 +1,14 @@
 # Todo
 
 ## MVP
-- [ ] [Help keys extend](https://chatgpt.com/c/68c1ad14-5c9c-8331-bad6-ce4f7c1f52c8)
+- [ ] Don't delete cache on error
 
 ## Todo
-- [ ] Don't delete cache on error
 - shift+e
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
+- [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
@@ -21,7 +21,6 @@
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9
-  - [ ] Test long feed list for "h" and "l" handling
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
@@ -67,6 +66,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Test long feed list for "h" and "l" handling
+- [x] Help keys extend
 - [x] Mark all tab items read "ctrl+a"
 - [x] Update tab only "ctrl+r"
 - [x] Single feed update refactor, status messages fix
