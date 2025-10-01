@@ -72,6 +72,10 @@ func initialModel() *model {
 		m.lf.NewStatusMessage(err.Error())
 	}
 
+	if len(m.l.Feeds) == 0 {
+		m.lf.NewStatusMessage(MsgNoFeedsInList)
+	}
+
 	return m
 }
 
@@ -83,7 +87,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case feedUpdatedMsg:
 		if msg.Err != nil {
-			m.lf.NewStatusMessage(fmt.Sprintf("Error updating %s: %v", msg.Feed.Url, msg.Err))
+			m.lf.NewStatusMessage(fmt.Sprintf("Error updating: %v", msg.Err))
 		} else {
 			rebuildFeedList(m)
 			m.lf.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))

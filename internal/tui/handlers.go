@@ -194,6 +194,11 @@ func handleOpenItem(m *model) tea.Cmd {
 }
 
 func handleUpdateFeed(m *model) tea.Cmd {
+	if len(m.l.Feeds) == 0 {
+		m.lf.NewStatusMessage(ErrUpdatingFeed)
+		return nil
+	}
+
 	feed := m.selectedFeed
 	if m.selectedFeed == nil {
 		if i, ok := m.lf.SelectedItem().(feedItem); ok {

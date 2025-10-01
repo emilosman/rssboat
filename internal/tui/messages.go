@@ -9,6 +9,7 @@ var (
 	MsgMakrTabAsRead    = "Marked all feeds in tab as read"
 	MsgUpdatingFeed     = "Updating feed"
 	MsgFeedUpdated      = "Feed updated"
+	MsgNoFeedsInList    = "No feeds in list. Press shift+e to edit URLs file"
 	ErrUpdatingFeed     = "Error updating feed"
 	ErrUpdatingFeeds    = "Error updating feeds"
 )
