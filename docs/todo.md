@@ -12,6 +12,7 @@
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
+  - [ ] Item delete from urls.yaml does not remove from list?
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
 - [ ] Don't delete cache on error
 - [ ] Single feed update complete message (instead of "All feeds updated")
