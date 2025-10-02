@@ -94,9 +94,11 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case feedUpdatedMsg:
 		if msg.Err != nil {
 			m.lf.NewStatusMessage(fmt.Sprintf("Error updating: %v", msg.Err))
+			m.li.NewStatusMessage(fmt.Sprintf("Error updating: %v", msg.Err))
 		} else {
 			rebuildFeedList(m)
 			m.lf.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))
+			m.li.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))
 		}
 		return m, nil
 	case feedsDoneMsg:

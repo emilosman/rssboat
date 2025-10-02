@@ -8,6 +8,9 @@
 
 ## Todo
 - [ ] Item preview refinements
+- Categories
+  - [ ] Refactor GetCategory
+  - [ ] CategoriesIndex on List
 - [ ] Unread items should have different color
 - shift+e
   - [ ] Custom Cmd.Msg while editing
@@ -42,9 +45,6 @@
 - [ ] Use database instead of JSON only
 
 ## Refactor
-- Categories
-  - [ ] Refactor GetCategory
-  - [ ] CategoriesIndex on List
 - [ ] Refactor m.selectedFeed vs m.lf.SelectedItem() usage (handleMarkFeedRead)
 - shift+e
   - [ ] Refactor handleEdit to not have tui depend on rss package
