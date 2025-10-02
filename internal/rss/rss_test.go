@@ -110,9 +110,9 @@ func TestRss(t *testing.T) {
 	t.Run("Should sanitize text", func(t *testing.T) {
 		for _, tt := range sanitationTests {
 			t.Run(tt.name, func(t *testing.T) {
-				got := Clean(tt.input)
+				got := clean(tt.input)
 				if got != tt.expected {
-					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
 				}
 			})
 		}
@@ -123,7 +123,7 @@ func TestRss(t *testing.T) {
 
 				got := item.Description()
 				if got != tt.expected {
-					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
 				}
 			})
 		}
@@ -137,7 +137,7 @@ func TestRss(t *testing.T) {
 
 				got := item.Title()
 				if got != tt.expected {
-					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
 				}
 			})
 		}
@@ -152,7 +152,7 @@ func TestRss(t *testing.T) {
 
 				got := feed.Title()
 				if got != tt.expected {
-					t.Errorf("Clean(%q) = %q, want %q", tt.input, got, tt.expected)
+					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
 				}
 			})
 		}

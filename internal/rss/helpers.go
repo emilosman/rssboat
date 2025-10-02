@@ -75,10 +75,10 @@ func ConfigFilePath() (string, error) {
 	return appDir, nil
 }
 
-func Clean(input string) string {
+func clean(input string) string {
 	p := bluemonday.StrictPolicy()
-	clean := p.Sanitize(input)
-	decoded := html.UnescapeString(clean)
+	sanitized := p.Sanitize(input)
+	decoded := html.UnescapeString(sanitized)
 	return normalizeSpaces(decoded)
 }
 

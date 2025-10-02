@@ -67,7 +67,7 @@ func (f *RssFeed) Title() string {
 	if f.Feed == nil || f.Feed.Title == "" {
 		title = f.Url
 	} else {
-		title = Clean(f.Feed.Title)
+		title = clean(f.Feed.Title)
 	}
 
 	if f.HasUnread() {
@@ -78,7 +78,7 @@ func (f *RssFeed) Title() string {
 }
 
 func (f *RssFeed) Description() string {
-	return Clean(f.Feed.Description)
+	return clean(f.Feed.Description)
 }
 
 func (f *RssFeed) Latest() string {
@@ -93,7 +93,7 @@ func (f *RssFeed) Latest() string {
 				last = f.RssItems[i]
 			}
 		}
-		return Clean(last.Item.Title)
+		return clean(last.Item.Title)
 	case f.Feed != nil:
 		return f.Description()
 	default:

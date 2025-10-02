@@ -25,7 +25,7 @@ func (i *RssItem) Link() string {
 }
 
 func (i *RssItem) Title() string {
-	title := Clean(i.Item.Title)
+	title := clean(i.Item.Title)
 	if !i.Read {
 		return fmt.Sprintf("🟢 %s", title)
 	}
@@ -33,11 +33,11 @@ func (i *RssItem) Title() string {
 }
 
 func (i *RssItem) Content() string {
-	return fmt.Sprintf("%s\n%s\n\n%s\n\n%s", i.Title(), i.Link(), i.Description(), i.Item.Content)
+	return fmt.Sprintf("%s\n%s\n\n%s\n\n%s", i.Title(), i.Link(), i.Description(), clean(i.Item.Content))
 }
 
 func (i *RssItem) Description() string {
-	return Clean(i.Item.Description)
+	return clean(i.Item.Description)
 }
 
 func (i *RssItem) ToggleRead() {

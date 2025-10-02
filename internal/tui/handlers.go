@@ -254,12 +254,11 @@ func handleViewItem(m *model) tea.Cmd {
 	if m.li.FilterState().String() != "filtering" {
 		i, ok := m.li.SelectedItem().(rssListItem)
 		if ok {
-			rssItem := i.item
-			if rssItem.Item != nil {
-				m.i = rssItem
+			m.i = i.item
+			if m.i.Item != nil {
 				m.v.YOffset = 0
 				m.v.SetContent(wordwrap.String(m.i.Content(), m.v.Width))
-				rssItem.MarkRead()
+				m.i.MarkRead()
 				rebuildItemsList(m)
 			}
 		}
