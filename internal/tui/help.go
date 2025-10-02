@@ -90,8 +90,8 @@ func itemsShortHelp() []key.Binding {
 			key.WithHelp("a", "toggle read"),
 		),
 		key.NewBinding(
-			key.WithKeys("o/enter"),
-			key.WithHelp("o/enter", "open item url"),
+			key.WithKeys("o"),
+			key.WithHelp("o", "open item url"),
 		),
 		key.NewBinding(
 			key.WithKeys("b/q/esc"),
@@ -105,6 +105,10 @@ func itemsShortHelp() []key.Binding {
 			key.WithKeys("shift+a"),
 			key.WithHelp("shift+a", "mark all items read"),
 		),
+		key.NewBinding(
+			key.WithKeys("enter"),
+			key.WithHelp("enter", "preview item"),
+		),
 	}
 }
 
@@ -116,8 +120,8 @@ func itemsFullHelp() [][]key.Binding {
 				key.WithHelp("a", "toggle read"),
 			),
 			key.NewBinding(
-				key.WithKeys("enter/o"),
-				key.WithHelp("enter/o", "open item url"),
+				key.WithKeys("o"),
+				key.WithHelp("o", "open item url"),
 			),
 			key.NewBinding(
 				key.WithKeys("b/q/esc"),
@@ -130,6 +134,10 @@ func itemsFullHelp() [][]key.Binding {
 			key.NewBinding(
 				key.WithKeys("shift+a"),
 				key.WithHelp("shift+a", "mark all items read"),
+			),
+			key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", "preview item"),
 			),
 		},
 	}

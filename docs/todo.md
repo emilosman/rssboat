@@ -7,6 +7,7 @@
   - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] Item preview refinements
 - [ ] Unread items should have different color
 - shift+e
   - [ ] Custom Cmd.Msg while editing
@@ -20,7 +21,6 @@
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
-- [ ] Content display view
 - [ ] 100% test coverage of rss.go
 - [ ] 🔴 error feed
 - [ ] Clear item list filter on back
@@ -71,6 +71,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Content display view
 - [x] First use message, empty list, show "shift+e" prompt
 - [x] Fix browser open
 - [x] Fresh install test

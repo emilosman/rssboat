@@ -5,8 +5,10 @@ import (
 	"os"
 
 	"github.com/charmbracelet/bubbles/list"
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/emilosman/rssboat/internal/rss"
+	"github.com/muesli/reflow/wordwrap"
 )
 
 type feedItem struct {
@@ -29,12 +31,15 @@ func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
 	prog         *tea.Program
+	ready        bool
 	l            *rss.List
 	selectedFeed *rss.RssFeed
 	lf           list.Model
 	li           list.Model
 	activeTab    int
 	tabs         []string
+	v            viewport.Model
+	i            *rss.RssItem
 }
 
 func initialModel() *model {
@@ -60,6 +65,7 @@ func initialModel() *model {
 		li:        list.New(nil, di, 0, 0),
 		tabs:      t,
 		activeTab: 0,
+		v:         viewport.New(10, 10),
 	}
 
 	rebuildFeedList(m)
@@ -102,10 +108,11 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		lfState := m.lf.FilterState().String()
 		liState := m.li.FilterState().String()
 		if lfState != "filtering" && liState != "filtering" {
-			if m.selectedFeed == nil {
-				handlers = feedKeyHandlers
-			} else {
+			switch {
+			case m.selectedFeed != nil:
 				handlers = itemKeyHandlers
+			default:
+				handlers = feedKeyHandlers
 			}
 		}
 
@@ -115,16 +122,28 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case tea.WindowSizeMsg:
-		h, v := docStyle.GetFrameSize()
-		m.lf.SetSize(msg.Width-h, msg.Height-v)
-		m.li.SetSize(msg.Width-h, msg.Height-v)
+		lh, lv := listStyle.GetFrameSize()
+		m.lf.SetSize(msg.Width-lh, msg.Height-lv)
+		m.li.SetSize(msg.Width-lh, msg.Height-lv)
+
+		vh, vv := viewStyle.GetFrameSize()
+		m.v.Width = msg.Width - vh
+		m.v.Height = msg.Height - vv
+		if m.i != nil {
+			m.v.SetContent(wordwrap.String(m.i.Content(), m.v.Width))
+		}
 	}
 
 	var cmd tea.Cmd
-	if m.selectedFeed != nil {
+
+	switch {
+	case m.i != nil:
+		m.v, cmd = m.v.Update(msg)
+	case m.selectedFeed != nil:
 		m.li, cmd = m.li.Update(msg)
-	} else {
+	default:
 		m.lf, cmd = m.lf.Update(msg)
 	}
+
 	return m, cmd
 }

@@ -9,6 +9,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/emilosman/rssboat/internal/rss"
+	"github.com/muesli/reflow/wordwrap"
 )
 
 type keyHandler func(*model) tea.Cmd
@@ -43,7 +44,7 @@ var (
 		"esc":   handleBack,
 		"r":     handleUpdateFeed,
 		"R":     handleUpdateAllFeeds,
-		"enter": handleEnterItem,
+		"enter": handleViewItem,
 	}
 )
 
@@ -148,7 +149,11 @@ func handleMarkTabAsRead(m *model) tea.Cmd {
 func handleBack(m *model) tea.Cmd {
 	rebuildFeedList(m)
 	m.lf.ResetFilter()
-	m.selectedFeed = nil
+	if m.i != nil {
+		m.i = nil
+	} else {
+		m.selectedFeed = nil
+	}
 	return nil
 }
 
@@ -237,29 +242,25 @@ func handleEnterFeed(m *model) tea.Cmd {
 		if i, ok := m.lf.SelectedItem().(feedItem); ok {
 			if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
 				m.selectedFeed = i.rssFeed
-				items := buildItemsList(m.selectedFeed)
+				rebuildItemsList(m)
 				m.li.Title = i.title
-				m.li.SetItems(items)
 			}
 		}
 	}
 	return nil
 }
 
-func handleEnterItem(m *model) tea.Cmd {
+func handleViewItem(m *model) tea.Cmd {
 	if m.li.FilterState().String() != "filtering" {
 		i, ok := m.li.SelectedItem().(rssListItem)
 		if ok {
 			rssItem := i.item
 			if rssItem.Item != nil {
-				err := openInBrowser(rssItem.Link())
-				if err != nil {
-					errorMessage := fmt.Sprintf("Error opening item, %q", err)
-					m.li.NewStatusMessage(errorMessage)
-				}
+				m.i = rssItem
+				m.v.YOffset = 0
+				m.v.SetContent(wordwrap.String(m.i.Content(), m.v.Width))
 				rssItem.MarkRead()
-				items := buildItemsList(m.selectedFeed)
-				m.li.SetItems(items)
+				rebuildItemsList(m)
 			}
 		}
 	}

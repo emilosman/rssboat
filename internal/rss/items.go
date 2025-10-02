@@ -32,6 +32,10 @@ func (i *RssItem) Title() string {
 	return title
 }
 
+func (i *RssItem) Content() string {
+	return fmt.Sprintf("%s\n%s\n\n%s\n\n%s", i.Title(), i.Link(), i.Description(), i.Item.Content)
+}
+
 func (i *RssItem) Description() string {
 	return Clean(i.Item.Description)
 }
