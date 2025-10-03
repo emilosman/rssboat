@@ -4,6 +4,8 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] Don't filter when viewport open
+- [ ] Save command check usage
 - [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Item preview refinements
