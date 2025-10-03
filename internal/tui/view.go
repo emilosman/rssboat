@@ -5,8 +5,10 @@ import (
 )
 
 var (
-	viewStyle = lipgloss.NewStyle().Margin(10, 20)
-	listStyle = lipgloss.NewStyle().Margin(1, 2)
+	viewStyle   = lipgloss.NewStyle().Margin(10, 20)
+	listStyle   = lipgloss.NewStyle().Margin(1, 2)
+	unreadStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#00cf42"))
 )
 
 func (m *model) View() string {

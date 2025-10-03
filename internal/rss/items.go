@@ -27,7 +27,7 @@ func (i *RssItem) Link() string {
 func (i *RssItem) Title() string {
 	title := clean(i.Item.Title)
 	if !i.Read {
-		return fmt.Sprintf("🟢 %s", title)
+		return fmt.Sprintf("+ %s", title)
 	}
 	return title
 }

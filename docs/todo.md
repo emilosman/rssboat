@@ -1,13 +1,12 @@
 # Todo
 
 ## MVP
-- Fresh install
-  - [ ] Test first run flow (lists_test.go)
-  - [ ] Display "(n)" instead of 🟢 in terminals that don't support it
-  - [ ] Create default values in urls.yaml
+- [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] Items list height bug in MacOS Terminal
 - [ ] Item preview refinements
+- [ ] Test first run flow (lists_test.go)
 - Categories
   - [ ] Refactor GetCategory
   - [ ] CategoriesIndex on List
@@ -71,6 +70,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Display "+" instead of 🟢 in terminals that don't support it
 - [x] Content display view
 - [x] First use message, empty list, show "shift+e" prompt
 - [x] Fix browser open

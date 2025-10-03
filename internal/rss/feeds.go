@@ -71,7 +71,7 @@ func (f *RssFeed) Title() string {
 	}
 
 	if f.HasUnread() {
-		return fmt.Sprintf("🟢 %s", title)
+		return fmt.Sprintf("+ %s", title)
 	}
 
 	return title

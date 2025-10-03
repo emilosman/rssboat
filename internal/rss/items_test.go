@@ -49,7 +49,7 @@ func TestItems(t *testing.T) {
 	t.Run("Should get read status of unread feed item", func(t *testing.T) {
 		unreadRssItem, _, _, _, _, _ := newTestData()
 
-		want := "🟢 Latest item title"
+		want := "+ Latest item title"
 		got := unreadRssItem.Title()
 		if got != want {
 			t.Errorf("Did not get correct field value, want %s, got %s", want, got)

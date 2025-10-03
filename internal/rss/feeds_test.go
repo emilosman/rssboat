@@ -16,7 +16,7 @@ func TestFeeds(t *testing.T) {
 		rssFeed.Feed.Title = ""
 		field := rssFeed.Title()
 
-		want := fmt.Sprintf("🟢 %s", rssFeed.Url)
+		want := fmt.Sprintf("+ %s", rssFeed.Url)
 		if field != want {
 			t.Error("Feed title should be url when no title present")
 		}
@@ -24,7 +24,7 @@ func TestFeeds(t *testing.T) {
 		rssFeed.Feed.Title = "Feed title"
 
 		field = rssFeed.Title()
-		if field != "🟢 Feed title" {
+		if field != "+ Feed title" {
 			t.Error("Unread feed title not returned")
 		}
 
