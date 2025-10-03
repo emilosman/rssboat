@@ -127,7 +127,6 @@ func buildFeedList(l *rss.List, t []string, a int) []list.Item {
 
 			if feed.HasUnread() {
 				title = unreadStyle.Render(title)
-				description = unreadStyle.Render(description)
 			}
 
 			listItems = append(listItems, feedItem{
@@ -158,7 +157,6 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 
 		if !ri.Read {
 			title = unreadStyle.Render(title)
-			description = unreadStyle.Render(description)
 		}
 
 		listItems = append(listItems, rssListItem{
