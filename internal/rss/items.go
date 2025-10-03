@@ -33,13 +33,23 @@ func (i *RssItem) Title() string {
 }
 
 func (i *RssItem) Content() string {
+	title := i.Title()
+	date := i.Item.PublishedParsed
+	link := i.Link()
+	desc := i.Description()
+	content := clean(i.Item.Content)
+
+	if content != "" {
+		desc = ""
+	}
+
 	return fmt.Sprintf(
 		"%s\n%s\n%s\n\n%s\n\n%s",
-		i.Title(),
-		i.Item.PublishedParsed,
-		i.Link(),
-		i.Description(),
-		clean(i.Item.Content),
+		title,
+		date,
+		link,
+		desc,
+		content,
 	)
 }
 
