@@ -4,6 +4,7 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Item preview refinements
 - [ ] Test first run flow (lists_test.go)
