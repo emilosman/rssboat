@@ -25,7 +25,7 @@
 - [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
 - [ ] 100% test coverage of rss.go
-- [ ] 🔴 error feed
+- [ ] Red error feed
 - [ ] Clear item list filter on back
 - Tabs
   - [ ] "All" tab
