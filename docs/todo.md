@@ -4,7 +4,6 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Don't filter when viewport open
 - [ ] Save command check usage
 - [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
@@ -28,7 +27,6 @@
 - [ ] Parse URL with standard library to check for errors
 - [ ] 100% test coverage of rss.go
 - [ ] Red error feed
-- [ ] Clear item list filter on back
 - Tabs
   - [ ] "All" tab
   - [ ] Tab change on 1-9
@@ -73,6 +71,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Clear item list filter on back
 - [x] Display "+" instead of 🟢 in terminals that don't support it
 - [x] Content display view
 - [x] First use message, empty list, show "shift+e" prompt
