@@ -27,7 +27,7 @@ type rssListItem struct {
 
 func (r rssListItem) Title() string       { return r.title }
 func (r rssListItem) Description() string { return r.desc }
-func (r rssListItem) FilterValue() string { return r.title }
+func (r rssListItem) FilterValue() string { return r.item.Content() }
 
 type model struct {
 	prog      *tea.Program
