@@ -54,7 +54,11 @@ func (i *RssItem) Content() string {
 }
 
 func (i *RssItem) Description() string {
-	return clean(i.Item.Description)
+	desc := i.Item.Description
+	if desc == "" {
+		desc = i.Item.Content
+	}
+	return clean(desc)
 }
 
 func (i *RssItem) ToggleRead() {
