@@ -106,8 +106,10 @@ func rebuildFeedList(m *model) tea.Cmd {
 }
 
 func rebuildItemsList(m *model) tea.Cmd {
-	items := buildItemsList(m.f)
-	m.li.SetItems(items)
+	if m.li.FilterState().String() != "filter applied" {
+		items := buildItemsList(m.f)
+		m.li.SetItems(items)
+	}
 	return nil
 }
 
