@@ -30,16 +30,16 @@ func (r rssListItem) Description() string { return r.desc }
 func (r rssListItem) FilterValue() string { return r.title }
 
 type model struct {
-	prog         *tea.Program
-	ready        bool
-	l            *rss.List
-	selectedFeed *rss.RssFeed
-	lf           list.Model
-	li           list.Model
-	activeTab    int
-	tabs         []string
-	v            viewport.Model
-	i            *rss.RssItem
+	prog      *tea.Program
+	ready     bool
+	l         *rss.List
+	f         *rss.RssFeed
+	i         *rss.RssItem
+	lf        list.Model
+	li        list.Model
+	v         viewport.Model
+	tabs      []string
+	activeTab int
 }
 
 func initialModel() *model {
@@ -111,7 +111,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		liState := m.li.FilterState().String()
 		if lfState != "filtering" && liState != "filtering" {
 			switch {
-			case m.selectedFeed != nil:
+			case m.f != nil:
 				handlers = itemKeyHandlers
 			default:
 				handlers = feedKeyHandlers
@@ -141,7 +141,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch {
 	case m.i != nil:
 		m.v, cmd = m.v.Update(msg)
-	case m.selectedFeed != nil:
+	case m.f != nil:
 		m.li, cmd = m.li.Update(msg)
 	default:
 		m.lf, cmd = m.lf.Update(msg)

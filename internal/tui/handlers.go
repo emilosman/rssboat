@@ -107,7 +107,7 @@ func handleToggleRead(m *model) tea.Cmd {
 	i, ok := m.li.SelectedItem().(rssListItem)
 	if ok {
 		i.item.ToggleRead()
-		items := buildItemsList(m.selectedFeed)
+		items := buildItemsList(m.f)
 		m.li.SetItems(items)
 		m.li.NewStatusMessage(MsgItemReadToggled)
 	}
@@ -125,8 +125,8 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 }
 
 func handleMarkItemsRead(m *model) tea.Cmd {
-	if m.selectedFeed != nil {
-		m.selectedFeed.MarkAllItemsRead()
+	if m.f != nil {
+		m.f.MarkAllItemsRead()
 		rebuildItemsList(m)
 		m.li.NewStatusMessage(MsgMarkFeedRead)
 	}
@@ -148,11 +148,12 @@ func handleMarkTabAsRead(m *model) tea.Cmd {
 
 func handleBack(m *model) tea.Cmd {
 	rebuildFeedList(m)
-	m.lf.ResetFilter()
 	if m.i != nil {
+		m.li.ResetFilter()
 		m.i = nil
 	} else {
-		m.selectedFeed = nil
+		m.lf.ResetFilter()
+		m.f = nil
 	}
 	return nil
 }
@@ -191,7 +192,7 @@ func handleOpenItem(m *model) tea.Cmd {
 				m.li.NewStatusMessage(errorMessage)
 			}
 			rssItem.MarkRead()
-			items := buildItemsList(m.selectedFeed)
+			items := buildItemsList(m.f)
 			m.li.SetItems(items)
 		}
 	}
@@ -204,8 +205,8 @@ func handleUpdateFeed(m *model) tea.Cmd {
 		return nil
 	}
 
-	feed := m.selectedFeed
-	if m.selectedFeed == nil {
+	feed := m.f
+	if m.f == nil {
 		if i, ok := m.lf.SelectedItem().(feedItem); ok {
 			feed = i.rssFeed
 		}
@@ -241,7 +242,7 @@ func handleEnterFeed(m *model) tea.Cmd {
 	if m.lf.FilterState().String() != "filtering" {
 		if i, ok := m.lf.SelectedItem().(feedItem); ok {
 			if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
-				m.selectedFeed = i.rssFeed
+				m.f = i.rssFeed
 				rebuildItemsList(m)
 				m.li.Title = i.title
 			}
