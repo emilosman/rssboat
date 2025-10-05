@@ -5,6 +5,7 @@
 
 ## Todo
 - [ ] Custom list title + status message
+- [ ] Don't delete cache on error
 - [ ] Save command check usage
 - [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
@@ -20,7 +21,6 @@
   - [ ] Default editor instead of vim
   - [ ] Item delete from urls.yaml does not remove from list?
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
-- [ ] Don't delete cache on error
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
