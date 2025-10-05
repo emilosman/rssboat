@@ -9,24 +9,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/emilosman/rssboat/internal/rss"
-)
-
-var (
-	activeTabStyle = lipgloss.NewStyle().
-			Bold(true).
-			Foreground(lipgloss.Color("#ff4fff")).
-			Padding(0, 1)
-
-	unreadTabStyle = lipgloss.NewStyle().
-			Bold(true).
-			Foreground(lipgloss.Color("#00cf42")).
-			Padding(0, 1)
-
-	inactiveTabStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#767676")).
-				Padding(0, 1)
 )
 
 type feedUpdatedMsg struct {
@@ -129,6 +112,10 @@ func buildFeedList(l *rss.List, t []string, a int) []list.Item {
 
 			if feed.HasUnread() {
 				title = unreadStyle.Render(title)
+			}
+
+			if feed.Error != "" {
+				description = errorStyle.Render(description)
 			}
 
 			listItems = append(listItems, feedItem{
