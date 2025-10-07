@@ -16,6 +16,7 @@
   - [ ] CategoriesIndex on List
 - [ ] Unread items should have different color
 - shift+e
+  - [ ] Fix feeds getting marked unread after edit
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
