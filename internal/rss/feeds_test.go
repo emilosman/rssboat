@@ -159,7 +159,7 @@ func TestFeeds(t *testing.T) {
 	})
 
 	t.Run("Get and parse feed", func(t *testing.T) {
-		server := Server(t, rssData(t))
+		server := Server(t, testData(t, "feed.xml"))
 		defer server.Close()
 
 		rssFeed := RssFeed{Url: server.URL}
@@ -177,7 +177,7 @@ func TestFeeds(t *testing.T) {
 			t.Error("Error parsing feed")
 		}
 
-		rawItemCount := bytes.Count(rssData(t), []byte(`<item>`))
+		rawItemCount := bytes.Count(testData(t, "feed.xml"), []byte(`<item>`))
 		if len(rssFeed.RssItems) != rawItemCount {
 			t.Errorf("Wrong number of feed items, wanted %d, got %d", rawItemCount, len(rssFeed.RssItems))
 		}
@@ -194,7 +194,7 @@ func TestFeeds(t *testing.T) {
 	})
 
 	t.Run("Feed items should be sorted by pub date", func(t *testing.T) {
-		server := Server(t, rssData(t))
+		server := Server(t, testData(t, "feed.xml"))
 		defer server.Close()
 
 		rssFeed := RssFeed{Url: server.URL}
@@ -214,7 +214,7 @@ func TestFeeds(t *testing.T) {
 	})
 
 	t.Run("Do not overwrite read state", func(t *testing.T) {
-		server := Server(t, rssData(t))
+		server := Server(t, testData(t, "feed.xml"))
 		defer server.Close()
 
 		rssFeed := RssFeed{Url: server.URL}
@@ -252,7 +252,7 @@ func TestFeeds(t *testing.T) {
 	})
 
 	t.Run("Update feeds", func(t *testing.T) {
-		server := Server(t, rssData(t))
+		server := Server(t, testData(t, "feed.xml"))
 		defer server.Close()
 
 		feeds := []*RssFeed{

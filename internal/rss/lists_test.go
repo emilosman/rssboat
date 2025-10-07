@@ -176,7 +176,7 @@ func TestLists(t *testing.T) {
 
 	t.Run("Should load list", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"urls.yaml": {Data: yamlData(t)},
+			"urls.yaml": {Data: testData(t, "test_urls.yaml")},
 		}
 
 		l, err := LoadList(fs)
@@ -219,7 +219,7 @@ func TestLists(t *testing.T) {
 
 	t.Run("Should handle invalid urls.yaml file", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"urls.yaml": {Data: rssData(t)},
+			"urls.yaml": {Data: testData(t, "feed.xml")},
 		}
 
 		l, err := LoadList(fs)
@@ -256,7 +256,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("Update all feeds in list", func(t *testing.T) {
-		server := Server(t, rssData(t))
+		server := Server(t, testData(t, "feed.xml"))
 		defer server.Close()
 
 		feeds := []*RssFeed{
@@ -327,7 +327,7 @@ func TestLists(t *testing.T) {
 	t.Run("Create feeds from YAML", func(t *testing.T) {
 		_, _, _, _, _, l := newTestData()
 		fs := fstest.MapFS{
-			"urls.yaml": {Data: yamlData(t)},
+			"urls.yaml": {Data: testData(t, "test_urls.yaml")},
 		}
 
 		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
@@ -335,7 +335,7 @@ func TestLists(t *testing.T) {
 			t.Errorf("Error reading file: %q", err)
 		}
 
-		rawItemCount := bytes.Count(yamlData(t), []byte(`http`))
+		rawItemCount := bytes.Count(testData(t, "test_urls.yaml"), []byte(`http`))
 		if len(l.Feeds) != rawItemCount {
 			t.Errorf("Wrong number of feeds created, wanted %d, got %d", rawItemCount, len(l.Feeds))
 		}

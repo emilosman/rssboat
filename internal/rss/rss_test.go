@@ -2,6 +2,7 @@ package rss
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -88,18 +89,10 @@ func newTestData() (RssItem, RssItem, RssFeed, RssFeed, RssFeed, List) {
 	return unreadRssItem, readRssItem, rssFeed, rssFeedWithoutItems, rssFeedUnloaded, l
 }
 
-func rssData(t *testing.T) []byte {
+func testData(t *testing.T, filename string) []byte {
 	t.Helper()
-	b, err := os.ReadFile("testdata/feed.xml")
-	if err != nil {
-		t.Fatal("Could not read test data")
-	}
-	return b
-}
-
-func yamlData(t *testing.T) []byte {
-	t.Helper()
-	b, err := os.ReadFile("testdata/test_urls.yaml")
+	path := fmt.Sprintf("testdata/%s", filename)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatal("Could not read test data")
 	}
