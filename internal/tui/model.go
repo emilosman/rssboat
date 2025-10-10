@@ -3,6 +3,7 @@ package tui
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/viewport"
@@ -114,6 +115,11 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case m.f != nil:
 				handlers = itemKeyHandlers
 			default:
+				i, err := strconv.Atoi(msg.String())
+				if err == nil {
+					cmd := handleTabNumber(m, i)
+					return m, cmd
+				}
 				handlers = feedKeyHandlers
 			}
 		}

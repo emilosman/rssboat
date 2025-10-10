@@ -6,11 +6,11 @@
 <img width="649" height="199" alt="screen" src="https://github.com/user-attachments/assets/8821ddfe-ada2-4e9f-838f-8b8cac7991e1" />
 
 ## Features
-- Vim-style navigation for feeds and articles  
-- Keyboard shortcuts inspired by Newsboat (`?` for help)  
-- Asynchronous feed fetching using Go routines and channels  
-- Read/unread tracking for feed items  
-- Configurable via a simple YAML file  
+- Vim-style navigation for feeds and articles
+- Keyboard shortcuts inspired by Newsboat (`?` for help)
+- Asynchronous feed fetching using Go routines and channels
+- Read/unread tracking for feed items
+- Configurable via a simple YAML file
 
 ## Installation
 ```bash

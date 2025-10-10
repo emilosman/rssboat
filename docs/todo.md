@@ -25,12 +25,10 @@
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
-- [ ] Tab unread indicator tab (green .)
 - [ ] Parse URL with standard library to check for errors
 - [ ] 100% test coverage of rss.go
 - Tabs
   - [ ] "All" tab
-  - [ ] Tab change on 1-9
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
@@ -75,6 +73,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Tab change on 1-9
 - [x] Red error feed
 - [x] Clear item list filter on back
 - [x] Display "+" instead of 🟢 in terminals that don't support it

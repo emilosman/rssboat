@@ -265,3 +265,17 @@ func handleInterrupt(m *model) tea.Cmd {
 	m.SaveState()
 	return tea.Quit
 }
+
+func handleTabNumber(m *model, i int) tea.Cmd {
+	if i > len(m.tabs) {
+		return nil
+	}
+
+	if i == 0 {
+		return nil
+	}
+
+	m.activeTab = i - 1
+
+	return rebuildFeedList(m)
+}
