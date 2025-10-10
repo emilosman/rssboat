@@ -126,8 +126,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 		if handler, ok := handlers[msg.String()]; ok {
-			cmd := handler(m)
-			return m, cmd
+			return m, handler(m)
 		}
 
 	case tea.WindowSizeMsg:
