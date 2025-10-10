@@ -110,23 +110,24 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		var handlers map[string]keyHandler
 		lfState := m.lf.FilterState().String()
 		liState := m.li.FilterState().String()
+
 		if lfState != "filtering" && liState != "filtering" {
-			switch {
-			case m.f != nil:
+			if m.f != nil {
 				handlers = itemKeyHandlers
-			default:
+			} else {
+				handlers = feedKeyHandlers
+
 				i, err := strconv.Atoi(msg.String())
 				if err == nil {
 					cmd := handleTabNumber(m, i)
 					return m, cmd
 				}
-				handlers = feedKeyHandlers
 			}
-		}
 
-		if handler, ok := handlers[msg.String()]; ok {
-			cmd := handler(m)
-			return m, cmd
+			if handler, ok := handlers[msg.String()]; ok {
+				cmd := handler(m)
+				return m, cmd
+			}
 		}
 
 	case tea.WindowSizeMsg:
