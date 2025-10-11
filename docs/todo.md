@@ -5,7 +5,6 @@
 
 ## Todo
 - [ ] Custom list title + status message
-- [ ] Don't delete cache on error
 - [ ] Save command check usage
 - [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
@@ -73,6 +72,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Can open cached errored feeds
 - [x] Tab change on 1-9
 - [x] Red error feed
 - [x] Clear item list filter on back
