@@ -4,6 +4,7 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] Next / prev article while in viewport mode "h" / "l", arrow keys
 - [ ] Custom list title + status message
 - [ ] Save command check usage
 - [ ] Viewport help modal
