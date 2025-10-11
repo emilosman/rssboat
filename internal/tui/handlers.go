@@ -238,7 +238,7 @@ func handleQuit(m *model) tea.Cmd {
 
 func handleEnterFeed(m *model) tea.Cmd {
 	if i, ok := m.lf.SelectedItem().(feedItem); ok {
-		if i.rssFeed.Feed != nil && i.rssFeed.Error == "" {
+		if i.rssFeed.Feed != nil {
 			m.f = i.rssFeed
 			rebuildItemsList(m)
 			m.li.Title = i.title
