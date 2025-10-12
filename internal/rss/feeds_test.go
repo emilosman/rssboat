@@ -247,6 +247,19 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
+	t.Run("Should handle next unread item when no items", func(t *testing.T) {
+		rssFeed := RssFeed{}
+
+		index, item := rssFeed.NextUnreadItem(nil)
+		if index != -1 {
+			t.Error("Wrong index returned")
+		}
+
+		if item != nil {
+			t.Error("Wrong item returned")
+		}
+	})
+
 	t.Run("Do not overwrite read state", func(t *testing.T) {
 		server := Server(t, testData(t, "feed.xml"))
 		defer server.Close()
