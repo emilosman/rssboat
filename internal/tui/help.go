@@ -120,6 +120,10 @@ func itemsFullHelp() [][]key.Binding {
 				key.WithHelp("a", "toggle read"),
 			),
 			key.NewBinding(
+				key.WithKeys("n"),
+				key.WithHelp("n", "next unread item"),
+			),
+			key.NewBinding(
 				key.WithKeys("o"),
 				key.WithHelp("o", "open item url"),
 			),
