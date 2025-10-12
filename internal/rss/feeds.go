@@ -119,6 +119,23 @@ func (f *RssFeed) GetFeed() error {
 	return nil
 }
 
+func (f *RssFeed) NextAfter(prev *RssItem) *RssItem {
+	n := len(f.RssItems)
+	if n == 0 {
+		return nil
+	}
+
+	for i, item := range f.RssItems {
+		if item == prev {
+			if i < n-1 {
+				return f.RssItems[i+1]
+			}
+			return nil
+		}
+	}
+	return nil
+}
+
 func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 	existing := f.existingKeys()
 

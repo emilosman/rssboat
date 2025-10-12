@@ -5,6 +5,7 @@
 
 ## Todo
 - [ ] Next / prev article while in viewport mode "h" / "l", arrow keys
+- [ ] "a" should mark read and descend 1 item down the list
 - [ ] Custom list title + status message
 - [ ] Save command check usage
 - [ ] Viewport help modal
