@@ -157,6 +157,23 @@ func (f *RssFeed) NextUnreadItem(prev *RssItem) (int, *RssItem) {
 	return -1, nil
 }
 
+func (f *RssFeed) PrevBefore(current *RssItem) (int, *RssItem) {
+	n := len(f.RssItems)
+	if n == 0 {
+		return -1, nil
+	}
+
+	for i, item := range f.RssItems {
+		if item == current {
+			if i > 0 {
+				return i - 1, f.RssItems[i-1]
+			}
+			return -1, nil
+		}
+	}
+	return -1, nil
+}
+
 func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 	existing := f.existingKeys()
 

@@ -52,6 +52,8 @@ var (
 		"b":     handleBack,
 		"l":     handleViewNext,
 		"right": handleViewNext,
+		"h":     handleViewPrev,
+		"left":  handleViewPrev,
 		"o":     handleOpenItem,
 		"q":     handleBack,
 		"esc":   handleBack,
@@ -310,6 +312,19 @@ func handleViewNext(m *model) tea.Cmd {
 		m.v.YOffset = 0
 		m.v.SetContent(wordwrap.String(next.Content(), m.v.Width))
 		next.MarkRead()
+		rebuildItemsList(m)
+	}
+	return nil
+}
+
+func handleViewPrev(m *model) tea.Cmd {
+	index, prev := m.f.PrevBefore(m.i)
+	if prev != nil {
+		m.i = prev
+		m.li.Select(index)
+		m.v.YOffset = 0
+		m.v.SetContent(wordwrap.String(prev.Content(), m.v.Width))
+		prev.MarkRead()
 		rebuildItemsList(m)
 	}
 	return nil

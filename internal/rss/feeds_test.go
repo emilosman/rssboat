@@ -247,10 +247,57 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
+	t.Run("Should return the previous item correctly", func(t *testing.T) {
+		item1 := &RssItem{}
+		item2 := &RssItem{}
+		item3 := &RssItem{}
+
+		rssFeed := RssFeed{
+			RssItems: []*RssItem{item1, item2, item3},
+		}
+
+		tests := []struct {
+			name     string
+			current  *RssItem
+			index    int
+			expected *RssItem
+		}{
+			{"previous before first", item1, -1, nil},
+			{"previous before second", item2, 0, item1},
+			{"previous before third", item3, 1, item2},
+			{"not in list", &RssItem{}, -1, nil},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				index, got := rssFeed.PrevBefore(tt.current)
+				if got != tt.expected {
+					t.Errorf("PrevBefore(%p) = %p, want %p", tt.current, got, tt.expected)
+				}
+				if index != tt.index {
+					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
+				}
+			})
+		}
+	})
+
 	t.Run("Should handle next item when no items", func(t *testing.T) {
 		rssFeed := RssFeed{}
 
 		index, item := rssFeed.NextAfter(nil)
+		if index != -1 {
+			t.Error("Wrong index returned")
+		}
+
+		if item != nil {
+			t.Error("Wrong item returned")
+		}
+	})
+
+	t.Run("Should handle previous item when no items", func(t *testing.T) {
+		rssFeed := RssFeed{}
+
+		index, item := rssFeed.PrevBefore(nil)
 		if index != -1 {
 			t.Error("Wrong index returned")
 		}
