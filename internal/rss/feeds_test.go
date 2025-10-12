@@ -247,6 +247,19 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
+	t.Run("Should handle next item when no items", func(t *testing.T) {
+		rssFeed := RssFeed{}
+
+		index, item := rssFeed.NextAfter(nil)
+		if index != -1 {
+			t.Error("Wrong index returned")
+		}
+
+		if item != nil {
+			t.Error("Wrong item returned")
+		}
+	})
+
 	t.Run("Should return the next unread item correctly", func(t *testing.T) {
 		item1 := &RssItem{Read: true}
 		item2 := &RssItem{Read: true}
