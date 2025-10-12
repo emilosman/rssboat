@@ -5,7 +5,8 @@
 
 ## Todo
 - [ ] Next unread feed
-- [ ] Next / prev article while in viewport mode "h" / "l", arrow keys
+- [x] Next article in viewport mode "l", "right"
+- [ ] Prev article in viewport mode "h", "left"
 - [ ] Custom list title + status message
 - [ ] Save command check usage
 - [ ] Viewport help modal

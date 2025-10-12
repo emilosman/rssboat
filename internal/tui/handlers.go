@@ -38,14 +38,23 @@ var (
 	itemKeyHandlers = map[string]keyHandler{
 		"a":     handleToggleRead,
 		"A":     handleMarkItemsRead,
+		"b":     handleBack,
 		"n":     handleNextUnreadItem,
 		"o":     handleOpenItem,
-		"b":     handleBack,
 		"q":     handleBack,
 		"esc":   handleBack,
 		"r":     handleUpdateFeed,
 		"R":     handleUpdateAllFeeds,
 		"enter": handleViewItem,
+	}
+
+	viewKeyHandlers = map[string]keyHandler{
+		"b":     handleBack,
+		"l":     handleViewNext,
+		"right": handleViewNext,
+		"o":     handleOpenItem,
+		"q":     handleBack,
+		"esc":   handleBack,
 	}
 )
 
@@ -291,4 +300,17 @@ func handleTabNumber(m *model, i int) tea.Cmd {
 	m.activeTab = i - 1
 
 	return rebuildFeedList(m)
+}
+
+func handleViewNext(m *model) tea.Cmd {
+	index, next := m.f.NextAfter(m.i)
+	if next != nil {
+		m.i = next
+		m.li.Select(index)
+		m.v.YOffset = 0
+		m.v.SetContent(wordwrap.String(next.Content(), m.v.Width))
+		next.MarkRead()
+		rebuildItemsList(m)
+	}
+	return nil
 }

@@ -225,19 +225,23 @@ func TestFeeds(t *testing.T) {
 		tests := []struct {
 			name     string
 			prev     *RssItem
+			index    int
 			expected *RssItem
 		}{
-			{"next after first", item1, item2},
-			{"next after second", item2, item3},
-			{"next after last", item3, nil},
-			{"not in list", &RssItem{}, nil},
+			{"next after first", item1, 1, item2},
+			{"next after second", item2, 2, item3},
+			{"next after last", item3, -1, nil},
+			{"not in list", &RssItem{}, -1, nil},
 		}
 
 		for _, tt := range tests {
 			t.Run(tt.name, func(t *testing.T) {
-				got := rssFeed.NextAfter(tt.prev)
+				index, got := rssFeed.NextAfter(tt.prev)
 				if got != tt.expected {
 					t.Errorf("NextAfter(%p) = %p, want %p", tt.prev, got, tt.expected)
+				}
+				if index != tt.index {
+					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
 				}
 			})
 		}

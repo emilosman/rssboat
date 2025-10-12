@@ -115,11 +115,13 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			break
 		}
 
-		if m.f != nil {
+		switch {
+		case m.i != nil:
+			handlers = viewKeyHandlers
+		case m.f != nil:
 			handlers = itemKeyHandlers
-		} else {
+		default:
 			handlers = feedKeyHandlers
-
 			if i, err := strconv.Atoi(msg.String()); err == nil {
 				return m, handleTabNumber(m, i)
 			}
