@@ -4,9 +4,7 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Next unread feed
-- [x] Next article in viewport mode "l", "right"
-- [ ] Prev article in viewport mode "h", "left"
+- [ ] Next unread feed (jump between tabs ?)
 - [ ] Custom list title + status message
 - [ ] Save command check usage
 - [ ] Viewport help modal
@@ -75,6 +73,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Next article in viewport mode "l", "right"
+- [x] Prev article in viewport mode "h", "left"
 - [x] Next unread item
 - [x] Can open cached errored feeds
 - [x] Tab change on 1-9
