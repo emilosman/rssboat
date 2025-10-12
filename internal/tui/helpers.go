@@ -110,7 +110,7 @@ func buildFeedList(l *rss.List, t []string, a int) []list.Item {
 			title := feed.Title()
 			description := feed.Latest()
 
-			if feed.HasUnread() && feed.Error == "" {
+			if feed.HasUnread() {
 				title = unreadStyle.Render(title)
 			}
 
