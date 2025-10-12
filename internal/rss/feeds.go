@@ -119,10 +119,10 @@ func (f *RssFeed) GetFeed() error {
 	return nil
 }
 
-func (f *RssFeed) NextUnread(prev *RssItem) *RssItem {
+func (f *RssFeed) NextUnreadItem(prev *RssItem) (int, *RssItem) {
 	n := len(f.RssItems)
 	if n == 0 {
-		return nil
+		return -1, nil
 	}
 
 	for i, item := range f.RssItems {
@@ -130,14 +130,14 @@ func (f *RssFeed) NextUnread(prev *RssItem) *RssItem {
 			for j := i + 1; j < n; j++ {
 				next := f.RssItems[j]
 				if !next.Read {
-					return next
+					return j, next
 				}
 			}
-			return nil
+			return -1, nil
 		}
 	}
 
-	return nil
+	return -1, nil
 }
 
 func (f *RssFeed) mergeItems(items []*gofeed.Item) {

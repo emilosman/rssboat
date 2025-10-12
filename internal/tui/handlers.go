@@ -38,6 +38,7 @@ var (
 	itemKeyHandlers = map[string]keyHandler{
 		"a":     handleToggleRead,
 		"A":     handleMarkItemsRead,
+		"n":     handleNextUnreadItem,
 		"o":     handleOpenItem,
 		"b":     handleBack,
 		"q":     handleBack,
@@ -109,6 +110,18 @@ func handleToggleRead(m *model) tea.Cmd {
 		i.item.ToggleRead()
 		rebuildItemsList(m)
 		m.li.NewStatusMessage(MsgItemReadToggled)
+	}
+	return nil
+}
+
+func handleNextUnreadItem(m *model) tea.Cmd {
+	i, ok := m.li.SelectedItem().(rssListItem)
+	if ok {
+		prev := i.item
+		index, next := m.f.NextUnreadItem(prev)
+		if next != nil {
+			m.li.Select(index)
+		}
 	}
 	return nil
 }
