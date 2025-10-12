@@ -119,7 +119,7 @@ func (f *RssFeed) GetFeed() error {
 	return nil
 }
 
-func (f *RssFeed) NextAfter(prev *RssItem) *RssItem {
+func (f *RssFeed) NextUnread(prev *RssItem) *RssItem {
 	n := len(f.RssItems)
 	if n == 0 {
 		return nil
@@ -127,12 +127,16 @@ func (f *RssFeed) NextAfter(prev *RssItem) *RssItem {
 
 	for i, item := range f.RssItems {
 		if item == prev {
-			if i < n-1 {
-				return f.RssItems[i+1]
+			for j := i + 1; j < n; j++ {
+				next := f.RssItems[j]
+				if !next.Read {
+					return next
+				}
 			}
 			return nil
 		}
 	}
+
 	return nil
 }
 

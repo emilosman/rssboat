@@ -213,10 +213,10 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
-	t.Run("Should return the next item correctly", func(t *testing.T) {
-		item1 := &RssItem{}
-		item2 := &RssItem{}
-		item3 := &RssItem{}
+	t.Run("Should return the next unread item correctly", func(t *testing.T) {
+		item1 := &RssItem{Read: true}
+		item2 := &RssItem{Read: true}
+		item3 := &RssItem{Read: false}
 
 		rssFeed := RssFeed{
 			RssItems: []*RssItem{item1, item2, item3},
@@ -227,15 +227,15 @@ func TestFeeds(t *testing.T) {
 			prev     *RssItem
 			expected *RssItem
 		}{
-			{"next after first", item1, item2},
-			{"next after second", item2, item3},
-			{"next after last", item3, nil},
+			{"next unread after first", item1, item3},
+			{"next unread after second", item2, item3},
+			{"next unread after last", item3, nil},
 			{"not in list", &RssItem{}, nil},
 		}
 
 		for _, tt := range tests {
 			t.Run(tt.name, func(t *testing.T) {
-				got := rssFeed.NextAfter(tt.prev)
+				got := rssFeed.NextUnread(tt.prev)
 				if got != tt.expected {
 					t.Errorf("NextAfter(%p) = %p, want %p", tt.prev, got, tt.expected)
 				}
