@@ -370,4 +370,52 @@ func TestLists(t *testing.T) {
 			t.Error("Should raise error when file invalid")
 		}
 	})
+
+	t.Run("Should return the next unread feed correctly", func(t *testing.T) {
+		feed1 := &RssFeed{
+			RssItems: []*RssItem{
+				{Read: true},
+			},
+		}
+
+		feed2 := &RssFeed{
+			RssItems: []*RssItem{
+				{Read: true},
+			},
+		}
+
+		feed3 := &RssFeed{
+			RssItems: []*RssItem{
+				{Read: false},
+			},
+		}
+
+		l := &List{
+			Feeds: []*RssFeed{feed1, feed2, feed3},
+		}
+
+		tests := []struct {
+			name     string
+			prev     *RssFeed
+			index    int
+			expected *RssFeed
+		}{
+			{"next unread after first", feed1, 2, feed3},
+			{"next unread after second", feed2, 2, feed3},
+			{"next unread after last", feed3, -1, nil},
+			{"not in list", &RssFeed{}, -1, nil},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				index, got := l.NextUnreadFeed(tt.prev)
+				if got != tt.expected {
+					t.Errorf("NextAfter(%p) = %p, want %p", tt.prev, got, tt.expected)
+				}
+				if index != tt.index {
+					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
+				}
+			})
+		}
+	})
 }
