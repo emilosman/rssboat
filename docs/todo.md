@@ -4,16 +4,15 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Next unread feed (jump between tabs ?)
+- Categories
+  - [ ] Refactor GetCategory
+  - [ ] CategoriesIndex on List
 - [ ] Custom list title + status message
 - [ ] Save command check usage
 - [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Item preview refinements
 - [ ] Test first run flow (lists_test.go)
-- Categories
-  - [ ] Refactor GetCategory
-  - [ ] CategoriesIndex on List
 - [ ] Unread items should have different color
 - shift+e
   - [ ] Fix feeds getting marked unread after edit
@@ -73,6 +72,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Next unread feed
 - [x] Next article in viewport mode "l", "right"
 - [x] Prev article in viewport mode "h", "left"
 - [x] Next unread item

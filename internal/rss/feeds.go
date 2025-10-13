@@ -138,7 +138,7 @@ func (f *RssFeed) NextAfter(prev *RssItem) (int, *RssItem) {
 
 func (f *RssFeed) NextUnreadItem(prev *RssItem) (int, *RssItem) {
 	n := len(f.RssItems)
-	if n == 0 {
+	if n == 0 || prev == nil {
 		return -1, nil
 	}
 
@@ -224,4 +224,25 @@ func MarkFeedsAsRead(feeds ...*RssFeed) {
 	for i := range feeds {
 		feeds[i].MarkAllItemsRead()
 	}
+}
+
+func NextUnreadFeed(feeds []*RssFeed, prev *RssFeed) (int, *RssFeed) {
+	n := len(feeds)
+	if n == 0 || prev == nil {
+		return -1, nil
+	}
+
+	for i, item := range feeds {
+		if item == prev {
+			for j := i + 1; j < n; j++ {
+				next := feeds[j]
+				if next.HasUnread() {
+					return j, next
+				}
+			}
+			return -1, nil
+		}
+	}
+
+	return -1, nil
 }

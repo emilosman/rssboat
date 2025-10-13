@@ -148,24 +148,3 @@ func (l *List) Restore(r io.Reader) error {
 
 	return nil
 }
-
-func (l *List) NextUnreadFeed(prev *RssFeed) (int, *RssFeed) {
-	n := len(l.Feeds)
-	if n == 0 {
-		return -1, nil
-	}
-
-	for i, item := range l.Feeds {
-		if item == prev {
-			for j := i + 1; j < n; j++ {
-				next := l.Feeds[j]
-				if next.HasUnread() {
-					return j, next
-				}
-			}
-			return -1, nil
-		}
-	}
-
-	return -1, nil
-}

@@ -390,9 +390,7 @@ func TestLists(t *testing.T) {
 			},
 		}
 
-		l := &List{
-			Feeds: []*RssFeed{feed1, feed2, feed3},
-		}
+		feeds := []*RssFeed{feed1, feed2, feed3}
 
 		tests := []struct {
 			name     string
@@ -408,7 +406,7 @@ func TestLists(t *testing.T) {
 
 		for _, tt := range tests {
 			t.Run(tt.name, func(t *testing.T) {
-				index, got := l.NextUnreadFeed(tt.prev)
+				index, got := NextUnreadFeed(feeds, tt.prev)
 				if got != tt.expected {
 					t.Errorf("NextAfter(%p) = %p, want %p", tt.prev, got, tt.expected)
 				}
@@ -416,6 +414,17 @@ func TestLists(t *testing.T) {
 					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
 				}
 			})
+		}
+	})
+
+	t.Run("Should handle next unread feed when no items", func(t *testing.T) {
+		index, item := NextUnreadFeed([]*RssFeed{}, nil)
+		if index != -1 {
+			t.Error("Wrong index returned")
+		}
+
+		if item != nil {
+			t.Error("Wrong item returned")
 		}
 	})
 }
