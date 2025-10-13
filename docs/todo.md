@@ -13,7 +13,6 @@
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Item preview refinements
 - [ ] Test first run flow (lists_test.go)
-- [ ] Unread items should have different color
 - shift+e
   - [ ] Fix feeds getting marked unread after edit
   - [ ] Custom Cmd.Msg while editing
@@ -22,12 +21,11 @@
   - [ ] Item delete from urls.yaml does not remove from list?
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
 - [ ] Single feed update complete message (instead of "All feeds updated")
-- [ ] 'n' jump to next unread
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Parse URL with standard library to check for errors
 - [ ] 100% test coverage of rss.go
 - Tabs
-  - [ ] "All" tab
+  - [ ] "All" tab (tab 0 ?)
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
@@ -72,6 +70,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] 'n' jump to next unread
+- [x] Unread items should have different color
 - [x] Next unread feed
 - [x] Next article in viewport mode "l", "right"
 - [x] Prev article in viewport mode "h", "left"
