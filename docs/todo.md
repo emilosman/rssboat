@@ -63,6 +63,7 @@
 ## Maybe
 - [ ] Preserve tab order from urls.yaml
 - [ ] Index number in front of items
+- [ ] Jump to line (e.g.: `:2`) vim style
 - [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] "h" and "l" should open and close feeds
 - [ ] Sort options (1. newest unread up top, 2. popular...)
