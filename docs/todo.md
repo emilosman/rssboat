@@ -31,7 +31,6 @@
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
 - [ ] Timeout network request 8s
 - [ ] Unread counter (15/254)
-- [ ] Reset selected item index when opening feed, remember it on the feedlist
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Record demo using Charm's vhs
@@ -70,6 +69,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Reset selected item index when opening feed, remember it on the feedlist
 - [x] "p" previous unread feed
 - [x] "p" previous unread item
 - [x] 'n' jump to next unread
