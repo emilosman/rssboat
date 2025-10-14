@@ -110,11 +110,13 @@ func handleEdit(m *model) tea.Cmd {
 
 func handleNextTab(m *model) tea.Cmd {
 	m.activeTab = min(m.activeTab+1, len(m.tabs)-1)
+	m.lf.Select(0)
 	return rebuildFeedList(m)
 }
 
 func handlePrevTab(m *model) tea.Cmd {
 	m.activeTab = max(m.activeTab-1, 0)
+	m.lf.Select(0)
 	return rebuildFeedList(m)
 }
 
