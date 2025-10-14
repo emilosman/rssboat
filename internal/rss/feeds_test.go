@@ -520,7 +520,7 @@ func TestFeeds(t *testing.T) {
 			t.Run(tt.name, func(t *testing.T) {
 				index, got := NextUnreadFeed(feeds, tt.prev)
 				if got != tt.expected {
-					t.Errorf("NextAfter(%p) = %p, want %p", tt.prev, got, tt.expected)
+					t.Errorf("NextUnreadFeed(%p) = %p, want %p", tt.prev, got, tt.expected)
 				}
 				if index != tt.index {
 					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
@@ -531,6 +531,63 @@ func TestFeeds(t *testing.T) {
 
 	t.Run("Should handle next unread feed when no items", func(t *testing.T) {
 		index, item := NextUnreadFeed([]*RssFeed{}, nil)
+		if index != -1 {
+			t.Error("Wrong index returned")
+		}
+
+		if item != nil {
+			t.Error("Wrong item returned")
+		}
+	})
+
+	t.Run("Should return the previous unread feed correctly", func(t *testing.T) {
+		feed1 := &RssFeed{
+			RssItems: []*RssItem{
+				{Read: false},
+			},
+		}
+
+		feed2 := &RssFeed{
+			RssItems: []*RssItem{
+				{Read: true},
+			},
+		}
+
+		feed3 := &RssFeed{
+			RssItems: []*RssItem{
+				{Read: true},
+			},
+		}
+
+		feeds := []*RssFeed{feed1, feed2, feed3}
+
+		tests := []struct {
+			name     string
+			prev     *RssFeed
+			index    int
+			expected *RssFeed
+		}{
+			{"next unread after first", feed3, 0, feed1},
+			{"next unread after second", feed2, 0, feed1},
+			{"next unread after last", feed1, -1, nil},
+			{"not in list", &RssFeed{}, -1, nil},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				index, got := PrevUnreadFeed(feeds, tt.prev)
+				if got != tt.expected {
+					t.Errorf("PrevUnreadFeed(%p) = %p, want %p", tt.prev, got, tt.expected)
+				}
+				if index != tt.index {
+					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
+				}
+			})
+		}
+	})
+
+	t.Run("Should handle previous unread feed when no items", func(t *testing.T) {
+		index, item := PrevUnreadFeed([]*RssFeed{}, nil)
 		if index != -1 {
 			t.Error("Wrong index returned")
 		}

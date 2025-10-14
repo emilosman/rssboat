@@ -4,7 +4,6 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] "p" previous unread feed
 - Categories
   - [ ] Refactor GetCategory
   - [ ] CategoriesIndex on List
@@ -71,6 +70,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] "p" previous unread feed
 - [x] "p" previous unread item
 - [x] 'n' jump to next unread
 - [x] Unread items should have different color

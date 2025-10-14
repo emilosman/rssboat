@@ -39,8 +39,16 @@ func listFullHelp() [][]key.Binding {
 				key.WithHelp("→/l/tab", "next tab"),
 			),
 			key.NewBinding(
+				key.WithKeys("n"),
+				key.WithHelp("n", "next unread feed"),
+			),
+			key.NewBinding(
 				key.WithKeys("o"),
 				key.WithHelp("o", "open website"),
+			),
+			key.NewBinding(
+				key.WithKeys("p"),
+				key.WithHelp("p", "previous unread feed"),
 			),
 			key.NewBinding(
 				key.WithKeys("q/esc"),

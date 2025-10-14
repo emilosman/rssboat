@@ -267,3 +267,24 @@ func NextUnreadFeed(feeds []*RssFeed, prev *RssFeed) (int, *RssFeed) {
 
 	return -1, nil
 }
+
+func PrevUnreadFeed(feeds []*RssFeed, next *RssFeed) (int, *RssFeed) {
+	n := len(feeds)
+	if n == 0 || next == nil {
+		return -1, nil
+	}
+
+	for i, item := range feeds {
+		if item == next {
+			for j := i - 1; j >= 0; j-- {
+				prev := feeds[j]
+				if prev.HasUnread() {
+					return j, prev
+				}
+			}
+			return -1, nil
+		}
+	}
+
+	return -1, nil
+}

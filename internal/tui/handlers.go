@@ -25,6 +25,7 @@ var (
 		"right":  handleNextTab,
 		"n":      handleNextUnreadFeed,
 		"o":      handleOpenFeed,
+		"p":      handlePrevUnreadFeed,
 		"r":      handleUpdateFeed,
 		"R":      handleUpdateAllFeeds,
 		"q":      handleQuit,
@@ -354,6 +355,22 @@ func handleNextUnreadFeed(m *model) tea.Cmd {
 		}
 		index, next := rss.NextUnreadFeed(feeds, prev)
 		if next != nil {
+			m.lf.Select(index)
+		}
+	}
+	return nil
+}
+
+func handlePrevUnreadFeed(m *model) tea.Cmd {
+	i, ok := m.lf.SelectedItem().(feedItem)
+	if ok {
+		next := i.rssFeed
+		feeds, err := m.l.GetCategory(activeTab(m.tabs, m.activeTab))
+		if err != nil {
+			return nil
+		}
+		index, prev := rss.PrevUnreadFeed(feeds, next)
+		if prev != nil {
 			m.lf.Select(index)
 		}
 	}
