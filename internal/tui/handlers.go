@@ -42,6 +42,7 @@ var (
 		"b":     handleBack,
 		"n":     handleNextUnreadItem,
 		"o":     handleOpenItem,
+		"p":     handlePrevUnreadItem,
 		"q":     handleBack,
 		"esc":   handleBack,
 		"r":     handleUpdateFeed,
@@ -217,6 +218,18 @@ func handleOpenItem(m *model) tea.Cmd {
 			}
 			rssItem.MarkRead()
 			rebuildItemsList(m)
+		}
+	}
+	return nil
+}
+
+func handlePrevUnreadItem(m *model) tea.Cmd {
+	i, ok := m.li.SelectedItem().(rssListItem)
+	if ok {
+		next := i.item
+		index, prev := m.f.PrevUnreadItem(next)
+		if prev != nil {
+			m.li.Select(index)
 		}
 	}
 	return nil

@@ -307,6 +307,53 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
+	t.Run("Should return the previous unread item correctly", func(t *testing.T) {
+		item1 := &RssItem{Read: false}
+		item2 := &RssItem{Read: true}
+		item3 := &RssItem{Read: true}
+
+		rssFeed := RssFeed{
+			RssItems: []*RssItem{item1, item2, item3},
+		}
+
+		tests := []struct {
+			name     string
+			prev     *RssItem
+			index    int
+			expected *RssItem
+		}{
+			{"prev unread before third", item3, 0, item1},
+			{"prev unread before second", item2, 0, item1},
+			{"prev unread before first", item1, -1, nil},
+			{"not in list", &RssItem{}, -1, nil},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				index, got := rssFeed.PrevUnreadItem(tt.prev)
+				if got != tt.expected {
+					t.Errorf("PrevUnreadItem(%p) = %p, want %p", tt.prev, got, tt.expected)
+				}
+				if index != tt.index {
+					t.Errorf("Wrong index returned, want %d, got %d", tt.index, index)
+				}
+			})
+		}
+	})
+
+	t.Run("Should handle previous unread item when no items", func(t *testing.T) {
+		rssFeed := RssFeed{}
+
+		index, item := rssFeed.PrevUnreadItem(nil)
+		if index != -1 {
+			t.Error("Wrong index returned")
+		}
+
+		if item != nil {
+			t.Error("Wrong item returned")
+		}
+	})
+
 	t.Run("Should return the next unread item correctly", func(t *testing.T) {
 		item1 := &RssItem{Read: true}
 		item2 := &RssItem{Read: true}

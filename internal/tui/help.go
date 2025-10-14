@@ -43,6 +43,10 @@ func listFullHelp() [][]key.Binding {
 				key.WithHelp("o", "open website"),
 			),
 			key.NewBinding(
+				key.WithKeys("q/esc"),
+				key.WithHelp("q/esc", "quit"),
+			),
+			key.NewBinding(
 				key.WithKeys("r"),
 				key.WithHelp("r", "refresh single feed"),
 			),
@@ -73,10 +77,6 @@ func listFullHelp() [][]key.Binding {
 			key.NewBinding(
 				key.WithKeys("ctrl+r"),
 				key.WithHelp("ctrl+r", "refresh tab"),
-			),
-			key.NewBinding(
-				key.WithKeys("q/esc"),
-				key.WithHelp("q/esc", "quit"),
 			),
 		},
 	}
@@ -120,6 +120,10 @@ func itemsFullHelp() [][]key.Binding {
 				key.WithHelp("a", "toggle read"),
 			),
 			key.NewBinding(
+				key.WithKeys("b/q/esc"),
+				key.WithHelp("b/q/esc", "back"),
+			),
+			key.NewBinding(
 				key.WithKeys("n"),
 				key.WithHelp("n", "next unread item"),
 			),
@@ -128,8 +132,8 @@ func itemsFullHelp() [][]key.Binding {
 				key.WithHelp("o", "open item url"),
 			),
 			key.NewBinding(
-				key.WithKeys("b/q/esc"),
-				key.WithHelp("b/q/esc", "back"),
+				key.WithKeys("p"),
+				key.WithHelp("p", "previous unread item"),
 			),
 			key.NewBinding(
 				key.WithKeys("r"),

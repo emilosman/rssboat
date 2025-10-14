@@ -157,6 +157,27 @@ func (f *RssFeed) NextUnreadItem(prev *RssItem) (int, *RssItem) {
 	return -1, nil
 }
 
+func (f *RssFeed) PrevUnreadItem(next *RssItem) (int, *RssItem) {
+	n := len(f.RssItems)
+	if n == 0 || next == nil {
+		return -1, nil
+	}
+
+	for i, item := range f.RssItems {
+		if item == next {
+			for j := i - 1; j >= 0; j-- {
+				prev := f.RssItems[j]
+				if !prev.Read {
+					return j, prev
+				}
+			}
+			return -1, nil
+		}
+	}
+
+	return -1, nil
+}
+
 func (f *RssFeed) PrevBefore(current *RssItem) (int, *RssItem) {
 	n := len(f.RssItems)
 	if n == 0 {
