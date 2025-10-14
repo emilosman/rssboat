@@ -4,10 +4,12 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] 100% test coverage of rss.go
+- [ ] Custom list title + status message
+- [ ] Record demo using Charm's vhs
 - Categories
   - [ ] Refactor GetCategory
   - [ ] CategoriesIndex on List
-- [ ] Custom list title + status message
 - [ ] Save command check usage
 - [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
@@ -23,7 +25,6 @@
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Parse URL with standard library to check for errors
-- [ ] 100% test coverage of rss.go
 - Tabs
   - [ ] "All" tab (tab 0 ?)
 - urls.yaml
@@ -33,7 +34,6 @@
 - [ ] Unread counter (15/254)
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
-- [ ] Record demo using Charm's vhs
 - [ ] Linux test
 
 ## Database
