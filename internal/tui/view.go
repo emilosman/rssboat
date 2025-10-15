@@ -1,9 +1,12 @@
 package tui
 
+import "github.com/charmbracelet/lipgloss"
+
 func (m *model) View() string {
 	switch {
 	case m.i != nil:
-		return viewStyle.Render(m.v.View())
+		content := lipgloss.JoinVertical(lipgloss.Left, m.v.View(), m.vh.View(viewKeyMap{}))
+		return viewStyle.Render(content)
 	case m.f != nil:
 		return listStyle.Render(m.li.View())
 	default:

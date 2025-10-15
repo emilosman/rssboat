@@ -11,10 +11,10 @@
   - [ ] Refactor GetCategory
   - [ ] CategoriesIndex on List
 - [ ] Save command check usage
-- [ ] Viewport help modal
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Item preview refinements
 - [ ] Test first run flow (lists_test.go)
+- [ ] Viewport help short and full list different
 - shift+e
   - [ ] Fix feeds getting marked unread after edit
   - [ ] Custom Cmd.Msg while editing
@@ -70,6 +70,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Viewport help modal
 - [x] Reset selected item index when opening feed, remember it on the feedlist
 - [x] "p" previous unread feed
 - [x] "p" previous unread item

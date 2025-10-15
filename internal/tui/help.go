@@ -158,3 +158,52 @@ func itemsFullHelp() [][]key.Binding {
 		},
 	}
 }
+
+func viewShortHelp() []key.Binding {
+	return []key.Binding{
+		key.NewBinding(
+			key.WithKeys("←/h"),
+			key.WithHelp("←/h", "previous article"),
+		),
+		key.NewBinding(
+			key.WithKeys("→/l"),
+			key.WithHelp("→/l", "next article"),
+		),
+		key.NewBinding(
+			key.WithKeys("o"),
+			key.WithHelp("o", "open website"),
+		),
+		key.NewBinding(
+			key.WithKeys("b/q/esc"),
+			key.WithHelp("b/q/esc", "back"),
+		),
+	}
+}
+
+func viewFullHelp() [][]key.Binding {
+	return [][]key.Binding{
+		{
+			key.NewBinding(
+				key.WithKeys("←/h"),
+				key.WithHelp("←/h", "previous article"),
+			),
+			key.NewBinding(
+				key.WithKeys("→/l"),
+				key.WithHelp("→/l", "next article"),
+			),
+			key.NewBinding(
+				key.WithKeys("o"),
+				key.WithHelp("o", "open website"),
+			),
+			key.NewBinding(
+				key.WithKeys("b/q/esc"),
+				key.WithHelp("b/q/esc", "back"),
+			),
+		},
+	}
+}
+
+type viewKeyMap struct{}
+
+func (viewKeyMap) ShortHelp() []key.Binding  { return viewShortHelp() }
+func (viewKeyMap) FullHelp() [][]key.Binding { return viewFullHelp() }

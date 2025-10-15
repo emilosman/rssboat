@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
@@ -39,6 +40,8 @@ type model struct {
 	lf        list.Model
 	li        list.Model
 	v         viewport.Model
+	vk        help.KeyMap
+	vh        help.Model
 	tabs      []string
 	activeTab int
 }
@@ -67,6 +70,7 @@ func initialModel() *model {
 		tabs:      t,
 		activeTab: 0,
 		v:         viewport.New(10, 10),
+		vh:        help.New(),
 	}
 
 	rebuildFeedList(m)
