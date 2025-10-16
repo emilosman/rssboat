@@ -16,6 +16,7 @@
 - [ ] Test first run flow (lists_test.go)
 - [ ] Viewport help short and full list different
 - shift+e
+  - [ ] Fix ENV support for default editor
   - [ ] Fix feeds getting marked unread after edit
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)

@@ -78,10 +78,11 @@ func handleEdit(m *model) tea.Cmd {
 		case "windows":
 			editor = "notepad"
 		default:
-			editor = "vi"
+			editor = "nvim"
 		}
 	}
 
+	m.prog.ReleaseTerminal()
 	cmd := exec.Command(editor, configFile)
 
 	cmd.Stdin = os.Stdin
@@ -94,6 +95,7 @@ func handleEdit(m *model) tea.Cmd {
 		return nil
 	}
 
+	m.prog.RestoreTerminal()
 	filesystem := os.DirFS(configFilePath)
 	l, err := rss.LoadList(filesystem)
 	if err != nil {
