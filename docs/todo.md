@@ -6,6 +6,7 @@
 ## Todo
 - [ ] 100% test coverage of rss.go
 - [ ] Custom list title + status message
+- [ ] Capslock warning
 - [ ] Record demo using Charm's vhs
 - Categories
   - [ ] Refactor GetCategory
