@@ -4,6 +4,7 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
+- [ ] UpdateStatusMessage auto-clear
 - [ ] 100% test coverage of rss.go
 - [ ] Custom list title + status message
 - [ ] Capslock warning
