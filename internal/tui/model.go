@@ -98,17 +98,14 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case feedUpdatedMsg:
 		if msg.Err != nil {
-			m.lf.NewStatusMessage(fmt.Sprintf("Error updating: %v", msg.Err))
-			m.li.NewStatusMessage(fmt.Sprintf("Error updating: %v", msg.Err))
+			m.UpdateStatusMsg(fmt.Sprintf("Error updating: %v", msg.Err))
 		} else {
 			rebuildFeedList(m)
-			m.lf.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))
-			m.li.NewStatusMessage(fmt.Sprintf("Updated %s", msg.Feed.Url))
+			m.UpdateStatusMsg(fmt.Sprintf("Updated %s", msg.Feed.Url))
 		}
 		return m, nil
 	case feedsDoneMsg:
-		m.lf.NewStatusMessage(MsgAllFeedsUpdated)
-		m.li.NewStatusMessage(MsgAllFeedsUpdated)
+		m.UpdateStatusMsg(MsgAllFeedsUpdated)
 		return m, nil
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler

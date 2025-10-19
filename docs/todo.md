@@ -13,9 +13,9 @@
   - [ ] CategoriesIndex on List
 - [ ] Save command check usage
 - [ ] Items list height bug in MacOS Terminal
-- [ ] Item preview refinements
 - [ ] Test first run flow (lists_test.go)
 - [ ] Viewport help short and full list different
+- [ ] Single feed update complete message (instead of "All feeds updated")
 - shift+e
   - [ ] Fix ENV support for default editor
   - [ ] Fix feeds getting marked unread after edit
@@ -24,7 +24,6 @@
   - [ ] Default editor instead of vim
   - [ ] Item delete from urls.yaml does not remove from list?
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
-- [ ] Single feed update complete message (instead of "All feeds updated")
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Parse URL with standard library to check for errors
 - Tabs
@@ -72,6 +71,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Item preview refinements
 - [x] Viewport help modal
 - [x] Reset selected item index when opening feed, remember it on the feedlist
 - [x] "p" previous unread feed

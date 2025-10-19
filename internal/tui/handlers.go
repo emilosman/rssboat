@@ -255,23 +255,17 @@ func handleUpdateFeed(m *model) tea.Cmd {
 	}
 
 	message := fmt.Sprintf("%s %s", MsgUpdatingFeed, feed.Url)
-	m.lf.NewStatusMessage(message)
-	m.li.NewStatusMessage(message)
-
+	m.UpdateStatusMsg(message)
 	return updateFeedCmd(m, feed)
 }
 
 func handleUpdateAllFeeds(m *model) tea.Cmd {
-	m.lf.NewStatusMessage(MsgUpdatingAllFeeds)
-	m.li.NewStatusMessage(MsgUpdatingAllFeeds)
-
+	m.UpdateStatusMsg(MsgUpdatingAllFeeds)
 	return updateAllFeedsCmd(m)
 }
 
 func handleTabUpdate(m *model) tea.Cmd {
-	m.lf.NewStatusMessage(MsgUpdatingAllFeeds)
-	m.li.NewStatusMessage(MsgUpdatingAllFeeds)
-
+	m.UpdateStatusMsg(MsgUpdatingAllFeeds)
 	return updateTabFeedsCmd(m)
 }
 

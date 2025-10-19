@@ -215,6 +215,11 @@ func openInBrowser(url string) error {
 	return cmd.Start()
 }
 
+func (m *model) UpdateStatusMsg(msg string) {
+	m.lf.NewStatusMessage(msg)
+	m.li.NewStatusMessage(msg)
+}
+
 func (m *model) SaveState() error {
 	cacheFilePath, err := rss.CacheFilePath()
 	if err != nil {
