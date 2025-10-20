@@ -86,6 +86,10 @@ func listFullHelp() [][]key.Binding {
 				key.WithKeys("ctrl+r"),
 				key.WithHelp("ctrl+r", "refresh tab"),
 			),
+			key.NewBinding(
+				key.WithKeys("0-9"),
+				key.WithHelp("0-9", "tab number select"),
+			),
 		},
 	}
 
