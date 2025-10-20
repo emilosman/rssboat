@@ -82,6 +82,7 @@ func handleEdit(m *model) tea.Cmd {
 		}
 	}
 
+	m.SaveState()
 	m.prog.ReleaseTerminal()
 	cmd := exec.Command(editor, configFile)
 
