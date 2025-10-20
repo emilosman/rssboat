@@ -7,19 +7,16 @@
 - [ ] UpdateStatusMessage auto-clear
 - [ ] 100% test coverage of rss.go
 - [ ] Custom list title + status message
-- [ ] Capslock warning
 - [ ] Record demo using Charm's vhs
 - Categories
   - [ ] Refactor GetCategory
   - [ ] CategoriesIndex on List
-- [ ] Save command check usage
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Test first run flow (lists_test.go)
 - [ ] Viewport help short and full list different
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - shift+e
   - [ ] Fix ENV support for default editor
-  - [ ] Fix feeds getting marked unread after edit
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
@@ -34,6 +31,7 @@
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
 - [ ] Timeout network request 8s
 - [ ] Unread counter (15/254)
+- [ ] Capslock warning
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Linux test
@@ -72,6 +70,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Fix feeds getting marked unread after edit
+- [x] Save command check usage
 - [x] Item preview refinements
 - [x] Viewport help modal
 - [x] Reset selected item index when opening feed, remember it on the feedlist

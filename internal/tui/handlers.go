@@ -129,6 +129,7 @@ func handleToggleRead(m *model) tea.Cmd {
 		i.item.ToggleRead()
 		rebuildItemsList(m)
 		m.li.NewStatusMessage(MsgItemReadToggled)
+		m.SaveState()
 	}
 	return nil
 }
@@ -151,6 +152,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 		f.MarkAllItemsRead()
 		rebuildFeedList(m)
 		m.lf.NewStatusMessage(MsgMarkFeedRead)
+		m.SaveState()
 	}
 	return nil
 }
@@ -160,6 +162,7 @@ func handleMarkItemsRead(m *model) tea.Cmd {
 		m.f.MarkAllItemsRead()
 		rebuildItemsList(m)
 		m.li.NewStatusMessage(MsgMarkFeedRead)
+		m.SaveState()
 	}
 	return nil
 }
@@ -173,7 +176,7 @@ func handleMarkTabAsRead(m *model) tea.Cmd {
 	rss.MarkFeedsAsRead(feeds...)
 	rebuildFeedList(m)
 	m.lf.NewStatusMessage(MsgMakrTabAsRead)
-
+	m.SaveState()
 	return nil
 }
 
@@ -224,6 +227,7 @@ func handleOpenItem(m *model) tea.Cmd {
 			}
 			rssItem.MarkRead()
 			rebuildItemsList(m)
+			m.SaveState()
 		}
 	}
 	return nil
@@ -256,6 +260,7 @@ func handleUpdateFeed(m *model) tea.Cmd {
 
 	message := fmt.Sprintf("%s %s", MsgUpdatingFeed, feed.Url)
 	m.UpdateStatusMsg(message)
+	m.SaveState()
 	return updateFeedCmd(m, feed)
 }
 
@@ -266,6 +271,7 @@ func handleUpdateAllFeeds(m *model) tea.Cmd {
 
 func handleTabUpdate(m *model) tea.Cmd {
 	m.UpdateStatusMsg(MsgUpdatingAllFeeds)
+	m.SaveState()
 	return updateTabFeedsCmd(m)
 }
 
@@ -295,6 +301,7 @@ func handleViewItem(m *model) tea.Cmd {
 			m.v.SetContent(wordwrap.String(m.i.Content(), m.v.Width))
 			m.i.MarkRead()
 			rebuildItemsList(m)
+			m.SaveState()
 		}
 	}
 	return nil
@@ -328,6 +335,7 @@ func handleViewNext(m *model) tea.Cmd {
 		m.v.SetContent(wordwrap.String(next.Content(), m.v.Width))
 		next.MarkRead()
 		rebuildItemsList(m)
+		m.SaveState()
 	}
 	return nil
 }
@@ -341,6 +349,7 @@ func handleViewPrev(m *model) tea.Cmd {
 		m.v.SetContent(wordwrap.String(prev.Content(), m.v.Width))
 		prev.MarkRead()
 		rebuildItemsList(m)
+		m.SaveState()
 	}
 	return nil
 }
