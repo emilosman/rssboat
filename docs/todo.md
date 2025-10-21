@@ -21,7 +21,6 @@
   - [ ] Custom Cmd.Msg while editing
   - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
   - [ ] Default editor instead of vim
-  - [ ] Item delete from urls.yaml does not remove from list?
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Parse URL with standard library to check for errors
@@ -61,6 +60,7 @@
 - [ ] GH sponsors setup finish [link](https://github.com/sponsors/picigato/signup)
 
 ## Maybe
+- [ ] Select next item after "a" mark as read toggle
 - [ ] Preserve tab order from urls.yaml
 - [ ] Index number in front of items
 - [ ] Jump to line (e.g.: `:2`) vim style
@@ -70,6 +70,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Item delete from urls.yaml does not remove from list?
 - [x] Fix feeds getting marked unread after edit
 - [x] Save command check usage
 - [x] Item preview refinements

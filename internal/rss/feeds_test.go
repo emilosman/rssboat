@@ -213,6 +213,26 @@ func TestFeeds(t *testing.T) {
 		}
 	})
 
+	t.Run("Should handle sort edge cases", func(t *testing.T) {
+		item1 := &RssItem{}
+		item2 := &RssItem{}
+		item3 := &RssItem{}
+
+		items := []*RssItem{item1, item2, item3}
+
+		rssFeed := RssFeed{
+			RssItems: items,
+		}
+
+		rssFeed.SortByDate()
+
+		for i := range rssFeed.RssItems {
+			if rssFeed.RssItems[i] != items[i] {
+				t.Error("Wrong item order")
+			}
+		}
+	})
+
 	t.Run("Should return the next item correctly", func(t *testing.T) {
 		item1 := &RssItem{}
 		item2 := &RssItem{}

@@ -31,6 +31,10 @@ func (f *RssFeed) existingKeys() map[string]struct{} {
 
 func (f *RssFeed) SortByDate() {
 	sort.Slice(f.RssItems, func(i, j int) bool {
+		if f.RssItems[i].Item == nil || f.RssItems[j].Item == nil {
+			return false
+		}
+
 		ti := f.RssItems[i].Item.PublishedParsed
 		tj := f.RssItems[j].Item.PublishedParsed
 
