@@ -60,7 +60,6 @@ var (
 		"o":     handleOpenItem,
 		"q":     handleBack,
 		"esc":   handleBack,
-		"?":     handleViewHelp,
 	}
 )
 
@@ -371,10 +370,5 @@ func handlePrevUnreadFeed(m *model) tea.Cmd {
 			m.lf.Select(index)
 		}
 	}
-	return nil
-}
-
-func handleViewHelp(m *model) tea.Cmd {
-	m.vh.ShowAll = !m.vh.ShowAll
 	return nil
 }
