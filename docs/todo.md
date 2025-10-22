@@ -1,31 +1,20 @@
 # Todo
 
-## MVP
-- [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] UpdateStatusMessage auto-clear
+- [ ] Create default values in urls.yaml
 - [ ] 100% test coverage of rss.go
 - [ ] Custom list title + status message
-- [ ] Capslock warning
-- [ ] Record demo using Charm's vhs
-- Categories
-  - [ ] Refactor GetCategory
-  - [ ] CategoriesIndex on List
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Test first run flow (lists_test.go)
 - [ ] Viewport help short and full list different
+- [ ] Record demo using Charm's vhs
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - shift+e
   - [ ] Fix ENV support for default editor
-  - [ ] Custom Cmd.Msg while editing
-  - [ ] Ignore key events when editing in vim (check custom Cmd.Msg)
-  - [ ] Default editor instead of vim
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
 - [ ] Updating / Updated message reformat. Show both messages
 - [ ] Parse URL with standard library to check for errors
-- Tabs
-  - [ ] "All" tab (tab 0 ?)
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
@@ -39,6 +28,9 @@
 - [ ] Use database instead of JSON only
 
 ## Refactor
+- Categories
+  - [ ] Refactor GetCategory
+  - [ ] CategoriesIndex on List
 - [ ] Refactor m.selectedFeed vs m.lf.SelectedItem() usage (handleMarkFeedRead)
 - shift+e
   - [ ] Refactor handleEdit to not have tui depend on rss package
@@ -60,6 +52,9 @@
 - [ ] GH sponsors setup finish [link](https://github.com/sponsors/picigato/signup)
 
 ## Maybe
+- [ ] UpdateStatusMessage auto-clear
+- [ ] "All" tab (tab 0 ?)
+- [ ] Capslock warning
 - [ ] Select next item after "a" mark as read toggle
 - [ ] Preserve tab order from urls.yaml
 - [ ] Index number in front of items
