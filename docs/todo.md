@@ -1,8 +1,9 @@
 # Todo
 
+## MVP
+- [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Create default values in urls.yaml
 - [ ] 100% test coverage of rss.go
 - [ ] Custom list title + status message
 - [ ] Items list height bug in MacOS Terminal
