@@ -66,6 +66,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Marked as read / unread message instead of "Read state toggled"
 - [x] Item delete from urls.yaml does not remove from list?
 - [x] Fix feeds getting marked unread after edit
 - [x] Save command check usage

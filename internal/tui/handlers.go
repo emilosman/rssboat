@@ -128,7 +128,11 @@ func handleToggleRead(m *model) tea.Cmd {
 	if ok {
 		i.item.ToggleRead()
 		rebuildItemsList(m)
-		m.li.NewStatusMessage(MsgItemReadToggled)
+		if i.item.Read {
+			m.li.NewStatusMessage(MsgMarkItemRead)
+		} else {
+			m.li.NewStatusMessage(MsgMarkItemUnread)
+		}
 	}
 	return nil
 }
