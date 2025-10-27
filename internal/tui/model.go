@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/list"
@@ -32,20 +33,21 @@ func (r rssListItem) Description() string { return r.desc }
 func (r rssListItem) FilterValue() string { return r.Title() }
 
 type model struct {
-	prog      *tea.Program
-	ready     bool
-	title     string
-	status    string
-	l         *rss.List
-	f         *rss.RssFeed
-	i         *rss.RssItem
-	lf        list.Model
-	li        list.Model
-	v         viewport.Model
-	vk        help.KeyMap
-	vh        help.Model
-	tabs      []string
-	activeTab int
+	prog       *tea.Program
+	ready      bool
+	title      string
+	status     string
+	clearTimer *time.Timer
+	l          *rss.List
+	f          *rss.RssFeed
+	i          *rss.RssItem
+	lf         list.Model
+	li         list.Model
+	v          viewport.Model
+	vk         help.KeyMap
+	vh         help.Model
+	tabs       []string
+	activeTab  int
 }
 
 func initialModel() *model {

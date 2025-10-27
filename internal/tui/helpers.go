@@ -229,10 +229,13 @@ func (m *model) UpdateTitle(title string) {
 func (m *model) UpdateStatus(msg string) {
 	m.status = msg
 
-	go func() {
-		time.Sleep(8 * time.Second)
+	if m.clearTimer != nil {
+		m.clearTimer.Stop()
+	}
+
+	m.clearTimer = time.AfterFunc(5*time.Second, func() {
 		m.prog.Send(statusClearMsg{})
-	}()
+	})
 }
 
 func (m *model) SaveState() error {
