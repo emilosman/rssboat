@@ -199,7 +199,6 @@ func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	m.l.MarkAllFeedsRead()
 	rebuildFeedList(m)
 	m.UpdateStatus(MsgMarkAllFeedsRead)
-	m.SaveState()
 	return nil
 }
 
