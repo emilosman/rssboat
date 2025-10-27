@@ -188,6 +188,10 @@ func viewFullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		{
 			key.NewBinding(
+				key.WithKeys("a"),
+				key.WithHelp("a", "toggle read"),
+			),
+			key.NewBinding(
 				key.WithKeys("←/h"),
 				key.WithHelp("←/h", "previous article"),
 			),

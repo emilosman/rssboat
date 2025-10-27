@@ -4,8 +4,10 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] 100% test coverage of rss.go
 - [ ] Custom list title + status message
+- [ ] Title + status in viewport
+- [ ] Viewport full help heigh fix (vertical join?)
+- [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Test first run flow (lists_test.go)
 - [ ] Viewport help short and full list different
@@ -66,6 +68,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Toggle read viewport handler
 - [x] Marked as read / unread message instead of "Read state toggled"
 - [x] Item delete from urls.yaml does not remove from list?
 - [x] Fix feeds getting marked unread after edit
