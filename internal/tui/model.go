@@ -34,6 +34,8 @@ func (r rssListItem) FilterValue() string { return r.Title() }
 type model struct {
 	prog      *tea.Program
 	ready     bool
+	title     string
+	status    string
 	l         *rss.List
 	f         *rss.RssFeed
 	i         *rss.RssItem
@@ -77,14 +79,17 @@ func initialModel() *model {
 
 	m.lf.DisableQuitKeybindings()
 	m.li.DisableQuitKeybindings()
-	m.lf.Title = activeTab(t, 0)
+	m.lf.SetShowTitle(false)
+	m.li.SetShowTitle(false)
+	m.lf.SetShowStatusBar(false)
+	m.li.SetShowStatusBar(true)
 
 	if err != nil {
-		m.lf.NewStatusMessage(err.Error())
+		m.UpdateStatusMsg(err.Error())
 	}
 
 	if len(m.l.Feeds) == 0 {
-		m.lf.NewStatusMessage(MsgNoFeedsInList)
+		m.UpdateStatusMsg(MsgNoFeedsInList)
 	}
 
 	return m

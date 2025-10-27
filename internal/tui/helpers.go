@@ -82,9 +82,6 @@ func updateFeedCmd(m *model, feed *rss.RssFeed) tea.Cmd {
 func rebuildFeedList(m *model) tea.Cmd {
 	items := buildFeedList(m.l, m.tabs, m.activeTab)
 	m.lf.SetItems(items)
-	if len(m.tabs) > 0 {
-		m.lf.Title = m.tabs[m.activeTab]
-	}
 	return nil
 }
 
@@ -195,7 +192,15 @@ func renderedTabs(m *model) string {
 		}
 	}
 
-	return fmt.Sprintf("%s\n", renderedTabs)
+	return renderedTabs
+}
+
+func renderedTitle(m *model) string {
+	return titleStyle.Render(m.title)
+}
+
+func renderedStatus(m *model) string {
+	return statusStyle.Render(m.status)
 }
 
 func openInBrowser(url string) error {
@@ -215,9 +220,12 @@ func openInBrowser(url string) error {
 	return cmd.Start()
 }
 
+func (m *model) UpdateTitle(title string) {
+	m.title = title
+}
+
 func (m *model) UpdateStatusMsg(msg string) {
-	m.lf.NewStatusMessage(msg)
-	m.li.NewStatusMessage(msg)
+	m.status = msg
 }
 
 func (m *model) SaveState() error {

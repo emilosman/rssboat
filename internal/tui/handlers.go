@@ -284,7 +284,7 @@ func handleEnterFeed(m *model) tea.Cmd {
 	if i, ok := m.lf.SelectedItem().(feedItem); ok {
 		if i.rssFeed.Feed != nil {
 			m.f = i.rssFeed
-			m.li.Title = i.title
+			m.UpdateTitle(i.title)
 			m.li.Select(0)
 			rebuildItemsList(m)
 		}
