@@ -3,7 +3,7 @@
 - **rssboat** is a performant, terminal-based RSS reader written in Go, inspired by [Newsboat](https://github.com/newsboat/newsboat)
 - It demonstrates idiomatic Go usage, concurrency, YAML-based configuration, and a TUI built with [Bubble Tea](https://github.com/charmbracelet/bubbletea)
 
-<img width="649" height="199" alt="screen" src="https://github.com/user-attachments/assets/8821ddfe-ada2-4e9f-838f-8b8cac7991e1" />
+<img width="897" height="440" alt="Screenshot 2025-10-27 at 17 47 45" src="https://github.com/user-attachments/assets/9a1eaf55-4542-43a7-8ddd-0efafe610908" />
 
 ## Features
 - Vim-style navigation for feeds and articles
