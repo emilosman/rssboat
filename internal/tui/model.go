@@ -85,11 +85,11 @@ func initialModel() *model {
 	m.li.SetShowStatusBar(true)
 
 	if err != nil {
-		m.UpdateStatusMsg(err.Error())
+		m.UpdateStatus(err.Error())
 	}
 
 	if len(m.l.Feeds) == 0 {
-		m.UpdateStatusMsg(MsgNoFeedsInList)
+		m.UpdateStatus(MsgNoFeedsInList)
 	}
 
 	return m
@@ -103,14 +103,14 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case feedUpdatedMsg:
 		if msg.Err != nil {
-			m.UpdateStatusMsg(fmt.Sprintf("Error updating: %v", msg.Err))
+			m.UpdateStatus(fmt.Sprintf("Error updating: %v", msg.Err))
 		} else {
 			rebuildFeedList(m)
-			m.UpdateStatusMsg(fmt.Sprintf("Updated %s", msg.Feed.Url))
+			m.UpdateStatus(fmt.Sprintf("Updated %s", msg.Feed.Url))
 		}
 		return m, nil
 	case feedsDoneMsg:
-		m.UpdateStatusMsg(MsgAllFeedsUpdated)
+		m.UpdateStatus(MsgAllFeedsUpdated)
 		return m, nil
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler

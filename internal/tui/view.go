@@ -6,7 +6,8 @@ func (m *model) View() string {
 	switch {
 	case m.i != nil:
 		title := renderedTitle(m)
-		content := lipgloss.JoinVertical(lipgloss.Left, title, m.v.View(), m.vh.View(viewKeyMap{}))
+		status := renderedStatus(m)
+		content := lipgloss.JoinVertical(lipgloss.Left, title, status, m.v.View(), m.vh.View(viewKeyMap{}))
 		return viewStyle.Render(content)
 	case m.f != nil:
 		title := renderedTitle(m)

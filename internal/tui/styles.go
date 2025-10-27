@@ -3,7 +3,7 @@ package tui
 import "github.com/charmbracelet/lipgloss"
 
 var (
-	viewStyle = lipgloss.NewStyle().Margin(3, 2)
+	viewStyle = lipgloss.NewStyle().Margin(4, 2)
 
 	listStyle = lipgloss.NewStyle().Margin(3, 2)
 

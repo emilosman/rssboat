@@ -93,7 +93,7 @@ func handleEdit(m *model) tea.Cmd {
 
 	err = cmd.Run()
 	if err != nil {
-		m.lf.NewStatusMessage(err.Error())
+		m.UpdateStatus(err.Error())
 		return nil
 	}
 
@@ -101,14 +101,14 @@ func handleEdit(m *model) tea.Cmd {
 	filesystem := os.DirFS(configFilePath)
 	l, err := rss.LoadList(filesystem)
 	if err != nil {
-		m.lf.NewStatusMessage(err.Error())
+		m.UpdateStatus(err.Error())
 		return nil
 	}
 
 	m.l = l
 	m.activeTab = 0
 	m.tabs = getTabs(l)
-	m.lf.NewStatusMessage("URLs file edited")
+	m.UpdateStatus("URLs file edited")
 
 	return rebuildFeedList(m)
 }
@@ -131,9 +131,9 @@ func handleToggleRead(m *model) tea.Cmd {
 		i.item.ToggleRead()
 		rebuildItemsList(m)
 		if i.item.Read {
-			m.li.NewStatusMessage(MsgMarkItemRead)
+			m.UpdateStatus(MsgMarkItemRead)
 		} else {
-			m.li.NewStatusMessage(MsgMarkItemUnread)
+			m.UpdateStatus(MsgMarkItemUnread)
 		}
 	}
 	return nil
@@ -156,7 +156,7 @@ func handleMarkFeedRead(m *model) tea.Cmd {
 		f := i.rssFeed
 		f.MarkAllItemsRead()
 		rebuildFeedList(m)
-		m.lf.NewStatusMessage(MsgMarkFeedRead)
+		m.UpdateStatus(MsgMarkFeedRead)
 	}
 	return nil
 }
@@ -165,7 +165,7 @@ func handleMarkItemsRead(m *model) tea.Cmd {
 	if m.f != nil {
 		m.f.MarkAllItemsRead()
 		rebuildItemsList(m)
-		m.li.NewStatusMessage(MsgMarkFeedRead)
+		m.UpdateStatus(MsgMarkFeedRead)
 	}
 	return nil
 }
@@ -173,12 +173,12 @@ func handleMarkItemsRead(m *model) tea.Cmd {
 func handleMarkTabAsRead(m *model) tea.Cmd {
 	feeds, err := m.l.GetCategory(activeTab(m.tabs, m.activeTab))
 	if err != nil {
-		m.lf.NewStatusMessage(err.Error())
+		m.UpdateStatus(err.Error())
 	}
 
 	rss.MarkFeedsAsRead(feeds...)
 	rebuildFeedList(m)
-	m.lf.NewStatusMessage(MsgMakrTabAsRead)
+	m.UpdateStatus(MsgMakrTabAsRead)
 
 	return nil
 }
@@ -198,7 +198,7 @@ func handleBack(m *model) tea.Cmd {
 func handleMarkAllFeedsRead(m *model) tea.Cmd {
 	m.l.MarkAllFeedsRead()
 	rebuildFeedList(m)
-	m.lf.NewStatusMessage(MsgMarkAllFeedsRead)
+	m.UpdateStatus(MsgMarkAllFeedsRead)
 	m.SaveState()
 	return nil
 }
@@ -211,7 +211,7 @@ func handleOpenFeed(m *model) tea.Cmd {
 			err := openInBrowser(rssFeed.Feed.Link)
 			if err != nil {
 				errorMessage := fmt.Sprintf("Error opening item, %q", err)
-				m.li.NewStatusMessage(errorMessage)
+				m.UpdateStatus(errorMessage)
 			}
 		}
 	}
@@ -226,7 +226,7 @@ func handleOpenItem(m *model) tea.Cmd {
 			err := openInBrowser(rssItem.Link())
 			if err != nil {
 				errorMessage := fmt.Sprintf("Error opening item, %q", err)
-				m.li.NewStatusMessage(errorMessage)
+				m.UpdateStatus(errorMessage)
 			}
 			rssItem.MarkRead()
 			rebuildItemsList(m)
@@ -249,7 +249,7 @@ func handlePrevUnreadItem(m *model) tea.Cmd {
 
 func handleUpdateFeed(m *model) tea.Cmd {
 	if len(m.l.Feeds) == 0 {
-		m.lf.NewStatusMessage(ErrUpdatingFeed)
+		m.UpdateStatus(ErrUpdatingFeed)
 		return nil
 	}
 
@@ -261,17 +261,17 @@ func handleUpdateFeed(m *model) tea.Cmd {
 	}
 
 	message := fmt.Sprintf("%s %s", MsgUpdatingFeed, feed.Url)
-	m.UpdateStatusMsg(message)
+	m.UpdateStatus(message)
 	return updateFeedCmd(m, feed)
 }
 
 func handleUpdateAllFeeds(m *model) tea.Cmd {
-	m.UpdateStatusMsg(MsgUpdatingAllFeeds)
+	m.UpdateStatus(MsgUpdatingAllFeeds)
 	return updateAllFeedsCmd(m)
 }
 
 func handleTabUpdate(m *model) tea.Cmd {
-	m.UpdateStatusMsg(MsgUpdatingAllFeeds)
+	m.UpdateStatus(MsgUpdatingAllFeeds)
 	return updateTabFeedsCmd(m)
 }
 

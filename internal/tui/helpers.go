@@ -224,7 +224,7 @@ func (m *model) UpdateTitle(title string) {
 	m.title = title
 }
 
-func (m *model) UpdateStatusMsg(msg string) {
+func (m *model) UpdateStatus(msg string) {
 	m.status = msg
 }
 
