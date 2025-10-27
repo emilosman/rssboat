@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 	"sort"
+	"time"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -18,6 +19,7 @@ type feedUpdatedMsg struct {
 }
 
 type feedsDoneMsg struct{}
+type statusClearMsg struct{}
 
 func updateAllFeedsCmd(m *model) tea.Cmd {
 	return func() tea.Msg {
@@ -226,6 +228,11 @@ func (m *model) UpdateTitle(title string) {
 
 func (m *model) UpdateStatus(msg string) {
 	m.status = msg
+
+	go func() {
+		time.Sleep(8 * time.Second)
+		m.prog.Send(statusClearMsg{})
+	}()
 }
 
 func (m *model) SaveState() error {

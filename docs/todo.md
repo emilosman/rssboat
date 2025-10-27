@@ -4,7 +4,6 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Clear status after N seconds
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
@@ -66,6 +65,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Clear status after N seconds
 - [x] Custom list title + status message
 - [x] Title + status in viewport
 - [x] Viewport help short and full list different

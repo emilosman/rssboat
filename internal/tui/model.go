@@ -112,6 +112,9 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case feedsDoneMsg:
 		m.UpdateStatus(MsgAllFeedsUpdated)
 		return m, nil
+	case statusClearMsg:
+		m.status = ""
+		return m, nil
 	case tea.KeyMsg:
 		var handlers map[string]keyHandler
 		lfState := m.lf.FilterState().String()
