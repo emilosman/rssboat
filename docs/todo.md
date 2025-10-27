@@ -4,8 +4,7 @@
 - [ ] Create default values in urls.yaml
 
 ## Todo
-- [ ] Custom list title + status message
-- [ ] Title + status in viewport
+- [ ] Clear status after N seconds
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
@@ -67,6 +66,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Custom list title + status message
+- [x] Title + status in viewport
 - [x] Viewport help short and full list different
 - [x] Toggle read viewport handler
 - [x] Marked as read / unread message instead of "Read state toggled"
