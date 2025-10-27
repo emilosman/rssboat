@@ -32,6 +32,6 @@ var (
 			Margin(0, 1)
 
 	inactiveTabStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#767676")).
+				Foreground(lipgloss.Color("#dfdfdf")).
 				Margin(0, 1)
 )
