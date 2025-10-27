@@ -233,7 +233,7 @@ func (m *model) UpdateStatus(msg string) {
 		m.clearTimer.Stop()
 	}
 
-	m.clearTimer = time.AfterFunc(5*time.Second, func() {
+	m.clearTimer = time.AfterFunc(8*time.Second, func() {
 		m.prog.Send(statusClearMsg{})
 	})
 }
