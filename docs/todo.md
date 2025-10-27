@@ -10,7 +10,6 @@
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
 - [ ] Test first run flow (lists_test.go)
-- [ ] Viewport help short and full list different
 - [ ] Record demo using Charm's vhs
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - shift+e
@@ -68,6 +67,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Viewport help short and full list different
 - [x] Toggle read viewport handler
 - [x] Marked as read / unread message instead of "Read state toggled"
 - [x] Item delete from urls.yaml does not remove from list?
