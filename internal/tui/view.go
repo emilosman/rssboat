@@ -7,17 +7,19 @@ func (m *model) View() string {
 	case m.i != nil:
 		title := renderedTitle(m)
 		status := renderedStatus(m)
-		content := lipgloss.JoinVertical(lipgloss.Left, title, status, m.v.View(), m.vh.View(viewKeyMap{}))
-		return viewStyle.Render(content)
+		content := contentStyle.Render(m.v.View())
+		help := helpStyle.Render(m.vh.View(viewKeyMap{}))
+		view := lipgloss.JoinVertical(lipgloss.Left, title, status, content, help)
+		return viewStyle.Render(view)
 	case m.f != nil:
 		title := renderedTitle(m)
 		status := renderedStatus(m)
-		content := lipgloss.JoinVertical(lipgloss.Left, title, status, m.li.View())
-		return listStyle.Render(content)
+		view := lipgloss.JoinVertical(lipgloss.Left, title, status, m.li.View())
+		return listStyle.Render(view)
 	default:
 		tabs := renderedTabs(m)
 		status := renderedStatus(m)
-		content := lipgloss.JoinVertical(lipgloss.Left, tabs, status, m.lf.View())
-		return listStyle.Render(content)
+		view := lipgloss.JoinVertical(lipgloss.Left, tabs, status, m.lf.View())
+		return listStyle.Render(view)
 	}
 }
