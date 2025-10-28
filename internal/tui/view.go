@@ -14,12 +14,14 @@ func (m *model) View() string {
 	case m.f != nil:
 		title := renderedTitle(m)
 		status := renderedStatus(m)
-		view := lipgloss.JoinVertical(lipgloss.Left, title, status, m.li.View())
+		list := m.li.View()
+		view := lipgloss.JoinVertical(lipgloss.Left, title, status, list)
 		return listStyle.Render(view)
 	default:
 		tabs := renderedTabs(m)
 		status := renderedStatus(m)
-		view := lipgloss.JoinVertical(lipgloss.Left, tabs, status, m.lf.View())
+		list := m.lf.View()
+		view := lipgloss.JoinVertical(lipgloss.Left, tabs, status, list)
 		return listStyle.Render(view)
 	}
 }
