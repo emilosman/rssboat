@@ -59,6 +59,7 @@ var (
 		"h":     handleViewPrev,
 		"left":  handleViewPrev,
 		"o":     handleOpenItem,
+		"enter": handleOpenItem,
 		"q":     handleBack,
 		"esc":   handleBack,
 		"?":     handleViewHelp,

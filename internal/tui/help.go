@@ -174,8 +174,8 @@ func viewShortHelp() []key.Binding {
 			key.WithHelp("→/l", "next article"),
 		),
 		key.NewBinding(
-			key.WithKeys("o"),
-			key.WithHelp("o", "open website"),
+			key.WithKeys("o/enter"),
+			key.WithHelp("o/enter", "open website"),
 		),
 		key.NewBinding(
 			key.WithKeys("b/q/esc"),
@@ -200,8 +200,8 @@ func viewFullHelp() [][]key.Binding {
 				key.WithHelp("→/l", "next article"),
 			),
 			key.NewBinding(
-				key.WithKeys("o"),
-				key.WithHelp("o", "open website"),
+				key.WithKeys("o/enter"),
+				key.WithHelp("o/enter", "open website"),
 			),
 			key.NewBinding(
 				key.WithKeys("b/q/esc"),
