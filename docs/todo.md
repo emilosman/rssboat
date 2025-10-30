@@ -52,7 +52,6 @@
 - [ ] GH sponsors setup finish [link](https://github.com/sponsors/picigato/signup)
 
 ## Maybe
-- [ ] UpdateStatusMessage auto-clear
 - [ ] "All" tab (tab 0 ?)
 - [ ] Capslock warning
 - [ ] Select next item after "a" mark as read toggle
@@ -65,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] UpdateStatusMessage auto-clear
 - [x] Clear status after N seconds
 - [x] Custom list title + status message
 - [x] Title + status in viewport
