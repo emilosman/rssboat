@@ -2,12 +2,14 @@
 
 ## MVP
 - [ ] Create default values in urls.yaml
+- [ ] README extend
+  - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
+- [ ] Test first run flow (lists_test.go)
 
 ## Todo
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
-- [ ] Test first run flow (lists_test.go)
 - [ ] Record demo using Charm's vhs
 - [ ] Single feed update complete message (instead of "All feeds updated")
 - shift+e
@@ -20,8 +22,6 @@
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
 - [ ] Timeout network request 8s
 - [ ] Unread counter (15/254)
-- [ ] README extend
-  - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Linux test
 
 ## Database
