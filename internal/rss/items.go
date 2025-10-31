@@ -32,6 +32,10 @@ func (i *RssItem) Title() string {
 	return title
 }
 
+func (i *RssItem) FilterContent() string {
+	return fmt.Sprintf("%s %s", i.Title(), i.Description())
+}
+
 func (i *RssItem) Content() string {
 	title := i.Title()
 	date := i.Item.PublishedParsed

@@ -64,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Item search Title + Content
 - [x] UpdateStatusMessage auto-clear
 - [x] Clear status after N seconds
 - [x] Custom list title + status message
