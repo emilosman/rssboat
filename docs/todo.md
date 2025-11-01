@@ -22,7 +22,6 @@
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
 - [ ] Timeout network request 8s
 - [ ] Unread counter (15/254)
-- [ ] Linux test
 
 ## Database
 - [ ] Use database instead of JSON only
@@ -65,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Linux test
 - [x] Item search Title + Content
 - [x] UpdateStatusMessage auto-clear
 - [x] Clear status after N seconds
