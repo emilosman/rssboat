@@ -52,6 +52,7 @@
 - [ ] GH sponsors setup finish [link](https://github.com/sponsors/picigato/signup)
 
 ## Maybe
+- [ ] Filter options (title + description + content)
 - [ ] "All" tab (tab 0 ?)
 - [ ] Capslock warning
 - [ ] Select next item after "a" mark as read toggle
