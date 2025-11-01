@@ -312,7 +312,7 @@ func handleInterrupt(m *model) tea.Cmd {
 }
 
 func handleTabNumber(m *model, i int) tea.Cmd {
-	if i > len(m.tabs) {
+	if i > len(m.tabs)-1 {
 		return nil
 	}
 
