@@ -18,7 +18,11 @@ func listShortHelp() []key.Binding {
 		),
 		key.NewBinding(
 			key.WithKeys("shift+r"),
-			key.WithHelp("shift+r", "refresh all feeds"),
+			key.WithHelp("shift+r", "refresh all"),
+		),
+		key.NewBinding(
+			key.WithKeys("shift+e"),
+			key.WithHelp("shift+e", "edit URLs"),
 		),
 		key.NewBinding(
 			key.WithKeys("q/esc"),
@@ -72,7 +76,7 @@ func listFullHelp() [][]key.Binding {
 			),
 			key.NewBinding(
 				key.WithKeys("shift+e"),
-				key.WithHelp("shift+e", "edit urls file"),
+				key.WithHelp("shift+e", "edit URLs file"),
 			),
 			key.NewBinding(
 				key.WithKeys("shift+r"),
