@@ -2,42 +2,12 @@ package rss
 
 import (
 	"html"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/microcosm-cc/bluemonday"
 )
-
-func LoadList(filesystem fs.FS) (*List, error) {
-	l := List{
-		FeedIndex: make(map[string]*RssFeed),
-	}
-
-	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
-	if err != nil {
-		return &l, err
-	}
-
-	cacheFilePath, err := CacheFilePath()
-	if err != nil {
-		return &l, err
-	}
-
-	f, err := os.Open(cacheFilePath)
-	if err != nil {
-		return &l, err
-	}
-	defer f.Close()
-
-	err = l.Restore(f)
-	if err != nil {
-		return &l, err
-	}
-
-	return &l, nil
-}
 
 func CacheFilePath() (string, error) {
 	dir, err := os.UserCacheDir()

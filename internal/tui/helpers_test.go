@@ -7,7 +7,7 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-func newTestData() (rss.RssItem, rss.RssItem, rss.RssFeed, rss.RssFeed, rss.RssFeed, rss.List) {
+func newList() rss.List {
 	unreadRssItem := rss.RssItem{
 		Read: false,
 		Item: &gofeed.Item{Title: "Latest item title"},
@@ -16,16 +16,6 @@ func newTestData() (rss.RssItem, rss.RssItem, rss.RssFeed, rss.RssFeed, rss.RssF
 	readRssItem := rss.RssItem{
 		Read: true,
 		Item: &gofeed.Item{Title: "Latest item title"},
-	}
-
-	rssFeed := rss.RssFeed{
-		Url:      "example.com",
-		Category: "Fun",
-		Feed: &gofeed.Feed{
-			Title:       "Feed title",
-			Description: "Feed description",
-		},
-		RssItems: []*rss.RssItem{&unreadRssItem, &readRssItem},
 	}
 
 	rssFeedWithoutItems := rss.RssFeed{
@@ -39,17 +29,25 @@ func newTestData() (rss.RssItem, rss.RssItem, rss.RssFeed, rss.RssFeed, rss.RssF
 
 	rssFeedUnloaded := rss.RssFeed{Url: "example.com"}
 
-	l := rss.List{
+	rssFeed := rss.RssFeed{
+		Url:      "example.com",
+		Category: "Fun",
+		Feed: &gofeed.Feed{
+			Title:       "Feed title",
+			Description: "Feed description",
+		},
+		RssItems: []*rss.RssItem{&unreadRssItem, &readRssItem},
+	}
+
+	return rss.List{
 		Feeds:     []*rss.RssFeed{&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems},
 		FeedIndex: make(map[string]*rss.RssFeed),
 	}
-
-	return unreadRssItem, readRssItem, rssFeed, rssFeedWithoutItems, rssFeedUnloaded, l
 }
 
 func TestHelpers(t *testing.T) {
 	t.Run("Should build feeds list", func(t *testing.T) {
-		_, _, _, _, _, l := newTestData()
+		l := newList()
 		tabs := []string{"Fun"}
 		m := model{
 			l:         &l,

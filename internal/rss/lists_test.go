@@ -325,7 +325,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("Create feeds from YAML", func(t *testing.T) {
-		_, _, _, _, _, l := newTestData()
+		l := newList()
 		fs := fstest.MapFS{
 			"urls.yaml": {Data: testData(t, "test_urls.yaml")},
 		}
@@ -348,7 +348,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("Handle missing feeds file", func(t *testing.T) {
-		_, _, _, _, _, l := newTestData()
+		l := newList()
 
 		fs := fstest.MapFS{}
 
@@ -359,7 +359,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("Handle invalid feeds file", func(t *testing.T) {
-		_, _, _, _, _, l := newTestData()
+		l := newList()
 
 		fs := fstest.MapFS{
 			"urls.yaml": {Data: []byte("invalid: [unbalanced")},
