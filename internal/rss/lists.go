@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"io/fs"
+	"os"
 
 	yaml "github.com/goccy/go-yaml"
 )
@@ -147,4 +148,33 @@ func (l *List) Restore(r io.Reader) error {
 	}
 
 	return nil
+}
+
+func LoadList(filesystem fs.FS) (*List, error) {
+	l := List{
+		FeedIndex: make(map[string]*RssFeed),
+	}
+
+	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
+	if err != nil {
+		return &l, err
+	}
+
+	cacheFilePath, err := CacheFilePath()
+	if err != nil {
+		return &l, err
+	}
+
+	f, err := os.Open(cacheFilePath)
+	if err != nil {
+		return &l, err
+	}
+	defer f.Close()
+
+	err = l.Restore(f)
+	if err != nil {
+		return &l, err
+	}
+
+	return &l, nil
 }
