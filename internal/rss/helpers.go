@@ -45,6 +45,15 @@ func defaultConfigFile(configFile string) error {
 			return err
 		}
 		defer f.Close()
+
+		defaultYAML := `# Default Configuration
+golang:
+  - https://go.dev/blog/feed.atom
+`
+
+		if _, err := f.WriteString(defaultYAML); err != nil {
+			return err
+		}
 	}
 	return nil
 }

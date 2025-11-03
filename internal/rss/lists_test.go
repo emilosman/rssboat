@@ -180,7 +180,9 @@ func TestLists(t *testing.T) {
 		}
 
 		l, err := LoadList(fs)
-		assertError(t, err, ErrCacheEmpty)
+		if err != nil {
+			t.Errorf("Error loading list: %q", err)
+		}
 
 		if l == nil {
 			t.Error("List should have been returned")
@@ -206,7 +208,9 @@ func TestLists(t *testing.T) {
 		}
 
 		l, err := LoadList(fs)
-		assertError(t, err, ErrCacheEmpty)
+		if err != nil {
+			t.Errorf("Error loading list: %q", err)
+		}
 
 		if l == nil {
 			t.Error("List should have been returned")
