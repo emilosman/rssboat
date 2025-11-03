@@ -1,7 +1,7 @@
 # Todo
 
 ## MVP
-- [ ] Create default values in urls.yaml
+- [ ] Test default urls.yaml content
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
 - [ ] Test first run flow (lists_test.go)
@@ -64,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Create default values in urls.yaml
 - [x] Linux test
 - [x] Item search Title + Content
 - [x] UpdateStatusMessage auto-clear
