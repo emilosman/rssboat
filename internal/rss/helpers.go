@@ -33,16 +33,20 @@ func ConfigFilePath() (string, error) {
 	}
 
 	configFile := filepath.Join(appDir, "urls.yaml")
+	err = defaultConfigFile(configFile)
 
+	return appDir, err
+}
+
+func defaultConfigFile(configFile string) error {
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
 		f, err := os.Create(configFile)
 		if err != nil {
-			return "", err
+			return err
 		}
 		defer f.Close()
 	}
-
-	return appDir, nil
+	return nil
 }
 
 func clean(input string) string {
