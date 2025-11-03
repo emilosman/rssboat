@@ -168,7 +168,7 @@ func TestLists(t *testing.T) {
 		}
 
 		err = l.Restore(&buf)
-		assertError(t, err, ErrChacheEmpty)
+		assertError(t, err, ErrCacheEmpty)
 		if err == nil {
 			t.Fatalf("")
 		}
@@ -180,9 +180,7 @@ func TestLists(t *testing.T) {
 		}
 
 		l, err := LoadList(fs)
-		if err != nil {
-			t.Errorf("Error loading list: %q", err)
-		}
+		assertError(t, err, ErrCacheEmpty)
 
 		if l == nil {
 			t.Error("List should have been returned")
@@ -193,8 +191,8 @@ func TestLists(t *testing.T) {
 		fs := fstest.MapFS{}
 
 		l, err := LoadList(fs)
-		if err == nil {
-			t.Errorf("Should throw error")
+		if err.Error() != ErrConfigDoesNotExist {
+			t.Error("Should handle error")
 		}
 
 		if l == nil {
@@ -208,9 +206,7 @@ func TestLists(t *testing.T) {
 		}
 
 		l, err := LoadList(fs)
-		if err != nil {
-			t.Errorf("Error loading list: %q", err)
-		}
+		assertError(t, err, ErrCacheEmpty)
 
 		if l == nil {
 			t.Error("List should have been returned")
