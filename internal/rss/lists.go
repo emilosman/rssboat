@@ -67,10 +67,10 @@ func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {
 	}
 	defer file.Close()
 
-	testData, _ := io.ReadAll(file)
+	data, _ := io.ReadAll(file)
 
 	var raw map[string][]string
-	if err := yaml.Unmarshal(testData, &raw); err != nil {
+	if err := yaml.Unmarshal(data, &raw); err != nil {
 		return err
 	}
 
