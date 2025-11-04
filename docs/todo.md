@@ -20,7 +20,7 @@
 - [ ] Parse URL with standard library to check for errors
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
-  - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ?
+  - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ? "shift + i" ?
 - [ ] Timeout network request 8s
 - [ ] Unread counter (15/254)
 
