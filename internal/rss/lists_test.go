@@ -168,9 +168,8 @@ func TestLists(t *testing.T) {
 		}
 
 		err = l.Restore(&buf)
-		assertError(t, err, ErrCacheEmpty)
-		if err == nil {
-			t.Fatalf("")
+		if err != nil {
+			t.Errorf("Error restoring feeds: %q", err)
 		}
 	})
 

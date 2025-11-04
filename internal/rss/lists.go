@@ -134,10 +134,6 @@ func (l *List) Restore(r io.Reader) error {
 		return err
 	}
 
-	if len(decoded.Feeds) == 0 {
-		return ErrCacheEmpty
-	}
-
 	for _, decodedFeed := range decoded.Feeds {
 		feed := l.FeedIndex[decodedFeed.Url]
 		if feed != nil {

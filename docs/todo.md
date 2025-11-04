@@ -1,6 +1,7 @@
 # Todo
 
 ## MVP
+- [ ] Load default feeds after first urls.yaml edit
 - [ ] Test default urls.yaml content
 - [ ] README extend
   - [ ] Explain commands in readme: ctrl+ tabs, shift+ all items
