@@ -43,6 +43,7 @@
   - [ ] r/rss
   - [ ] r/newsboat
   - [ ] r/golang
+- [ ] Record video narration
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 - [ ] @latest
 
