@@ -42,6 +42,10 @@ func newList() rss.List {
 	return rss.List{
 		Feeds:     []*rss.RssFeed{&rssFeed, &rssFeedUnloaded, &rssFeedWithoutItems},
 		FeedIndex: make(map[string]*rss.RssFeed),
+		CategoryIndex: map[string][]*rss.RssFeed{
+			"Fun":     {&rssFeed},
+			"Serious": {&rssFeedWithoutItems},
+		},
 	}
 }
 

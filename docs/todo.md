@@ -29,9 +29,6 @@
 - [ ] Use database instead of JSON only
 
 ## Refactor
-- Categories
-  - [ ] Refactor GetCategory
-  - [ ] CategoriesIndex on List
 - [ ] Refactor m.selectedFeed vs m.lf.SelectedItem() usage (handleMarkFeedRead)
 - shift+e
   - [ ] Refactor handleEdit to not have tui depend on rss package
@@ -67,6 +64,8 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Refactor GetCategory
+- [x] CategoriesIndex on List
 - [x] Create default values in urls.yaml
 - [x] Linux test
 - [x] Item search Title + Content

@@ -10,8 +10,9 @@ import (
 )
 
 type List struct {
-	Feeds     []*RssFeed
-	FeedIndex map[string]*RssFeed
+	Feeds         []*RssFeed
+	FeedIndex     map[string]*RssFeed
+	CategoryIndex map[string][]*RssFeed
 }
 
 type FeedResult struct {
@@ -26,13 +27,7 @@ func (l *List) GetCategory(category string) ([]*RssFeed, error) {
 		return feeds, ErrNoCategoryGiven
 	}
 
-	for _, feed := range l.Feeds {
-		if feed.Category == category {
-			feeds = append(feeds, feed)
-		}
-	}
-
-	return feeds, nil
+	return l.CategoryIndex[category], nil
 }
 
 func (l *List) GetAllCategories() (map[string][]*RssFeed, error) {
@@ -82,6 +77,7 @@ func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {
 				Category: category,
 			}
 			l.FeedIndex[u] = feed
+			l.CategoryIndex[category] = append(l.CategoryIndex[category], feed)
 			feeds = append(feeds, feed)
 		}
 	}
@@ -148,7 +144,8 @@ func (l *List) Restore(r io.Reader) error {
 
 func LoadList(filesystem fs.FS) (*List, error) {
 	l := List{
-		FeedIndex: make(map[string]*RssFeed),
+		FeedIndex:     make(map[string]*RssFeed),
+		CategoryIndex: make(map[string][]*RssFeed),
 	}
 
 	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
