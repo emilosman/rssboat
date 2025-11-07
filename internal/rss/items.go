@@ -7,8 +7,9 @@ import (
 )
 
 type RssItem struct {
-	Item *gofeed.Item
-	Read bool
+	Item     *gofeed.Item
+	Bookmark bool
+	Read     bool
 }
 
 func (i *RssItem) Link() string {
@@ -26,8 +27,11 @@ func (i *RssItem) Link() string {
 
 func (i *RssItem) Title() string {
 	title := clean(i.Item.Title)
+	if i.Bookmark {
+		title = fmt.Sprintf("* %s", title)
+	}
 	if !i.Read {
-		return fmt.Sprintf("+ %s", title)
+		title = fmt.Sprintf("+ %s", title)
 	}
 	return title
 }
@@ -67,6 +71,10 @@ func (i *RssItem) Description() string {
 
 func (i *RssItem) ToggleRead() {
 	i.Read = !i.Read
+}
+
+func (i *RssItem) ToggleBookmark() {
+	i.Bookmark = !i.Bookmark
 }
 
 func (i *RssItem) MarkRead() {

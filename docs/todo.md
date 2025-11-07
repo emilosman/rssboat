@@ -8,6 +8,7 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
+- [ ] Bookmarked items tab
 - [ ] Next/Prev to work across categories
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
@@ -64,6 +65,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] "b" bookmark item
 - [x] Refactor GetCategory
 - [x] CategoriesIndex on List
 - [x] Create default values in urls.yaml

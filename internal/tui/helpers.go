@@ -142,6 +142,10 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 		title := ri.Title()
 		description := ri.Description()
 
+		if ri.Bookmark {
+			title = bookmarkStyle.Render(title)
+		}
+
 		if !ri.Read {
 			title = unreadStyle.Render(title)
 		}

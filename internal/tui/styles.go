@@ -10,6 +10,9 @@ var (
 	unreadStyle = lipgloss.NewStyle().
 			Foreground(lipgloss.Color("#00cf42"))
 
+	bookmarkStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#FFFF00"))
+
 	errorStyle = lipgloss.NewStyle().
 			Foreground(lipgloss.Color("#e53636ff"))
 

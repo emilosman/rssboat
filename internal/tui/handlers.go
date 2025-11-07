@@ -41,6 +41,7 @@ var (
 		"a":     handleToggleRead,
 		"A":     handleMarkItemsRead,
 		"b":     handleBack,
+		"c":     handleToggleBookmar,
 		"n":     handleNextUnreadItem,
 		"o":     handleOpenItem,
 		"p":     handlePrevUnreadItem,
@@ -135,6 +136,20 @@ func handleToggleRead(m *model) tea.Cmd {
 			m.UpdateStatus(MsgMarkItemRead)
 		} else {
 			m.UpdateStatus(MsgMarkItemUnread)
+		}
+	}
+	return nil
+}
+
+func handleToggleBookmar(m *model) tea.Cmd {
+	i, ok := m.li.SelectedItem().(rssListItem)
+	if ok {
+		i.item.ToggleBookmark()
+		rebuildItemsList(m)
+		if i.item.Read {
+			m.UpdateStatus(MsgBookmarkItem)
+		} else {
+			m.UpdateStatus(MsgUnBookmarkItem)
 		}
 	}
 	return nil
