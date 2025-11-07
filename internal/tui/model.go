@@ -57,7 +57,7 @@ func initialModel() *model {
 	}
 	filesystem := os.DirFS(configFilePath)
 	l, err := rss.LoadList(filesystem)
-	t := getTabs(l)
+	t := l.Categories()
 
 	df := list.NewDefaultDelegate()
 	df.ShortHelpFunc = listShortHelp

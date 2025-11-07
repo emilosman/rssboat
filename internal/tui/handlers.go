@@ -108,7 +108,7 @@ func handleEdit(m *model) tea.Cmd {
 
 	m.l = l
 	m.activeTab = 0
-	m.tabs = getTabs(l)
+	m.tabs = l.Categories()
 	m.UpdateStatus("URLs file edited")
 
 	return rebuildFeedList(m)

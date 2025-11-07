@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"sort"
 
 	yaml "github.com/goccy/go-yaml"
 )
@@ -18,6 +19,15 @@ type List struct {
 type FeedResult struct {
 	Feed *RssFeed
 	Err  error
+}
+
+func (l *List) Categories() []string {
+	var categories []string
+	for category := range l.CategoryIndex {
+		categories = append(categories, category)
+	}
+	sort.Strings(categories)
+	return categories
 }
 
 func (l *List) GetCategory(category string) ([]*RssFeed, error) {

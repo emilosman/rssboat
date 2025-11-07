@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	"sort"
 	"time"
 
 	"github.com/charmbracelet/bubbles/list"
@@ -154,18 +153,6 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 		})
 	}
 	return listItems
-}
-
-func getTabs(l *rss.List) []string {
-	var tabs []string
-
-	for category := range l.CategoryIndex {
-		tabs = append(tabs, category)
-	}
-
-	sort.Strings(tabs)
-
-	return tabs
 }
 
 func renderedTabs(m *model) string {
