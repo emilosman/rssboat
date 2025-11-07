@@ -158,12 +158,8 @@ func buildItemsList(feed *rss.RssFeed) []list.Item {
 
 func getTabs(l *rss.List) []string {
 	var tabs []string
-	categories, err := l.GetAllCategories()
-	if err != nil {
-		return tabs
-	}
 
-	for category := range categories {
+	for category := range l.CategoryIndex {
 		tabs = append(tabs, category)
 	}
 

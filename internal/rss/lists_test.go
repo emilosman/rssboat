@@ -107,14 +107,9 @@ func TestLists(t *testing.T) {
 	t.Run("Should return all categories", func(t *testing.T) {
 		l := newList()
 
-		categories, err := l.GetAllCategories()
-		if err != nil {
-			t.Errorf("Error getting categories: %q", err)
-		}
-
 		control := []string{"Fun", "Serious"}
 		for _, category := range control {
-			feeds, ok := categories[category]
+			feeds, ok := l.CategoryIndex[category]
 			if !ok {
 				t.Errorf("Category not returned: %s", category)
 			}
@@ -122,25 +117,6 @@ func TestLists(t *testing.T) {
 				if feed.Category != category {
 					t.Errorf("Feed has wrong category: got %s, want %s", feed.Category, category)
 				}
-			}
-		}
-	})
-
-	t.Run("Should return all categories", func(t *testing.T) {
-		l := newList()
-
-		categories, err := l.GetAllCategories()
-		if err != nil {
-			t.Errorf("Error getting categories: %q", err)
-		}
-
-		feeds, ok := categories["Uncategorized"]
-		if !ok {
-			t.Error("Uncategorized feeds not returned")
-		}
-		for _, feed := range feeds {
-			if feed.Category != "" {
-				t.Errorf("Feed has wrong category: got %s, want Uncategorized", feed.Category)
 			}
 		}
 	})

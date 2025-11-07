@@ -30,23 +30,6 @@ func (l *List) GetCategory(category string) ([]*RssFeed, error) {
 	return l.CategoryIndex[category], nil
 }
 
-func (l *List) GetAllCategories() (map[string][]*RssFeed, error) {
-	categories := make(map[string][]*RssFeed)
-
-	for _, feed := range l.Feeds {
-		if feed == nil {
-			continue
-		}
-		cat := feed.Category
-		if cat == "" {
-			cat = "Uncategorized"
-		}
-		categories[cat] = append(categories[cat], feed)
-	}
-
-	return categories, nil
-}
-
 func (l *List) Add(feeds ...*RssFeed) {
 	l.Feeds = append(l.Feeds, feeds...)
 }
