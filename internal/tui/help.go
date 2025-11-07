@@ -140,6 +140,10 @@ func itemsFullHelp() [][]key.Binding {
 				key.WithHelp("b/q/esc", "back"),
 			),
 			key.NewBinding(
+				key.WithKeys("c"),
+				key.WithHelp("c", "bookmark item"),
+			),
+			key.NewBinding(
 				key.WithKeys("n"),
 				key.WithHelp("n", "next unread item"),
 			),
