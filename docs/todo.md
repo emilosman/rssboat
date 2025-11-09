@@ -9,7 +9,6 @@
 
 ## Todo
 - [ ] Bookmarked items tab
-- [ ] Next/Prev to work across categories
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
@@ -65,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Next/Prev to work across categories
 - [x] "b" bookmark item
 - [x] Refactor GetCategory
 - [x] CategoriesIndex on List

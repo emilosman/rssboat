@@ -51,8 +51,8 @@ func listFullHelp() [][]key.Binding {
 				key.WithHelp("o", "open website"),
 			),
 			key.NewBinding(
-				key.WithKeys("p"),
-				key.WithHelp("p", "previous unread feed"),
+				key.WithKeys("p/b"),
+				key.WithHelp("p/b", "previous unread feed"),
 			),
 			key.NewBinding(
 				key.WithKeys("q/esc"),

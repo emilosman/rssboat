@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"slices"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/emilosman/rssboat/internal/rss"
@@ -17,6 +18,7 @@ type keyHandler func(*model) tea.Cmd
 var (
 	feedKeyHandlers = map[string]keyHandler{
 		"A":      handleMarkFeedRead,
+		"b":      handlePrevUnreadFeed,
 		"C":      handleMarkAllFeedsRead,
 		"E":      handleEdit,
 		"h":      handlePrevTab,
@@ -373,6 +375,31 @@ func handleNextUnreadFeed(m *model) tea.Cmd {
 		index, next := rss.NextUnreadFeed(feeds, prev)
 		if next != nil {
 			m.lf.Select(index)
+			return nil
+		}
+		nextUreadTab(m)
+	}
+	return nil
+}
+
+func nextUreadTab(m *model) tea.Cmd {
+	currentTab := m.activeTab
+	for i := currentTab; i < len(m.tabs); i++ {
+		category := m.tabs[i]
+		feeds, err := m.l.GetCategory(category)
+		if err != nil {
+			return nil
+		}
+		for j, feed := range feeds {
+			if feed.HasUnread() {
+				m.activeTab = i
+				rebuildFeedList(m)
+				m.lf.Select(j)
+				break
+			}
+		}
+		if currentTab != m.activeTab {
+			break
 		}
 	}
 	return nil
@@ -389,6 +416,31 @@ func handlePrevUnreadFeed(m *model) tea.Cmd {
 		index, prev := rss.PrevUnreadFeed(feeds, next)
 		if prev != nil {
 			m.lf.Select(index)
+			return nil
+		}
+		prevUnreadTab(m)
+	}
+	return nil
+}
+
+func prevUnreadTab(m *model) tea.Cmd {
+	currentTab := m.activeTab
+	for i := currentTab; i >= 0; i-- {
+		category := m.tabs[i]
+		feeds, err := m.l.GetCategory(category)
+		if err != nil {
+			return nil
+		}
+		for j, feed := range slices.Backward(feeds) {
+			if feed.HasUnread() {
+				m.activeTab = i
+				rebuildFeedList(m)
+				m.lf.Select(j)
+				break
+			}
+		}
+		if currentTab != m.activeTab {
+			break
 		}
 	}
 	return nil
