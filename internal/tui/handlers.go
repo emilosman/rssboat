@@ -377,12 +377,12 @@ func handleNextUnreadFeed(m *model) tea.Cmd {
 			m.lf.Select(index)
 			return nil
 		}
-		nextUreadTab(m)
+		nextUnreadTab(m)
 	}
 	return nil
 }
 
-func nextUreadTab(m *model) tea.Cmd {
+func nextUnreadTab(m *model) tea.Cmd {
 	currentTab := m.activeTab
 	for i := currentTab; i < len(m.tabs); i++ {
 		category := m.tabs[i]
