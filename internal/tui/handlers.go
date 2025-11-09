@@ -41,7 +41,7 @@ var (
 		"a":     handleToggleRead,
 		"A":     handleMarkItemsRead,
 		"b":     handleBack,
-		"c":     handleToggleBookmar,
+		"c":     handleToggleBookmark,
 		"n":     handleNextUnreadItem,
 		"o":     handleOpenItem,
 		"p":     handlePrevUnreadItem,
@@ -141,7 +141,7 @@ func handleToggleRead(m *model) tea.Cmd {
 	return nil
 }
 
-func handleToggleBookmar(m *model) tea.Cmd {
+func handleToggleBookmark(m *model) tea.Cmd {
 	i, ok := m.li.SelectedItem().(rssListItem)
 	if ok {
 		i.item.ToggleBookmark()
