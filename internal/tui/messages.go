@@ -3,8 +3,8 @@ package tui
 var (
 	MsgUpdatingAllFeeds = "Updating all feeds..."
 	MsgAllFeedsUpdated  = "All feeds updated"
-	MsgMarkItemRead     = "Marked item as read"
-	MsgMarkItemUnread   = "Marked item as unread"
+	MsgMarkItemRead     = "Marked as read"
+	MsgMarkItemUnread   = "Marked as unread"
 	MsgMarkFeedRead     = "Marked feed as read"
 	MsgBookmarkItem     = "Bookmark added"
 	MsgUnBookmarkItem   = "Bookmark removed"
