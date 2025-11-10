@@ -148,7 +148,7 @@ func handleToggleBookmark(m *model) tea.Cmd {
 	if ok {
 		i.item.ToggleBookmark()
 		rebuildItemsList(m)
-		if i.item.Read {
+		if i.item.Bookmark {
 			m.UpdateStatus(MsgBookmarkItem)
 		} else {
 			m.UpdateStatus(MsgUnBookmarkItem)
