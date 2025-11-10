@@ -162,5 +162,13 @@ func LoadList(filesystem fs.FS) (*List, error) {
 		return &l, err
 	}
 
+	feed, ok := l.FeedIndex["Bookmarks"]
+	if !ok {
+		feed = &RssFeed{
+			Url: "Bookmarks",
+		}
+		l.FeedIndex["Bookmarks"] = feed
+	}
+
 	return &l, nil
 }

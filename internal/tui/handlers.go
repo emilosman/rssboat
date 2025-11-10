@@ -19,6 +19,7 @@ var (
 	feedKeyHandlers = map[string]keyHandler{
 		"A":      handleMarkFeedRead,
 		"b":      handlePrevUnreadFeed,
+		"B":      handleViewBookmarks,
 		"C":      handleMarkAllFeedsRead,
 		"E":      handleEdit,
 		"h":      handlePrevTab,
@@ -43,6 +44,7 @@ var (
 		"a":     handleToggleRead,
 		"A":     handleMarkItemsRead,
 		"b":     handleBack,
+		"B":     handleViewBookmarks,
 		"c":     handleToggleBookmark,
 		"n":     handleNextUnreadItem,
 		"o":     handleOpenItem,
@@ -149,11 +151,23 @@ func handleToggleBookmark(m *model) tea.Cmd {
 		i.item.ToggleBookmark()
 		rebuildItemsList(m)
 		if i.item.Bookmark {
+			feed := m.l.FeedIndex["Bookmarks"]
+			if feed != nil {
+				feed.RssItems = append(feed.RssItems, i.item)
+			}
 			m.UpdateStatus(MsgBookmarkItem)
 		} else {
+			// https://go.dev/wiki/SliceTricks
+			// a = append(a[:i], a[i+1:]...)
 			m.UpdateStatus(MsgUnBookmarkItem)
 		}
 	}
+	return nil
+}
+
+func handleViewBookmarks(m *model) tea.Cmd {
+	m.f = m.l.FeedIndex["Bookmarks"]
+	rebuildItemsList(m)
 	return nil
 }
 
