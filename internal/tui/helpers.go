@@ -83,6 +83,7 @@ func updateFeedCmd(m *model, feed *rss.RssFeed) tea.Cmd {
 func rebuildFeedList(m *model) tea.Cmd {
 	items := buildFeedList(m.l, m.tabs, m.activeTab)
 	m.lf.SetItems(items)
+	m.lf.Select(0)
 	return nil
 }
 
@@ -90,6 +91,7 @@ func rebuildItemsList(m *model) tea.Cmd {
 	if m.li.FilterState().String() != "filter applied" {
 		items := buildItemsList(m.f)
 		m.li.SetItems(items)
+		m.li.Select(0)
 	}
 	return nil
 }
