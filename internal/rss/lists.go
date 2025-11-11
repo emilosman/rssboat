@@ -75,7 +75,7 @@ func (l *List) CreateFeedsFromYaml(filesystem fs.FS, filename string) error {
 		}
 	}
 
-	l.Feeds = feeds
+	l.Feeds = append(l.Feeds, feeds...)
 
 	return nil
 }
@@ -135,40 +135,40 @@ func (l *List) Restore(r io.Reader) error {
 	return nil
 }
 
-func LoadList(filesystem fs.FS) (*List, error) {
-	l := List{
-		FeedIndex:     make(map[string]*RssFeed),
-		CategoryIndex: make(map[string][]*RssFeed),
+func NewListWithDefaults() *List {
+	bookmarks := &RssFeed{Url: "Bookmarks"}
+	return &List{
+		Feeds: []*RssFeed{bookmarks},
+		FeedIndex: map[string]*RssFeed{
+			"Bookmarks": bookmarks,
+		},
+		CategoryIndex: map[string][]*RssFeed{},
 	}
+}
+
+func LoadList(filesystem fs.FS) (*List, error) {
+	l := NewListWithDefaults()
 
 	err := l.CreateFeedsFromYaml(filesystem, "urls.yaml")
 	if err != nil {
-		return &l, err
+		return l, err
 	}
 
 	cacheFilePath, err := CacheFilePath()
 	if err != nil {
-		return &l, err
+		return l, err
 	}
 
 	f, err := os.Open(cacheFilePath)
 	if err != nil {
-		return &l, err
+		return l, err
 	}
 	defer f.Close()
 
 	err = l.Restore(f)
 	if err != nil {
-		return &l, err
+		return l, err
 	}
 
-	feed, ok := l.FeedIndex["Bookmarks"]
-	if !ok {
-		feed = &RssFeed{
-			Url: "Bookmarks",
-		}
-		l.FeedIndex["Bookmarks"] = feed
-	}
-
-	return &l, nil
+	return l, nil
 }

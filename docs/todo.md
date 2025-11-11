@@ -8,7 +8,7 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
-- [ ] Bookmarked items tab
+- [ ] Bookmarks removed from tab
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
@@ -64,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Bookmarked items tab
 - [x] Next/Prev to work across categories
 - [x] "b" bookmark item
 - [x] Refactor GetCategory
