@@ -174,6 +174,7 @@ func handleViewBookmarks(m *model) tea.Cmd {
 	m.f = m.l.FeedIndex["Bookmarks"]
 	m.title = "Bookmarks"
 	m.i = nil
+	m.li.Select(0)
 	rebuildItemsList(m)
 	return nil
 }
