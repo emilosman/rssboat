@@ -1,6 +1,7 @@
 # Todo
 
 ## MVP
+- [ ] Test bookmark add / removal. Fix inconsistancy
 - [ ] Load default feeds after first urls.yaml edit
 - [ ] Test default urls.yaml content
 - [ ] README extend
