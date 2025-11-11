@@ -59,6 +59,8 @@ var (
 	viewKeyHandlers = map[string]keyHandler{
 		"a":     handleToggleRead,
 		"b":     handleBack,
+		"B":     handleViewBookmarks,
+		"c":     handleToggleBookmark,
 		"l":     handleViewNext,
 		"right": handleViewNext,
 		"h":     handleViewPrev,
@@ -151,14 +153,17 @@ func handleToggleBookmark(m *model) tea.Cmd {
 		i.item.ToggleBookmark()
 		rebuildItemsList(m)
 		if i.item.Bookmark {
-			feed := m.l.FeedIndex["Bookmarks"]
-			if feed != nil {
-				feed.RssItems = append(feed.RssItems, i.item)
+			bookmarks := m.l.FeedIndex["Bookmarks"]
+			if bookmarks != nil {
+				bookmarks.RssItems = append(bookmarks.RssItems, i.item)
 			}
 			m.UpdateStatus(MsgBookmarkItem)
 		} else {
-			// https://go.dev/wiki/SliceTricks
-			// a = append(a[:i], a[i+1:]...)
+			bookmarks := m.l.FeedIndex["Bookmarks"]
+			i := slices.Index(bookmarks.RssItems, i.item)
+			if i != -1 {
+				bookmarks.RssItems = append(bookmarks.RssItems[:i], bookmarks.RssItems[i+1:]...)
+			}
 			m.UpdateStatus(MsgUnBookmarkItem)
 		}
 	}
@@ -168,6 +173,7 @@ func handleToggleBookmark(m *model) tea.Cmd {
 func handleViewBookmarks(m *model) tea.Cmd {
 	m.f = m.l.FeedIndex["Bookmarks"]
 	m.title = "Bookmarks"
+	m.i = nil
 	rebuildItemsList(m)
 	return nil
 }

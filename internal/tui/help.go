@@ -71,6 +71,10 @@ func listFullHelp() [][]key.Binding {
 				key.WithHelp("shift+a", "mark feed as read"),
 			),
 			key.NewBinding(
+				key.WithKeys("shift+b"),
+				key.WithHelp("shift+b", "bookmarks list"),
+			),
+			key.NewBinding(
 				key.WithKeys("shift+c"),
 				key.WithHelp("shift+c", "mark all items as read"),
 			),
@@ -104,6 +108,10 @@ func itemsShortHelp() []key.Binding {
 		key.NewBinding(
 			key.WithKeys("a"),
 			key.WithHelp("a", "toggle read"),
+		),
+		key.NewBinding(
+			key.WithKeys("c"),
+			key.WithHelp("c", "bookmark item"),
 		),
 		key.NewBinding(
 			key.WithKeys("o"),
@@ -164,6 +172,10 @@ func itemsFullHelp() [][]key.Binding {
 				key.WithHelp("shift+a", "mark all items read"),
 			),
 			key.NewBinding(
+				key.WithKeys("shift+b"),
+				key.WithHelp("shift+b", "bookmarks list"),
+			),
+			key.NewBinding(
 				key.WithKeys("enter"),
 				key.WithHelp("enter", "preview item"),
 			),
@@ -182,6 +194,14 @@ func viewShortHelp() []key.Binding {
 			key.WithHelp("→/l", "next article"),
 		),
 		key.NewBinding(
+			key.WithKeys("a"),
+			key.WithHelp("a", "toggle read"),
+		),
+		key.NewBinding(
+			key.WithKeys("c"),
+			key.WithHelp("c", "bookmark item"),
+		),
+		key.NewBinding(
 			key.WithKeys("o/enter"),
 			key.WithHelp("o/enter", "open website"),
 		),
@@ -196,10 +216,6 @@ func viewFullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		{
 			key.NewBinding(
-				key.WithKeys("a"),
-				key.WithHelp("a", "toggle read"),
-			),
-			key.NewBinding(
 				key.WithKeys("←/h"),
 				key.WithHelp("←/h", "previous article"),
 			),
@@ -208,12 +224,24 @@ func viewFullHelp() [][]key.Binding {
 				key.WithHelp("→/l", "next article"),
 			),
 			key.NewBinding(
+				key.WithKeys("a"),
+				key.WithHelp("a", "toggle read"),
+			),
+			key.NewBinding(
+				key.WithKeys("c"),
+				key.WithHelp("c", "bookmark item"),
+			),
+			key.NewBinding(
 				key.WithKeys("o/enter"),
 				key.WithHelp("o/enter", "open website"),
 			),
 			key.NewBinding(
 				key.WithKeys("b/q/esc"),
 				key.WithHelp("b/q/esc", "back"),
+			),
+			key.NewBinding(
+				key.WithKeys("shift+b"),
+				key.WithHelp("shift+b", "bookmarks list"),
 			),
 		},
 	}
