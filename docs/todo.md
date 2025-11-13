@@ -8,6 +8,7 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
+- [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
