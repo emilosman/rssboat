@@ -150,7 +150,7 @@ func (f *RssFeed) NextUnreadItem(prev *RssItem) (int, *RssItem) {
 		if item == prev {
 			for j := i + 1; j < n; j++ {
 				next := f.RssItems[j]
-				if !next.Read {
+				if !next.Read || next.Bookmark {
 					return j, next
 				}
 			}
@@ -171,7 +171,7 @@ func (f *RssFeed) PrevUnreadItem(next *RssItem) (int, *RssItem) {
 		if item == next {
 			for j := i - 1; j >= 0; j-- {
 				prev := f.RssItems[j]
-				if !prev.Read {
+				if !prev.Read || prev.Bookmark {
 					return j, prev
 				}
 			}

@@ -63,6 +63,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Jump to next bookmarked item
 - [x] Test bookmark add / removal. Fix inconsistancy
 - [x] Bookmarks removed from tab
 - [x] Bookmarked items tab
