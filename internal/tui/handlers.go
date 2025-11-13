@@ -357,9 +357,8 @@ func handleTabNumber(m *model, i int) tea.Cmd {
 	if i > len(m.tabs)-1 {
 		return nil
 	}
-
+	m.lf.Select(0)
 	m.activeTab = i
-
 	return rebuildFeedList(m)
 }
 
