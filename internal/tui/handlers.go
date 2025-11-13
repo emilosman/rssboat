@@ -151,7 +151,6 @@ func handleToggleBookmark(m *model) tea.Cmd {
 	i, ok := m.li.SelectedItem().(rssListItem)
 	if ok {
 		i.item.ToggleBookmark()
-		rebuildItemsList(m)
 		if i.item.Bookmark {
 			bookmarks := m.l.FeedIndex["Bookmarks"]
 			if bookmarks != nil {
@@ -166,6 +165,7 @@ func handleToggleBookmark(m *model) tea.Cmd {
 			}
 			m.UpdateStatus(MsgUnBookmarkItem)
 		}
+		rebuildItemsList(m)
 	}
 	return nil
 }
