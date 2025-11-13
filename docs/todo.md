@@ -1,7 +1,6 @@
 # Todo
 
 ## MVP
-- [ ] Test bookmark add / removal. Fix inconsistancy
 - [ ] Load default feeds after first urls.yaml edit
 - [ ] Test default urls.yaml content
 - [ ] README extend
@@ -64,6 +63,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Test bookmark add / removal. Fix inconsistancy
 - [x] Bookmarks removed from tab
 - [x] Bookmarked items tab
 - [x] Next/Prev to work across categories
