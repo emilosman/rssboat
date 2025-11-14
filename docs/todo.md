@@ -9,7 +9,7 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
-- [ ] Bookmarks feed debug
+- [ ] Bookmarks feed debug: Test: ToggleBookmark check bookmark feed items
 - [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
