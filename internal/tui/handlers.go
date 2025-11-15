@@ -150,7 +150,10 @@ func handleToggleRead(m *model) tea.Cmd {
 func handleToggleBookmark(m *model) tea.Cmd {
 	i, ok := m.li.SelectedItem().(rssListItem)
 	if ok {
-		status := m.l.BookmarkItem(i.item)
+		status, err := m.l.BookmarkItem(i.item)
+		if err != nil {
+			status = err.Error()
+		}
 		m.UpdateStatus(status)
 		rebuildItemsList(m)
 	}

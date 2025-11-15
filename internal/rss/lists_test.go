@@ -2,6 +2,7 @@ package rss
 
 import (
 	"bytes"
+	"slices"
 	"testing"
 	"testing/fstest"
 	"time"
@@ -309,12 +310,14 @@ func TestLists(t *testing.T) {
 			"urls.yaml": {Data: testData(t, "test_urls.yaml")},
 		}
 
+		rawItemCount := len(l.Feeds)
+
 		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
 		if err != nil {
 			t.Errorf("Error reading file: %q", err)
 		}
 
-		rawItemCount := bytes.Count(testData(t, "test_urls.yaml"), []byte(`http`))
+		rawItemCount += bytes.Count(testData(t, "test_urls.yaml"), []byte(`http`))
 		if len(l.Feeds) != rawItemCount {
 			t.Errorf("Wrong number of feeds created, wanted %d, got %d", rawItemCount, len(l.Feeds))
 		}
@@ -347,6 +350,33 @@ func TestLists(t *testing.T) {
 		err := l.CreateFeedsFromYaml(fs, "urls.yaml")
 		if err == nil {
 			t.Error("Should raise error when file invalid")
+		}
+	})
+
+	t.Run("Should toggle bookmark", func(t *testing.T) {
+		l := NewListWithDefaults()
+		i := &RssItem{}
+
+		l.BookmarkItem(i)
+		bookmarks := l.bookmarks().RssItems
+
+		if i.Bookmark != true {
+			t.Error("Bookmark should have been toggled")
+		}
+
+		if slices.Index(bookmarks, i) == -1 {
+			t.Error("Item should be in bookmarks")
+		}
+
+		l.BookmarkItem(i)
+		bookmarks = l.bookmarks().RssItems
+
+		if i.Bookmark != false {
+			t.Error("Bookmark should have been toggled")
+		}
+
+		if slices.Index(bookmarks, i) != -1 {
+			t.Error("Item should not be in bookmarks")
 		}
 	})
 }

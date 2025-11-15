@@ -45,22 +45,26 @@ func (l *List) Add(feeds ...*RssFeed) {
 	l.Feeds = append(l.Feeds, feeds...)
 }
 
-func (l *List) BookmarkItem(i *RssItem) string {
-	bookmarks := l.FeedIndex["Bookmarks"]
+func (l *List) bookmarks() *RssFeed {
+	return l.FeedIndex["Bookmarks"]
+}
+
+func (l *List) BookmarkItem(i *RssItem) (string, error) {
+	bookmarks := l.bookmarks()
 	if bookmarks != nil {
 		i.ToggleBookmark()
 		if i.Bookmark {
 			bookmarks.RssItems = append(bookmarks.RssItems, i)
-			return MsgBookmarkItem
+			return MsgBookmarkItem, nil
 		} else {
 			i := slices.Index(bookmarks.RssItems, i)
 			if i != -1 {
 				bookmarks.RssItems = append(bookmarks.RssItems[:i], bookmarks.RssItems[i+1:]...)
 			}
-			return MsgUnBookmarkItem
+			return MsgUnBookmarkItem, nil
 		}
 	}
-	return ""
+	return "", ErrNoBookmarkFeed
 }
 
 func (l *List) UpdateAllFeeds() (<-chan FeedResult, error) {

@@ -9,7 +9,6 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
-- [ ] Bookmarks feed debug: Test: ToggleBookmark check bookmark feed items
 - [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
@@ -65,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Bookmarks feed debug: Test: ToggleBookmark check bookmark feed items
 - [x] Jump to next bookmarked item
 - [x] Test bookmark add / removal. Fix inconsistancy
 - [x] Bookmarks removed from tab

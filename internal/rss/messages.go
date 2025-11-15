@@ -6,6 +6,7 @@ var (
 	ErrFeedHasNoUrl       = errors.New("Feed has no URL")
 	ErrNoFeedsInList      = errors.New("No feeds in list")
 	ErrNoCategoryGiven    = errors.New("No category given")
+	ErrNoBookmarkFeed     = errors.New("No bookmark feed found")
 	ErrConfigDoesNotExist = "open urls.yaml: file does not exist"
 	MsgFeedNotLoaded      = "Feed not loaded yet. Press shift+r"
 	MsgBookmarkItem       = "Bookmark added"
