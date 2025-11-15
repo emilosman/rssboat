@@ -8,6 +8,8 @@ var (
 	ErrNoCategoryGiven    = errors.New("No category given")
 	ErrConfigDoesNotExist = "open urls.yaml: file does not exist"
 	MsgFeedNotLoaded      = "Feed not loaded yet. Press shift+r"
+	MsgBookmarkItem       = "Bookmark added"
+	MsgUnBookmarkItem     = "Bookmark removed"
 	ExampleConfigFile     = `# This file is written in YAML format.
 # Each feed must be organized under a category.
 # Feeds that are not assigned to a category will NOT appear in the app.

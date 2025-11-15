@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"slices"
 	"sort"
 
 	yaml "github.com/goccy/go-yaml"
@@ -42,6 +43,24 @@ func (l *List) GetCategory(category string) ([]*RssFeed, error) {
 
 func (l *List) Add(feeds ...*RssFeed) {
 	l.Feeds = append(l.Feeds, feeds...)
+}
+
+func (l *List) BookmarkItem(i *RssItem) string {
+	bookmarks := l.FeedIndex["Bookmarks"]
+	if bookmarks != nil {
+		i.ToggleBookmark()
+		if i.Bookmark {
+			bookmarks.RssItems = append(bookmarks.RssItems, i)
+			return MsgBookmarkItem
+		} else {
+			i := slices.Index(bookmarks.RssItems, i)
+			if i != -1 {
+				bookmarks.RssItems = append(bookmarks.RssItems[:i], bookmarks.RssItems[i+1:]...)
+			}
+			return MsgUnBookmarkItem
+		}
+	}
+	return ""
 }
 
 func (l *List) UpdateAllFeeds() (<-chan FeedResult, error) {
