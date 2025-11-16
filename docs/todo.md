@@ -1,6 +1,7 @@
 # Todo
 
 ## MVP
+- [ ] Store GUID/URL string in JSON vs pointer
 - [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] Load default feeds after first urls.yaml edit
 - [ ] Test default urls.yaml content
@@ -9,7 +10,6 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
-- [ ] Bookmarks restored will fix inconcistency
 - [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
