@@ -45,12 +45,12 @@ func (l *List) Add(feeds ...*RssFeed) {
 	l.Feeds = append(l.Feeds, feeds...)
 }
 
-func (l *List) bookmarks() *RssFeed {
+func (l *List) Bookmarks() *RssFeed {
 	return l.FeedIndex["Bookmarks"]
 }
 
 func (l *List) BookmarkItem(i *RssItem) (string, error) {
-	bookmarks := l.bookmarks()
+	bookmarks := l.Bookmarks()
 	if bookmarks != nil {
 		i.ToggleBookmark()
 		if i.Bookmark {

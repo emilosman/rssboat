@@ -161,7 +161,7 @@ func handleToggleBookmark(m *model) tea.Cmd {
 }
 
 func handleViewBookmarks(m *model) tea.Cmd {
-	bookmarks := m.l.FeedIndex["Bookmarks"]
+	bookmarks := m.l.Bookmarks()
 	if bookmarks != nil {
 		m.f = bookmarks
 		m.title = "Bookmarks"
