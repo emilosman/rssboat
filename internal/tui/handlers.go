@@ -17,10 +17,10 @@ type keyHandler func(*model) tea.Cmd
 
 var (
 	feedKeyHandlers = map[string]keyHandler{
-		"A":      handleMarkFeedRead,
-		"b":      handlePrevUnreadFeed,
-		"B":      handleViewBookmarks,
-		"C":      handleMarkAllFeedsRead,
+		"A": handleMarkFeedRead,
+		"b": handlePrevUnreadFeed,
+		"B": handleViewBookmarks,
+		//"C":      handleMarkAllFeedsRead,
 		"E":      handleEdit,
 		"h":      handlePrevTab,
 		"left":   handlePrevTab,
@@ -330,7 +330,7 @@ func handleViewItem(m *model) tea.Cmd {
 		m.i = i.item
 		if m.i.Item != nil {
 			m.v.YOffset = 0
-			m.v.SetContent(wordwrap.String(m.i.Content(), m.v.Width))
+			m.v.SetContent(wordwrap.String(m.i.Content(), 80))
 			m.i.MarkRead()
 			rebuildItemsList(m)
 		}

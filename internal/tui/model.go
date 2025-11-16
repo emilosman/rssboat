@@ -151,7 +151,7 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.v.Width = msg.Width - vh
 		m.v.Height = msg.Height - vv
 		if m.i != nil {
-			m.v.SetContent(wordwrap.String(m.i.Content(), m.v.Width))
+			m.v.SetContent(wordwrap.String(m.i.Content(), 80))
 		}
 	}
 
