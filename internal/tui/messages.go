@@ -7,6 +7,8 @@ var (
 	MsgMarkItemUnread   = "Marked as unread"
 	MsgMarkFeedRead     = "Marked feed as read"
 	MsgMarkAllFeedsRead = "Marked all feeds as read"
+	MsgBookmarkAdded    = "Bookmark added"
+	MsgBookmarkRemoved  = "Bookmark removed"
 	MsgMakrTabAsRead    = "Marked all feeds in tab as read"
 	MsgUpdatingFeed     = "Updating feed"
 	MsgFeedUpdated      = "Feed updated"

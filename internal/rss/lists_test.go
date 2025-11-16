@@ -357,8 +357,8 @@ func TestLists(t *testing.T) {
 		l := NewListWithDefaults()
 		i := &RssItem{}
 
-		l.BookmarkItem(i)
-		bookmarks := l.bookmarks().RssItems
+		l.ToggleBookmark(i)
+		bookmarks := l.Bookmarks().RssItems
 
 		if i.Bookmark != true {
 			t.Error("Bookmark should have been toggled")
@@ -368,8 +368,8 @@ func TestLists(t *testing.T) {
 			t.Error("Item should be in bookmarks")
 		}
 
-		l.BookmarkItem(i)
-		bookmarks = l.bookmarks().RssItems
+		l.ToggleBookmark(i)
+		bookmarks = l.Bookmarks().RssItems
 
 		if i.Bookmark != false {
 			t.Error("Bookmark should have been toggled")

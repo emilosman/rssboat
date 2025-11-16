@@ -9,6 +9,7 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
+- [ ] Bookmarks restored will fix inconcistency
 - [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go

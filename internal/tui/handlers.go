@@ -149,26 +149,39 @@ func handleToggleRead(m *model) tea.Cmd {
 
 func handleToggleBookmark(m *model) tea.Cmd {
 	i, ok := m.li.SelectedItem().(rssListItem)
-	if ok {
-		status, err := m.l.BookmarkItem(i.item)
-		if err != nil {
-			status = err.Error()
-		}
-		m.UpdateStatus(status)
-		rebuildItemsList(m)
+	if !ok {
+		return nil
 	}
+
+	added, err := m.l.ToggleBookmark(i.item)
+	if err != nil {
+		m.UpdateStatus(err.Error())
+		return nil
+	}
+
+	if added {
+		m.UpdateStatus(MsgBookmarkAdded)
+	} else {
+		m.UpdateStatus(MsgBookmarkRemoved)
+	}
+
+	rebuildItemsList(m)
 	return nil
 }
 
 func handleViewBookmarks(m *model) tea.Cmd {
-	bookmarks := m.l.Bookmarks()
-	if bookmarks != nil {
+	if bookmarks := m.l.Bookmarks(); bookmarks != nil {
 		m.f = bookmarks
 		m.title = "Bookmarks"
 		m.i = nil
-		m.li.Select(0)
+
 		rebuildItemsList(m)
+
+		if len(bookmarks.RssItems) > 0 {
+			m.li.Select(0)
+		}
 	}
+
 	return nil
 }
 
