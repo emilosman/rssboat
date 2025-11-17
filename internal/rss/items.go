@@ -26,7 +26,7 @@ func (i *RssItem) Link() string {
 }
 
 func (i *RssItem) Title() string {
-	title := clean(i.Item.Title)
+	title := i.Item.Title
 	if i.Bookmark {
 		title = fmt.Sprintf("* %s", title)
 	}
@@ -45,7 +45,7 @@ func (i *RssItem) Content() string {
 	date := i.Item.PublishedParsed
 	link := i.Link()
 	desc := i.Description()
-	content := clean(i.Item.Content)
+	content := i.Item.Content
 
 	if content != "" {
 		desc = ""
@@ -66,7 +66,7 @@ func (i *RssItem) Description() string {
 	if desc == "" {
 		desc = i.Item.Content
 	}
-	return clean(desc)
+	return desc
 }
 
 func (i *RssItem) ToggleRead() {
@@ -79,4 +79,10 @@ func (i *RssItem) ToggleBookmark() {
 
 func (i *RssItem) MarkRead() {
 	i.Read = true
+}
+
+func sanitizeItem(item *gofeed.Item) {
+	item.Title = clean(item.Title)
+	item.Description = clean(item.Description)
+	item.Content = clean(item.Content)
 }

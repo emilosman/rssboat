@@ -212,6 +212,8 @@ func (f *RssFeed) mergeItems(items []*gofeed.Item) {
 			continue
 		}
 
+		sanitizeItem(item)
+
 		f.RssItems = append(f.RssItems, &RssItem{
 			Item: item,
 			Read: false,

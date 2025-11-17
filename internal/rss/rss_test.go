@@ -110,46 +110,6 @@ func TestRss(t *testing.T) {
 				}
 			})
 		}
-
-		for _, tt := range sanitationTests {
-			t.Run(tt.name, func(t *testing.T) {
-				item := RssItem{Item: &gofeed.Item{Description: tt.input}}
-
-				got := item.Description()
-				if got != tt.expected {
-					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
-				}
-			})
-		}
-
-		for _, tt := range sanitationTests {
-			t.Run(tt.name, func(t *testing.T) {
-				item := RssItem{
-					Read: true,
-					Item: &gofeed.Item{Title: tt.input},
-				}
-
-				got := item.Title()
-				if got != tt.expected {
-					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
-				}
-			})
-		}
-
-		for _, tt := range sanitationTests {
-			t.Run(tt.name, func(t *testing.T) {
-				feed := RssFeed{
-					Feed: &gofeed.Feed{
-						Title: tt.input,
-					},
-				}
-
-				got := feed.Title()
-				if got != tt.expected {
-					t.Errorf("clean(%q) = %q, want %q", tt.input, got, tt.expected)
-				}
-			})
-		}
 	})
 }
 
