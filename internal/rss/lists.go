@@ -13,8 +13,8 @@ import (
 
 type List struct {
 	Feeds         []*RssFeed
-	FeedIndex     map[string]*RssFeed
-	CategoryIndex map[string][]*RssFeed
+	FeedIndex     map[string]*RssFeed   `json:"-"`
+	CategoryIndex map[string][]*RssFeed `json:"-"`
 }
 
 type FeedResult struct {
