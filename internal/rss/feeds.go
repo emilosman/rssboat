@@ -71,7 +71,7 @@ func (f *RssFeed) Title() string {
 	if f.Feed == nil || f.Feed.Title == "" {
 		title = f.Url
 	} else {
-		title = clean(f.Feed.Title)
+		title = f.Feed.Title
 	}
 
 	if f.HasUnread() {
@@ -82,7 +82,7 @@ func (f *RssFeed) Title() string {
 }
 
 func (f *RssFeed) Description() string {
-	return clean(f.Feed.Description)
+	return f.Feed.Description
 }
 
 func (f *RssFeed) Latest() string {
@@ -97,7 +97,7 @@ func (f *RssFeed) Latest() string {
 				last = f.RssItems[i]
 			}
 		}
-		return clean(last.Item.Title)
+		return last.Item.Title
 	case f.Feed != nil:
 		return f.Description()
 	default:
@@ -116,11 +116,18 @@ func (f *RssFeed) GetFeed() error {
 		return err
 	}
 
+	sanitizeFeed(parsedFeed)
+
 	f.Feed = parsedFeed
 	f.mergeItems(parsedFeed.Items)
 	f.SortByDate()
 	f.Error = ""
 	return nil
+}
+
+func sanitizeFeed(f *gofeed.Feed) {
+	f.Title = clean(f.Title)
+	f.Description = clean(f.Description)
 }
 
 func (f *RssFeed) NextAfter(prev *RssItem) (int, *RssItem) {

@@ -81,8 +81,8 @@ func (i *RssItem) MarkRead() {
 	i.Read = true
 }
 
-func sanitizeItem(item *gofeed.Item) {
-	item.Title = clean(item.Title)
-	item.Description = clean(item.Description)
-	item.Content = clean(item.Content)
+func sanitizeItem(i *gofeed.Item) {
+	i.Title = clean(i.Title)
+	i.Description = clean(i.Description)
+	i.Content = clean(i.Content)
 }

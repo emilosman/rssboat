@@ -64,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Store sanitized feeds only
 - [x] Store sanitized items only
 - [x] Bookmarks feed debug: Test: ToggleBookmark check bookmark feed items
 - [x] Jump to next bookmarked item
