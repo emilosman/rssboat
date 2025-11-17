@@ -1,7 +1,6 @@
 # Todo
 
 ## MVP
-- [ ] Store GUID/URL string in JSON vs pointer
 - [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] Load default feeds after first urls.yaml edit
 - [ ] Test default urls.yaml content

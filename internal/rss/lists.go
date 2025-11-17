@@ -150,11 +150,21 @@ func (l *List) Restore(r io.Reader) error {
 	}
 
 	for _, decodedFeed := range decoded.Feeds {
+		if decodedFeed.Url == "Bookmarks" {
+			continue
+		}
+
 		feed := l.FeedIndex[decodedFeed.Url]
 		if feed != nil {
 			feed.Error = decodedFeed.Error
 			feed.Feed = decodedFeed.Feed
 			feed.RssItems = decodedFeed.RssItems
+
+			for _, item := range feed.RssItems {
+				if item.Bookmark {
+					l.Bookmarks().RssItems = append(l.Bookmarks().RssItems, item)
+				}
+			}
 		}
 	}
 
