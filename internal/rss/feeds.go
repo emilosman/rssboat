@@ -30,7 +30,7 @@ func (f *RssFeed) existingKeys() map[string]struct{} {
 	return existing
 }
 
-func (f *RssFeed) SafeLink() (string, error) {
+func (f *RssFeed) Link() (string, error) {
 	var raw string
 	raw = f.Url
 	if f.Feed != nil {

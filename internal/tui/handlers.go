@@ -252,7 +252,7 @@ func handleOpenFeed(m *model) tea.Cmd {
 	i, ok := m.lf.SelectedItem().(feedItem)
 	if ok {
 		f := i.rssFeed
-		url, err := f.SafeLink()
+		url, err := f.Link()
 		if err != nil {
 			m.UpdateStatus(err.Error())
 		}
