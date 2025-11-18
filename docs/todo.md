@@ -1,7 +1,6 @@
 # Todo
 
 ## MVP
-- [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] Load default feeds after first urls.yaml edit
 - [ ] Test default urls.yaml content
 - [ ] README extend
@@ -9,6 +8,7 @@
 - [ ] Test first run flow (lists_test.go)
 
 ## Todo
+- [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
 - [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
