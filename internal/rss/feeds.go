@@ -31,8 +31,7 @@ func (f *RssFeed) existingKeys() map[string]struct{} {
 }
 
 func (f *RssFeed) Link() (string, error) {
-	var raw string
-	raw = f.Url
+	raw := f.Url
 	if f.Feed != nil {
 		raw = f.Feed.Link
 		if raw == "" {
