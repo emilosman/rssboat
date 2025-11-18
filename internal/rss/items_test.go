@@ -20,18 +20,18 @@ func TestItemLink(t *testing.T) {
 		{
 			name: "uses item link",
 			item: RssItem{
-				Item: &gofeed.Item{Link: "example.com/items/2"},
+				Item: &gofeed.Item{Link: "http://example.com/items/2"},
 			},
-			want: "example.com/items/2",
+			want: "http://example.com/items/2",
 		},
 		{
 			name: "falls back to enclosure",
 			item: RssItem{
 				Item: &gofeed.Item{
-					Enclosures: []*gofeed.Enclosure{{URL: "example.com/enclosure/2"}},
+					Enclosures: []*gofeed.Enclosure{{URL: "http://example.com/enclosure/2"}},
 				},
 			},
-			want: "example.com/enclosure/2",
+			want: "http://example.com/enclosure/2",
 		},
 	}
 

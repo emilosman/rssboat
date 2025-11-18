@@ -2,6 +2,7 @@ package rss
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mmcdole/gofeed"
 )
@@ -13,16 +14,23 @@ type RssItem struct {
 }
 
 func (i *RssItem) Link() string {
+	var raw string
 	if i.Item == nil {
-		return ""
+		return raw
 	}
 	if i.Item.Link != "" {
-		return i.Item.Link
+		raw = i.Item.Link
 	}
 	if len(i.Item.Enclosures) > 0 {
-		return i.Item.Enclosures[0].URL
+		raw = i.Item.Enclosures[0].URL
 	}
-	return ""
+
+	url, err := url.ParseRequestURI(raw)
+	if err != nil {
+		return ""
+	}
+
+	return url.String()
 }
 
 func (i *RssItem) Title() string {
