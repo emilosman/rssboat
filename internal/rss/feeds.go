@@ -2,6 +2,7 @@ package rss
 
 import (
 	"fmt"
+	"net/url"
 	"sort"
 	"sync"
 
@@ -27,6 +28,28 @@ func (f *RssFeed) existingKeys() map[string]struct{} {
 		}
 	}
 	return existing
+}
+
+func (f *RssFeed) SafeLink() (string, error) {
+	var raw string
+	raw = f.Url
+	if f.Feed != nil {
+		raw = f.Feed.Link
+		if raw == "" {
+			raw = f.Feed.FeedLink
+		}
+	}
+
+	u, err := url.ParseRequestURI(raw)
+	if err != nil {
+		return f.Url, err
+	}
+
+	if u.String() == "" {
+		return f.Url, ErrFeedHasNoUrl
+	}
+
+	return u.String(), nil
 }
 
 func (f *RssFeed) SortByDate() {

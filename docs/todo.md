@@ -19,7 +19,6 @@
   - [ ] Fix ENV support for default editor
 - [ ] Long feed list hide/disable "l", "h", "pgdwn", "pgup" display in help
 - [ ] Updating / Updated message reformat. Show both messages
-- [ ] Parse URL with standard library to check for errors
 - urls.yaml
   - [ ] urls.yaml custom ENV path support
   - [ ] Newsboat urls.txt support - read from ~/.newsboat/urls ? - modal dialog ? "shift + i" ?
@@ -65,6 +64,7 @@
 - [ ] Remember tab selection on close
 
 ## Done
+- [x] Parse URL with standard library to check for errors
 - [x] Store sanitized feeds only
 - [x] Store sanitized items only
 - [x] Bookmarks feed debug: Test: ToggleBookmark check bookmark feed items

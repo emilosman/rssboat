@@ -251,13 +251,15 @@ func handleMarkAllFeedsRead(m *model) tea.Cmd {
 func handleOpenFeed(m *model) tea.Cmd {
 	i, ok := m.lf.SelectedItem().(feedItem)
 	if ok {
-		rssFeed := i.rssFeed
-		if rssFeed.Feed != nil {
-			err := openInBrowser(rssFeed.Feed.Link)
-			if err != nil {
-				errorMessage := fmt.Sprintf("Error opening item, %q", err)
-				m.UpdateStatus(errorMessage)
-			}
+		f := i.rssFeed
+		url, err := f.SafeLink()
+		if err != nil {
+			m.UpdateStatus(err.Error())
+		}
+
+		err = openInBrowser(url)
+		if err != nil {
+			m.UpdateStatus(err.Error())
 		}
 	}
 	return nil
