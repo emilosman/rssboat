@@ -46,6 +46,7 @@
 - [ ] Record video narration
 - [ ] E2E tests [teatest](https://github.com/caarlos0/teatest-example/blob/main/main_test.go)
 - [ ] @latest
+- [ ] Xcancel.com rss request whitelist
 
 ## Ownership
 - [ ] Transfer rssboat to picigato org
