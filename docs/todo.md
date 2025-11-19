@@ -9,7 +9,6 @@
 
 ## Todo
 - [ ] Confirmation Y/N on major commands (Mark all feeds as read...)
-- [ ] Unread tab?
 - [ ] Viewport full help heigh fix (vertical join?)
 - [ ] 100% test coverage of rss.go
 - [ ] Items list height bug in MacOS Terminal
@@ -52,6 +51,7 @@
 - [ ] GH sponsors setup finish [link](https://github.com/sponsors/picigato/signup)
 
 ## Maybe
+- [ ] Unread tab?
 - [ ] Filter options (title + description + content)
 - [ ] "All" tab (tab 0 ?)
 - [ ] Capslock warning
